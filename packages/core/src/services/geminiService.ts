@@ -3,8 +3,10 @@ import { GoogleGenAI } from "@google/genai";
 // Helper untuk mengambil API Key secara aman di berbagai environment (Vite/Next.js)
 const getApiKey = (): string => {
   // Cek Vite Environment
-  if (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_API_KEY) {
-    return String(import.meta.env.VITE_API_KEY);
+  // Casting 'any' diperlukan karena TypeScript pada project Next.js tidak mengenali 'import.meta.env'
+  const meta = import.meta as any;
+  if (typeof meta !== 'undefined' && meta.env && meta.env.VITE_API_KEY) {
+    return String(meta.env.VITE_API_KEY);
   }
   
   // Cek Next.js / Node Environment
