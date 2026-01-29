@@ -1,9 +1,14 @@
 "use client";
 
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext } from 'react';
 import { CaseData, Booking, CalendarEvent, DocumentFile, Invoice } from '../types';
-import { MOCK_CASES, MOCK_BOOKINGS, EVENTS, DOCUMENTS, MOCK_INVOICES, SERVICES } from '../constants';
+import { SERVICES } from '../data/services';
 import { useNotifications } from './NotificationContext';
+import { useCaseLogic } from '../hooks/useCaseLogic';
+import { useBookingLogic } from '../hooks/useBookingLogic';
+import { useScheduleLogic } from '../hooks/useScheduleLogic';
+import { useDocumentLogic } from '../hooks/useDocumentLogic';
+import { useFinanceLogic } from '../hooks/useFinanceLogic';
 
 interface DataContextType {
   cases: CaseData[];
@@ -23,29 +28,19 @@ interface DataContextType {
 const DataContext = createContext<DataContextType | undefined>(undefined);
 
 export const DataProvider = ({ children }: { children: React.ReactNode }) => {
-  const [cases, setCases] = useState<CaseData[]>(MOCK_CASES);
-  const [bookings, setBookings] = useState<Booking[]>(MOCK_BOOKINGS);
-  const [events, setEvents] = useState<CalendarEvent[]>(EVENTS);
-  const [documents, setDocuments] = useState<DocumentFile[]>(DOCUMENTS);
-  const [invoices, setInvoices] = useState<Invoice[]>(MOCK_INVOICES);
+  const { cases, addCase } = useCaseLogic();
+  const { bookings, updateBookingStatus: _updateBooking } = useBookingLogic();
+  const { events, addEvent } = useScheduleLogic();
+  const { documents, addDocument, deleteDocument } = useDocumentLogic();
+  const { invoices, addInvoice, updateInvoiceStatus } = useFinanceLogic();
   const { addNotification } = useNotifications();
 
-  const addCase = (newCase: CaseData) => {
-    setCases(prev => [newCase, ...prev]);
-    addNotification('Kasus Baru Dibuat', `Kasus untuk ${newCase.clientName} telah ditambahkan ke sistem.`, 'success');
-  };
-
-  const addEvent = (event: CalendarEvent) => {
-    setEvents(prev => [...prev, event]);
-  };
-
-  const updateBookingStatus = (id: string, status: Booking['status']) => {
-    setBookings(prev => prev.map(b => b.id === id ? { ...b, status } : b));
+  const handleUpdateBooking = (id: string, status: Booking['status']) => {
+    _updateBooking(id, status);
 
     if (status === 'Confirmed') {
       const booking = bookings.find(b => b.id === id);
       if (booking) {
-        // Find division based on serviceType
         const service = SERVICES.find(s => s.title === booking.serviceType);
         const division = service?.division || 'Christian Law Firm';
 
@@ -72,36 +67,14 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
         
         addNotification('Booking Dikonfirmasi', `Jadwal konsultasi dengan ${booking.clientName} telah diatur.`, 'success');
       }
-    } else if (status === 'Rejected') {
-      addNotification('Booking Ditolak', 'Status booking telah diperbarui.', 'info');
     }
-  };
-
-  const addDocument = (doc: DocumentFile) => {
-    setDocuments(prev => [doc, ...prev]);
-    addNotification('Upload Berhasil', `Dokumen ${doc.name} berhasil disimpan ke database.`, 'success');
-  };
-
-  const deleteDocument = (id: string) => {
-    setDocuments(prev => prev.filter(d => d.id !== id));
-    addNotification('Dokumen Dihapus', 'File telah dihapus dari sistem arsip.', 'warning');
-  };
-
-  const addInvoice = (invoice: Invoice) => {
-    setInvoices(prev => [invoice, ...prev]);
-    addNotification('Invoice Dibuat', `Tagihan untuk ${invoice.clientName} telah diterbitkan.`, 'success');
-  };
-
-  const updateInvoiceStatus = (id: string, status: Invoice['status']) => {
-    setInvoices(prev => prev.map(inv => inv.id === id ? { ...inv, status } : inv));
-    addNotification('Status Invoice Diperbarui', `Status tagihan telah diubah menjadi ${status}.`, 'info');
   };
 
   return (
     <DataContext.Provider value={{ 
       cases, bookings, events, documents, invoices, 
-      addCase, updateBookingStatus, addEvent, addDocument, deleteDocument, 
-      addInvoice, updateInvoiceStatus 
+      addCase, updateBookingStatus: handleUpdateBooking, addEvent, 
+      addDocument, deleteDocument, addInvoice, updateInvoiceStatus 
     }}>
       {children}
     </DataContext.Provider>

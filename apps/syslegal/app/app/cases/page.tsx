@@ -1,11 +1,10 @@
-
 "use client";
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useData } from '@cbp/core';
-import { Card, Badge, Button } from '@cbp/ui';
-import { Search, Plus, Filter, Eye } from 'lucide-react';
+import { Card, Button, PageHeader, SearchInput, StatusBadge } from '@cbp/ui';
+import { Plus, Filter, Eye } from 'lucide-react';
 
 export default function CaseManagementPage() {
   const { cases } = useData();
@@ -20,42 +19,30 @@ export default function CaseManagementPage() {
     return matchesFilter && matchesSearch;
   });
 
-  const getStatusVariant = (status: string) => {
-    switch(status) {
-      case 'Aktif': return 'success';
-      case 'Menunggu': return 'warning';
-      case 'Selesai': return 'neutral';
-      default: return 'neutral';
-    }
-  };
-
   return (
     <div className="space-y-6">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-serif font-bold text-cbp-navy dark:text-white">Manajemen Kasus</h1>
-          <p className="text-slate-500 dark:text-slate-400 mt-1">Pantau dan kelola seluruh perkara hukum.</p>
-        </div>
-        <Button className="flex items-center gap-2">
-          <Plus className="h-4 w-4" /> Kasus Baru
-        </Button>
-      </div>
+      <PageHeader 
+        title="Manajemen Kasus" 
+        subtitle="Pantau dan kelola seluruh perkara hukum."
+        action={
+          <Button className="flex items-center gap-2">
+            <Plus className="h-4 w-4" /> Kasus Baru
+          </Button>
+        }
+      />
 
       <Card padding={false} className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
         <div className="p-4 border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30 flex flex-col sm:flex-row gap-4">
-          <div className="relative w-full sm:w-72">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-            <input 
-              type="text" 
-              placeholder="Cari klien..." 
-              className="w-full pl-9 pr-4 py-2 text-sm border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-lg outline-none"
+          <div className="w-full sm:w-72">
+            <SearchInput 
+              placeholder="Cari klien atau kasus..." 
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
           <div className="relative">
             <select 
-              className="pl-3 pr-8 py-2 text-sm border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-lg appearance-none outline-none"
+              className="pl-3 pr-8 py-2.5 text-sm border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white rounded-lg appearance-none outline-none focus:ring-2 focus:ring-cbp-navy/20 dark:focus:ring-cbp-gold/20"
               value={filter}
               onChange={(e) => setFilter(e.target.value)}
             >
@@ -81,10 +68,10 @@ export default function CaseManagementPage() {
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
               {filteredCases.map((c) => (
-                <tr key={c.id} onClick={() => router.push(`/app/cases/${c.id}`)} className="hover:bg-slate-50 dark:hover:bg-slate-800/40 cursor-pointer">
+                <tr key={c.id} onClick={() => router.push(`/app/cases/${c.id}`)} className="hover:bg-slate-50 dark:hover:bg-slate-800/40 cursor-pointer transition-colors">
                   <td className="px-6 py-4 font-bold text-slate-900 dark:text-slate-200">{c.clientName}</td>
                   <td className="px-6 py-4 text-slate-700 dark:text-slate-300">{c.caseType}</td>
-                  <td className="px-6 py-4"><Badge variant={getStatusVariant(c.status)}>{c.status}</Badge></td>
+                  <td className="px-6 py-4"><StatusBadge status={c.status} /></td>
                   <td className="px-6 py-4 text-slate-500">{c.lastUpdate}</td>
                   <td className="px-6 py-4 text-right"><Eye className="h-4 w-4 inline text-slate-400" /></td>
                 </tr>

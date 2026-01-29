@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card } from '@cbp/ui';
+import { Card, SectionHeader } from '@cbp/ui';
 import { TEAM } from '@cbp/core';
 import { Award, BookOpen, Scale, GraduationCap } from 'lucide-react';
 import Image from 'next/image';
@@ -84,12 +84,11 @@ export default function About() {
       {/* 2. PHILOSOPHY */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-10 md:p-16 text-center">
-            <h2 className="text-3xl font-serif font-bold text-cbp-navy dark:text-white mb-6">Filosofi "Single Lawyer"</h2>
-            <div className="w-24 h-1 bg-cbp-gold mx-auto mb-8"></div>
-            <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-lg max-w-4xl mx-auto">
-              Berbeda dengan firma besar di mana kasus Anda mungkin ditangani oleh junior associate yang berganti-ganti, di CBP Corp, <strong>saya adalah penanggung jawab utama kasus Anda</strong>. 
-            </p>
-            <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-lg max-w-4xl mx-auto mt-4">
+            <SectionHeader 
+              title='Filosofi "Single Lawyer"'
+              subtitle="Berbeda dengan firma besar di mana kasus Anda mungkin ditangani oleh junior associate yang berganti-ganti, di CBP Corp, saya adalah penanggung jawab utama kasus Anda."
+            />
+            <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-lg max-w-4xl mx-auto mt-[-2rem]">
               Saya secara pribadi merancang strategi, mengawasi pembuatan dokumen, dan memimpin negosiasi. Model ini menjamin konsistensi kualitas, kerahasiaan maksimal, dan komunikasi yang lebih efisien. Anda menyewa keahlian saya, dan itulah yang Anda dapatkan.
             </p>
         </div>
@@ -98,12 +97,10 @@ export default function About() {
       {/* 3. SUPPORT TEAM */}
       <section className="py-24 bg-white dark:bg-slate-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-serif font-bold text-cbp-navy dark:text-white mb-4">Tim Pendukung & Staf Ahli</h2>
-            <p className="text-slate-500 dark:text-slate-400 text-lg max-w-2xl mx-auto">
-              Untuk memastikan operasional berjalan cepat dan lancar, saya didukung oleh tim profesional yang berdedikasi di bidangnya masing-masing.
-            </p>
-          </div>
+          <SectionHeader 
+            title="Tim Pendukung & Staf Ahli"
+            subtitle="Untuk memastikan operasional berjalan cepat dan lancar, saya didukung oleh tim profesional yang berdedikasi di bidangnya masing-masing."
+          />
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {staff.map((member) => (

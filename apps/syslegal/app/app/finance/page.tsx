@@ -1,9 +1,8 @@
-
 "use client";
 
 import React, { useState } from 'react';
 import { useData } from '@cbp/core';
-import { Card, Button, Badge } from '@cbp/ui';
+import { Card, Button, PageHeader, StatCard, StatusBadge } from '@cbp/ui';
 import { InvoiceModal } from '../../../src/components/InvoiceModal';
 import { DollarSign, TrendingUp, AlertCircle, CheckCircle, Download, Plus } from 'lucide-react';
 
@@ -23,63 +22,43 @@ export default function FinancePage() {
     return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(amount);
   };
 
-  const getStatusVariant = (status: string) => {
-    switch(status) {
-      case 'Paid': return 'success';
-      case 'Unpaid': return 'warning';
-      case 'Overdue': return 'danger';
-      default: return 'neutral';
-    }
-  };
-
   return (
     <div className="space-y-6">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <div>
-          <h1 className="text-2xl font-serif font-bold text-cbp-navy dark:text-white">Keuangan & Tagihan</h1>
-          <p className="text-slate-500 dark:text-slate-400">Kelola arus kas, tagihan klien, dan status pembayaran.</p>
-        </div>
-        <div className="flex gap-2">
-          <Button variant="outline" className="gap-2 border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300">
-            <Download className="h-4 w-4" /> Laporan
-          </Button>
-          <Button onClick={() => setIsModalOpen(true)} className="gap-2">
-            <Plus className="h-4 w-4" /> Buat Tagihan
-          </Button>
-        </div>
-      </div>
+      <PageHeader 
+        title="Keuangan & Tagihan" 
+        subtitle="Kelola arus kas, tagihan klien, dan status pembayaran."
+        action={
+          <div className="flex gap-2">
+            <Button variant="outline" className="gap-2 border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300">
+              <Download className="h-4 w-4" /> Laporan
+            </Button>
+            <Button onClick={() => setIsModalOpen(true)} className="gap-2">
+              <Plus className="h-4 w-4" /> Buat Tagihan
+            </Button>
+          </div>
+        }
+      />
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card className="flex items-center p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800" padding={false}>
-          <div className="p-4 rounded-full bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400 mr-4 ml-6 border border-green-100 dark:border-green-900/50">
-            <TrendingUp className="h-6 w-6" />
-          </div>
-          <div className="py-6">
-            <p className="text-sm font-medium text-slate-500 dark:text-slate-400">Total Pendapatan</p>
-            <p className="text-2xl font-bold text-cbp-navy dark:text-white">{formatCurrency(totalRevenue)}</p>
-          </div>
-        </Card>
-        
-        <Card className="flex items-center p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800" padding={false}>
-          <div className="p-4 rounded-full bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 mr-4 ml-6 border border-amber-100 dark:border-amber-900/50">
-            <DollarSign className="h-6 w-6" />
-          </div>
-          <div className="py-6">
-            <p className="text-sm font-medium text-slate-500 dark:text-slate-400">Tagihan Belum Lunas</p>
-            <p className="text-2xl font-bold text-cbp-navy dark:text-white">{formatCurrency(outstanding)}</p>
-          </div>
-        </Card>
-
-        <Card className="flex items-center p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800" padding={false}>
-          <div className="p-4 rounded-full bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 mr-4 ml-6 border border-red-100 dark:border-red-900/50">
-            <AlertCircle className="h-6 w-6" />
-          </div>
-          <div className="py-6">
-            <p className="text-sm font-medium text-slate-500 dark:text-slate-400">Jatuh Tempo (Overdue)</p>
-            <p className="text-2xl font-bold text-red-600 dark:text-red-400">{overdueCount} Tagihan</p>
-          </div>
-        </Card>
+        <StatCard 
+          label="Total Pendapatan" 
+          value={formatCurrency(totalRevenue)} 
+          icon={TrendingUp} 
+          variant="success" 
+        />
+        <StatCard 
+          label="Tagihan Belum Lunas" 
+          value={formatCurrency(outstanding)} 
+          icon={DollarSign} 
+          variant="warning" 
+        />
+        <StatCard 
+          label="Jatuh Tempo" 
+          value={`${overdueCount} Tagihan`} 
+          icon={AlertCircle} 
+          variant="danger" 
+        />
       </div>
 
       {/* Invoice Table */}
@@ -127,7 +106,7 @@ export default function FinancePage() {
                     <td className="px-6 py-4 text-slate-600 dark:text-slate-400">{inv.dueDate}</td>
                     <td className="px-6 py-4 font-bold text-cbp-navy dark:text-white">{formatCurrency(inv.amount)}</td>
                     <td className="px-6 py-4">
-                      <Badge variant={getStatusVariant(inv.status)}>{inv.status}</Badge>
+                      <StatusBadge status={inv.status} />
                     </td>
                     <td className="px-6 py-4 text-right">
                       {inv.status !== 'Paid' && (

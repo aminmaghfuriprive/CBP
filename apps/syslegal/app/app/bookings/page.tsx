@@ -1,9 +1,8 @@
-
 "use client";
 
 import React, { useState } from 'react';
 import { useData } from '@cbp/core';
-import { Card, Badge, Button } from '@cbp/ui';
+import { Card, Button, PageHeader, StatusBadge } from '@cbp/ui';
 import { Check, X, CalendarDays, Filter, MessageSquare, Phone } from 'lucide-react';
 
 export default function BookingManagementPage() {
@@ -14,39 +13,29 @@ export default function BookingManagementPage() {
     filter === 'All' || b.status === filter
   );
 
-  const getStatusVariant = (status: string) => {
-    switch(status) {
-      case 'Confirmed': return 'success';
-      case 'Pending': return 'warning';
-      case 'Rejected': return 'danger';
-      case 'Done': return 'neutral';
-      default: return 'neutral';
-    }
-  };
-
   return (
     <div className="space-y-6">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <div>
-          <h1 className="text-2xl font-serif font-bold text-cbp-navy dark:text-white">Manajemen Booking</h1>
-          <p className="text-slate-500 dark:text-slate-400">Kelola permintaan konsultasi dan janji temu klien.</p>
-        </div>
-        <div className="flex bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 p-1">
-           {['All', 'Pending', 'Confirmed', 'Done'].map((status) => (
-             <button
-                key={status}
-                onClick={() => setFilter(status)}
-                className={`px-4 py-2 text-sm rounded-md transition-all font-medium ${
-                  filter === status 
-                    ? 'bg-cbp-navy text-white dark:bg-cbp-gold dark:text-cbp-navy shadow-sm' 
-                    : 'text-slate-500 dark:text-slate-400 hover:text-cbp-navy dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800'
-                }`}
-             >
-               {status === 'All' ? 'Semua' : status}
-             </button>
-           ))}
-        </div>
-      </div>
+      <PageHeader 
+        title="Manajemen Booking" 
+        subtitle="Kelola permintaan konsultasi dan janji temu klien."
+        action={
+          <div className="flex bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 p-1">
+             {['All', 'Pending', 'Confirmed', 'Done'].map((status) => (
+               <button
+                  key={status}
+                  onClick={() => setFilter(status)}
+                  className={`px-4 py-1.5 text-sm rounded-md transition-all font-medium ${
+                    filter === status 
+                      ? 'bg-cbp-navy text-white dark:bg-cbp-gold dark:text-cbp-navy shadow-sm' 
+                      : 'text-slate-500 dark:text-slate-400 hover:text-cbp-navy dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800'
+                  }`}
+               >
+                 {status === 'All' ? 'Semua' : status}
+               </button>
+             ))}
+          </div>
+        }
+      />
 
       <div className="grid grid-cols-1 gap-4">
         {filteredBookings.length > 0 ? (
@@ -69,7 +58,7 @@ export default function BookingManagementPage() {
                     <h3 className="font-bold text-lg text-cbp-navy dark:text-white">{booking.clientName}</h3>
                     <p className="text-sm text-cbp-gold font-medium">{booking.serviceType}</p>
                   </div>
-                  <Badge variant={getStatusVariant(booking.status)}>{booking.status}</Badge>
+                  <StatusBadge status={booking.status} />
                 </div>
                 
                 <div className="flex items-center gap-4 text-sm text-slate-500 dark:text-slate-400 mt-2">

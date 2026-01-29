@@ -1,7 +1,7 @@
 import React from 'react';
 import { SERVICES } from '@cbp/core';
+import { SectionHeader, Button } from '@cbp/ui';
 import * as Icons from 'lucide-react';
-import { Button } from '@cbp/ui';
 import Link from 'next/link';
 
 export default function ServicesPage() {
@@ -9,8 +9,11 @@ export default function ServicesPage() {
     <div className="bg-white dark:bg-slate-950 transition-colors duration-300 pt-20">
       <div className="bg-cbp-navy dark:bg-slate-900 py-24 text-center text-white">
         <div className="max-w-4xl mx-auto px-4">
-          <h1 className="text-4xl md:text-5xl font-serif font-bold mb-6">Layanan Hukum</h1>
-          <p className="text-slate-300 text-lg md:text-xl">Solusi komprehensif untuk setiap tantangan hukum Anda.</p>
+          <SectionHeader 
+            title="Layanan Hukum" 
+            subtitle="Solusi komprehensif untuk setiap tantangan hukum Anda."
+            light
+          />
         </div>
       </div>
 
@@ -37,14 +40,16 @@ export default function ServicesPage() {
           })}
         </div>
 
-        <div className="mt-24 bg-slate-50 dark:bg-slate-900 rounded-3xl p-8 md:p-16 text-center border border-slate-200 dark:border-slate-800">
-          <h2 className="text-3xl font-serif font-bold text-cbp-navy dark:text-white mb-6">Tidak menemukan yang Anda cari?</h2>
-          <p className="text-slate-600 dark:text-slate-400 mb-10 max-w-2xl mx-auto text-lg">
-            Kasus hukum seringkali kompleks dan unik. Hubungi kami untuk konsultasi awal gratis dan temukan solusi yang disesuaikan dengan kebutuhan spesifik Anda.
-          </p>
-          <Link href="/contact">
-            <Button variant="primary" size="lg" className="px-8 py-4 text-base">Hubungi Konsultan</Button>
-          </Link>
+        <div className="mt-24 bg-slate-50 dark:bg-slate-900 rounded-3xl p-8 md:p-16 border border-slate-200 dark:border-slate-800">
+          <SectionHeader 
+            title="Tidak menemukan yang Anda cari?"
+            subtitle="Kasus hukum seringkali kompleks dan unik. Hubungi kami untuk konsultasi awal gratis dan temukan solusi yang disesuaikan dengan kebutuhan spesifik Anda."
+          />
+          <div className="text-center">
+            <Link href="/contact">
+              <Button variant="primary" size="lg" className="px-8 py-4 text-base">Hubungi Konsultan</Button>
+            </Link>
+          </div>
         </div>
       </div>
     </div>

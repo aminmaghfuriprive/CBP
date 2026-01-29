@@ -1,30 +1,10 @@
-
 "use client";
 
 import React from 'react';
 import { useData, useAuth, useTheme } from '@cbp/core';
-import { Card, CardHeader } from '@cbp/ui';
+import { Card, CardHeader, PageHeader, StatCard } from '@cbp/ui';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 import { Briefcase, CheckCircle, AlertCircle, Calendar, DollarSign, AlertTriangle } from 'lucide-react';
-
-const StatCard: React.FC<{ label: string; value: number | string; icon: any; color: string; subtext?: string }> = ({ label, value, icon: Icon, color, subtext }) => {
-  const baseColor = color.split(' ')[0].replace('bg-', '');
-  const darkModeBg = `dark:bg-${baseColor}-900/20`;
-  const darkModeText = `dark:text-${baseColor}-400`;
-
-  return (
-    <Card className="flex items-center p-6 border border-slate-200 dark:border-slate-800" padding={false}>
-      <div className={`p-4 rounded-full ${color.split(' ')[0]} bg-opacity-10 ${darkModeBg} mr-4 ml-6`}>
-        <Icon className={`h-6 w-6 ${color.split(' ')[1]} ${darkModeText}`} />
-      </div>
-      <div className="py-6">
-        <p className="text-sm font-medium text-slate-500 dark:text-slate-400">{label}</p>
-        <p className="text-2xl font-bold text-cbp-navy dark:text-slate-100">{value}</p>
-        {subtext && <p className="text-xs text-red-500 dark:text-red-400 font-medium mt-1">{subtext}</p>}
-      </div>
-    </Card>
-  );
-};
 
 export default function DashboardPage() {
   const { user } = useAuth();
@@ -45,22 +25,48 @@ export default function DashboardPage() {
 
     return (
       <div className="space-y-6">
-        <h1 className="text-2xl font-serif font-bold text-cbp-navy dark:text-white">Dashboard Admin</h1>
+        <PageHeader 
+          title="Dashboard Admin" 
+          subtitle="Ringkasan aktivitas dan performa firma hukum." 
+        />
+        
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <StatCard label="Kasus Aktif" value={cases.filter(c => c.status === 'Aktif').length} icon={Briefcase} color="bg-blue-600 text-blue-600" />
-          <StatCard label="Tagihan Overdue" value={overdueInvoices.length} icon={AlertCircle} color="bg-red-500 text-red-500" />
-          <StatCard label="Selesai Bulan Ini" value={cases.filter(c => c.status === 'Selesai').length} icon={CheckCircle} color="bg-green-600 text-green-600" />
-          <StatCard label="Total Klien" value={4} icon={Calendar} color="bg-cbp-gold text-cbp-gold" />
+          <StatCard 
+            label="Kasus Aktif" 
+            value={cases.filter(c => c.status === 'Aktif').length} 
+            icon={Briefcase} 
+            variant="primary" 
+          />
+          <StatCard 
+            label="Tagihan Overdue" 
+            value={overdueInvoices.length} 
+            icon={AlertCircle} 
+            variant="danger"
+            subtext="Perlu tindak lanjut segera" 
+          />
+          <StatCard 
+            label="Selesai Bulan Ini" 
+            value={cases.filter(c => c.status === 'Selesai').length} 
+            icon={CheckCircle} 
+            variant="success" 
+          />
+          <StatCard 
+            label="Total Klien" 
+            value={4} 
+            icon={Calendar} 
+            variant="secondary" 
+          />
         </div>
+
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <Card className="lg:col-span-2">
-            <CardHeader title="Distribusi Kasus" />
+            <CardHeader title="Distribusi Kasus" subtitle="Berdasarkan unit bisnis" />
             <div className="h-64">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={chartData} layout="vertical">
                   <XAxis type="number" hide />
                   <YAxis dataKey="name" type="category" width={120} stroke={theme === 'dark' ? '#94a3b8' : '#64748b'} fontSize={12} tickLine={false} axisLine={false} />
-                  <Tooltip cursor={{fill: 'transparent'}} contentStyle={{backgroundColor: theme === 'dark' ? '#1e293b' : '#fff'}} />
+                  <Tooltip cursor={{fill: 'transparent'}} contentStyle={{backgroundColor: theme === 'dark' ? '#1e293b' : '#fff', borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'}} />
                   <Bar dataKey="kasus" barSize={20} radius={[0, 4, 4, 0]}>
                     {chartData.map((_, index) => <Cell key={index} fill={theme === 'dark' ? '#d4af37' : '#0f172a'} />)}
                   </Bar>
@@ -74,13 +80,15 @@ export default function DashboardPage() {
               <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100">Deadline</h3>
             </div>
             <div className="space-y-4">
-              {upcomingDeadlines.map(e => (
+              {upcomingDeadlines.length > 0 ? upcomingDeadlines.map(e => (
                 <div key={e.id} className="p-3 bg-red-50 dark:bg-red-900/10 border-l-4 border-red-500 rounded-r-md">
                   <p className="text-xs font-bold text-red-600 dark:text-red-400 uppercase mb-1">{e.type}</p>
                   <p className="text-sm font-bold text-slate-900 dark:text-slate-200">{e.title}</p>
                   <p className="text-xs text-slate-500 mt-1">{new Date(e.date).toLocaleDateString()}</p>
                 </div>
-              ))}
+              )) : (
+                <p className="text-sm text-slate-500">Tidak ada deadline mendesak.</p>
+              )}
             </div>
           </Card>
         </div>
@@ -94,19 +102,24 @@ export default function DashboardPage() {
   
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-serif font-bold text-cbp-navy dark:text-white">Portal Klien</h1>
+      <PageHeader 
+        title="Portal Klien" 
+        subtitle={`Selamat datang kembali, ${userName}`} 
+      />
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <StatCard label="Kasus Saya" value={myCases.length} icon={Briefcase} color="bg-cbp-navy text-cbp-navy" />
-        <StatCard label="Agenda Berikutnya" value="-" icon={Calendar} color="bg-cbp-gold text-cbp-gold" />
-        <StatCard label="Tagihan Berjalan" value="IDR 0" icon={DollarSign} color="bg-red-600 text-red-600" />
+        <StatCard label="Kasus Saya" value={myCases.length} icon={Briefcase} variant="primary" />
+        <StatCard label="Agenda Berikutnya" value="-" icon={Calendar} variant="secondary" />
+        <StatCard label="Tagihan Berjalan" value="IDR 0" icon={DollarSign} variant="danger" />
       </div>
+      
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card>
           <CardHeader title="Status Kasus" />
           {myCases.length > 0 ? (
             <div className="space-y-4">
               {myCases.map(c => (
-                <div key={c.id} className="p-4 bg-slate-50 dark:bg-slate-800 rounded-lg">
+                <div key={c.id} className="p-4 bg-slate-50 dark:bg-slate-800 rounded-lg border border-slate-100 dark:border-slate-700">
                    <div className="flex justify-between font-bold text-cbp-navy dark:text-white">
                      <span>{c.caseType}</span>
                      <span>{c.status}</span>
