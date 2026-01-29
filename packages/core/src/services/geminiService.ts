@@ -18,13 +18,15 @@ const getApiKey = (): string => {
   return '';
 };
 
-const apiKey = getApiKey();
-const ai = new GoogleGenAI({ apiKey });
-
 export const askLegalAssistant = async (prompt: string): Promise<string> => {
+  const apiKey = getApiKey();
+  
   if (!apiKey) return "Konfigurasi API Key belum terpasang. Mohon hubungi IT Administrator.";
 
   try {
+    // Initialize client lazily here instead of top-level to avoid build errors
+    const ai = new GoogleGenAI({ apiKey });
+    
     const model = 'gemini-3-flash-preview';
     const systemInstruction = `
       Anda adalah Asisten Hukum Virtual untuk firma hukum CBP Corp.
