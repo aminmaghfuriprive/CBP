@@ -5,7 +5,7 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth, UserRole } from '@cbp/core';
-import { LayoutDashboard, Users, FileText, MessageSquare, LogOut, Shield, FolderOpen, CalendarClock, DollarSign, Settings, MapPin, Sliders } from 'lucide-react';
+import { LayoutDashboard, Users, FileText, MessageSquare, LogOut, FolderOpen, DollarSign, Settings, Calendar, Sliders } from 'lucide-react';
 
 interface MenuItem {
   label: string;
@@ -38,15 +38,9 @@ export const Sidebar: React.FC = () => {
       roles: ['ADMIN', 'PRODUCTION'] 
     },
     { 
-      label: 'Jadwal & Tugas', 
-      path: '/app/schedule', 
-      icon: MapPin, 
-      roles: ['ADMIN', 'FIELD_OPS', 'PRODUCTION'] 
-    },
-    { 
-      label: 'Booking', 
-      path: '/app/bookings', 
-      icon: CalendarClock, 
+      label: 'Agenda', 
+      path: '/app/agenda', 
+      icon: Calendar, 
       roles: ['ADMIN', 'PRODUCTION', 'FIELD_OPS'] 
     },
     { 
