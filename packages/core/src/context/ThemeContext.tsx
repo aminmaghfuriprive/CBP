@@ -11,7 +11,7 @@ interface ThemeContextType {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   // Inisialisasi default 'light' untuk server-side rendering (menghindari hydration mismatch)
   const [theme, setTheme] = useState<Theme>('light');
   const [mounted, setMounted] = useState(false);

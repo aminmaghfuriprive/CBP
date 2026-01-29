@@ -22,7 +22,7 @@ interface DataContextType {
 
 const DataContext = createContext<DataContextType | undefined>(undefined);
 
-export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   const [cases, setCases] = useState<CaseData[]>(MOCK_CASES);
   const [bookings, setBookings] = useState<Booking[]>(MOCK_BOOKINGS);
   const [events, setEvents] = useState<CalendarEvent[]>(EVENTS);

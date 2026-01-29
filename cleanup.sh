@@ -1,39 +1,38 @@
+
 #!/bin/bash
 
 echo "=== MEMULAI PEMBERSIHAN FILE LEGACY ==="
 
-# 1. Bersihkan file root yang tidak perlu
-if [ -f "index.html" ]; then
-    echo "Menghapus root index.html..."
-    rm index.html
+# --- COMPRO CLEANUP ---
+echo "Membersihkan apps/compro..."
+rm -f apps/compro/index.html
+rm -f apps/compro/vite.config.ts
+rm -f apps/compro/src/main.tsx
+rm -f apps/compro/src/App.tsx
+rm -rf apps/compro/src/pages
+
+# --- SYSLEGAL CLEANUP ---
+echo "Membersihkan apps/syslegal..."
+
+# 1. Hapus Config & Entry Point Legacy
+rm -f apps/syslegal/index.html
+rm -f apps/syslegal/vite.config.ts
+rm -f apps/syslegal/src/main.tsx
+rm -f apps/syslegal/src/App.tsx
+
+# 2. Hapus Folder Pages Lama (Wajib dihapus karena Next.js scan folder ini)
+if [ -d "apps/syslegal/src/pages" ]; then 
+    echo "Menghapus folder legacy: apps/syslegal/src/pages"
+    rm -rf apps/syslegal/src/pages
 fi
 
-# 2. Bersihkan file Vite/SPA legacy di apps/compro (karena sudah pindah ke Next.js)
-if [ -f "apps/compro/index.html" ]; then
-    echo "Menghapus apps/compro/index.html..."
-    rm apps/compro/index.html
-fi
+# 3. Hapus Komponen Legacy yang menyebabkan Error Build
+# ProtectedRoute lama pakai react-router-dom, ini harus dihapus.
+rm -f apps/syslegal/src/components/ProtectedRoute.tsx
 
-if [ -f "apps/compro/vite.config.ts" ]; then
-    echo "Menghapus apps/compro/vite.config.ts..."
-    rm apps/compro/vite.config.ts
-fi
-
-if [ -f "apps/compro/src/main.tsx" ]; then
-    echo "Menghapus apps/compro/src/main.tsx..."
-    rm apps/compro/src/main.tsx
-fi
-
-if [ -f "apps/compro/src/App.tsx" ]; then
-    echo "Menghapus apps/compro/src/App.tsx..."
-    rm apps/compro/src/App.tsx
-fi
-
-if [ -d "apps/compro/src/pages" ]; then
-    echo "Menghapus folder apps/compro/src/pages (Legacy)..."
-    rm -rf apps/compro/src/pages
-fi
+# --- ROOT CLEANUP ---
+rm -f index.html
 
 echo "=== PEMBERSIHAN SELESAI ==="
-echo "Aplikasi siap dijalankan dalam mode Hybrid (Next.js + Vite)."
+echo "Struktur project sekarang bersih (Next.js Pure)."
 echo "Silakan jalankan: npm run dev"
