@@ -5,7 +5,7 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth, UserRole } from '@cbp/core';
-import { LayoutDashboard, Users, FileText, MessageSquare, LogOut, Shield, FolderOpen, Calendar, CalendarClock, DollarSign, Settings } from 'lucide-react';
+import { LayoutDashboard, Users, FileText, MessageSquare, LogOut, Shield, FolderOpen, CalendarClock, DollarSign, Settings, MapPin } from 'lucide-react';
 
 interface MenuItem {
   label: string;
@@ -29,49 +29,55 @@ export const Sidebar: React.FC = () => {
       label: 'Dashboard', 
       path: '/app', 
       icon: LayoutDashboard, 
-      roles: ['SUPER_ADMIN', 'FINANCE', 'LEGAL_STAFF', 'IT_ADMIN'] 
+      roles: ['ADMIN', 'FINANCE', 'PRODUCTION', 'IT', 'FIELD_OPS'] 
     },
     { 
       label: 'Manajemen Kasus', 
       path: '/app/cases', 
       icon: FileText, 
-      roles: ['SUPER_ADMIN', 'LEGAL_STAFF'] 
+      roles: ['ADMIN', 'PRODUCTION'] 
     },
     { 
-      label: 'Booking & Jadwal', 
+      label: 'Jadwal & Tugas', // Digabung untuk Lapangan & Admin
+      path: '/app/schedule', 
+      icon: MapPin, 
+      roles: ['ADMIN', 'FIELD_OPS', 'PRODUCTION'] 
+    },
+    { 
+      label: 'Booking', 
       path: '/app/bookings', 
       icon: CalendarClock, 
-      roles: ['SUPER_ADMIN', 'LEGAL_STAFF', 'IT_ADMIN'] 
+      roles: ['ADMIN', 'PRODUCTION', 'FIELD_OPS'] 
     },
     { 
       label: 'Database Klien', 
       path: '/app/clients', 
       icon: Users, 
-      roles: ['SUPER_ADMIN', 'LEGAL_STAFF', 'FINANCE'] 
+      roles: ['ADMIN', 'PRODUCTION', 'FINANCE'] 
     },
     { 
       label: 'Dokumen', 
       path: '/app/documents', 
       icon: FolderOpen, 
-      roles: ['SUPER_ADMIN', 'LEGAL_STAFF'] 
+      roles: ['ADMIN', 'PRODUCTION'] 
     },
     { 
       label: 'Keuangan', 
       path: '/app/finance', 
       icon: DollarSign, 
-      roles: ['SUPER_ADMIN', 'FINANCE'] 
+      roles: ['ADMIN', 'FINANCE'] 
     },
     { 
       label: 'Konten Website', 
-      path: '/app/cms', // Placeholder for CMS
+      path: '/app/cms', 
       icon: Settings, 
-      roles: ['SUPER_ADMIN', 'IT_ADMIN'] 
+      roles: ['ADMIN', 'IT'] 
     },
     { 
       label: 'Asisten AI', 
       path: '/app/assistant', 
       icon: MessageSquare, 
-      roles: ['SUPER_ADMIN', 'LEGAL_STAFF'] 
+      roles: ['ADMIN', 'PRODUCTION', 'IT'] 
     },
   ];
 
@@ -86,7 +92,7 @@ export const Sidebar: React.FC = () => {
         <Shield className="h-8 w-8 text-cbp-navy dark:text-cbp-gold mr-3" />
         <div>
           <span className="font-serif font-bold text-xl text-cbp-navy dark:text-white tracking-tight block leading-none">CBP Corp</span>
-          <span className="text-[10px] text-cbp-gold font-bold uppercase tracking-widest mt-1 block">SysLegal Unit</span>
+          <span className="text-[10px] text-cbp-gold font-bold uppercase tracking-widest mt-1 block">Internal Sys</span>
         </div>
       </div>
       
@@ -101,7 +107,7 @@ export const Sidebar: React.FC = () => {
           </div>
           <div className="overflow-hidden">
             <h4 className="text-sm font-bold text-slate-900 dark:text-slate-200 truncate">{user?.name}</h4>
-            <p className="text-xs text-slate-500 dark:text-slate-500 truncate font-mono">
+            <p className="text-xs text-slate-500 dark:text-slate-500 truncate font-mono uppercase tracking-tighter">
               {user?.role.replace('_', ' ')}
             </p>
           </div>

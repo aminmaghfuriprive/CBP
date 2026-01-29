@@ -92,13 +92,14 @@ export enum AppView {
   DASHBOARD = 'DASHBOARD'
 }
 
-// UPDATE: Granular Roles based on PDF
+// UPDATE: Granular Roles sesuai Request
 export type UserRole = 
-  | 'SUPER_ADMIN'   // Owner (Dr. Christian)
-  | 'FINANCE'       // Clara
-  | 'LEGAL_STAFF'   // Saumita, Yevita, Izatil, Khrisna, Imam
-  | 'IT_ADMIN'      // Jamiun
-  | 'CLIENT';       // Customers
+  | 'ADMIN'         // Super Admin / Owner
+  | 'PRODUCTION'    // Staff Legal / Produksi Dokumen (Kantor)
+  | 'FIELD_OPS'     // Tim Lapangan (Mobile First)
+  | 'FINANCE'       // Keuangan
+  | 'IT'            // Teknologi
+  | 'CLIENT';       // Klien
 
 export type Division = 
   | 'CHRISTIAN_LAW_FIRM' 
@@ -107,7 +108,8 @@ export type Division =
   | 'TANAH' 
   | 'FINANCE'
   | 'IT'
-  | null; // For Super Admin or Client
+  | 'FIELD'
+  | null; 
 
 export interface User {
   id: string;

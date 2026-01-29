@@ -1,17 +1,99 @@
+
 "use client";
 
 import React from 'react';
 import { useData, useAuth, useTheme } from '@cbp/core';
 import { Card, CardHeader, PageHeader, StatCard } from '@cbp/ui';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
-import { Briefcase, CheckCircle, AlertCircle, Calendar, DollarSign, AlertTriangle } from 'lucide-react';
+import { Briefcase, CheckCircle, AlertCircle, Calendar, DollarSign, AlertTriangle, MapPin, Clock, Navigation } from 'lucide-react';
+import Link from 'next/link';
 
 export default function DashboardPage() {
   const { user } = useAuth();
   const { cases, invoices, events } = useData();
   const { theme } = useTheme();
 
-  // FIX: Updated condition to check for internal roles instead of 'ADMIN'
+  // 1. TAMPILAN FIELD OPS (Lapangan) - Mobile First UI
+  if (user?.role === 'FIELD_OPS') {
+    const todayEvents = events.filter(e => {
+        const d = new Date(e.date);
+        const today = new Date();
+        return d.getDate() === today.getDate() && d.getMonth() === today.getMonth();
+    });
+
+    return (
+      <div className="space-y-6 max-w-lg mx-auto">
+         <div className="bg-cbp-navy text-white p-6 -m-8 mb-6 rounded-b-3xl pb-12 dark:bg-slate-900 dark:border-b dark:border-slate-800">
+            <h1 className="text-xl font-bold">Halo, {user.name.split(' ')[0]}</h1>
+            <p className="text-slate-300 text-sm">Siap bertugas hari ini?</p>
+            <div className="mt-4 flex gap-4">
+               <div className="bg-white/10 p-3 rounded-lg flex-1 text-center backdrop-blur-sm">
+                  <span className="block text-2xl font-bold text-cbp-gold">{todayEvents.length}</span>
+                  <span className="text-xs uppercase tracking-wider text-slate-300">Agenda Hari Ini</span>
+               </div>
+               <div className="bg-white/10 p-3 rounded-lg flex-1 text-center backdrop-blur-sm">
+                  <span className="block text-2xl font-bold text-green-400">2</span>
+                  <span className="text-xs uppercase tracking-wider text-slate-300">Tugas Selesai</span>
+               </div>
+            </div>
+         </div>
+
+         <div className="px-1">
+            <h3 className="font-bold text-slate-800 dark:text-white mb-3 flex items-center gap-2">
+               <MapPin className="h-4 w-4 text-cbp-gold" />
+               Agenda & Rute
+            </h3>
+            {todayEvents.length > 0 ? (
+                <div className="space-y-3">
+                  {todayEvents.map(e => (
+                    <div key={e.id} className="bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 flex gap-4">
+                       <div className="flex flex-col items-center justify-center w-14 bg-slate-50 dark:bg-slate-800 rounded-lg">
+                          <span className="font-bold text-cbp-navy dark:text-white">{e.time}</span>
+                       </div>
+                       <div className="flex-1">
+                          <h4 className="font-bold text-sm text-slate-900 dark:text-white">{e.title}</h4>
+                          <p className="text-xs text-slate-500 dark:text-slate-400">{e.client}</p>
+                          <div className="mt-2 flex gap-2">
+                             <button className="text-[10px] bg-blue-50 text-blue-600 px-2 py-1 rounded font-bold flex items-center gap-1">
+                               <Navigation className="h-3 w-3" /> Navigasi
+                             </button>
+                             <button className="text-[10px] bg-slate-100 text-slate-600 px-2 py-1 rounded font-bold">
+                               Detail
+                             </button>
+                          </div>
+                       </div>
+                    </div>
+                  ))}
+                </div>
+            ) : (
+                <div className="text-center p-8 bg-slate-50 dark:bg-slate-800/50 rounded-xl border-dashed border border-slate-300 dark:border-slate-700">
+                    <CheckCircle className="h-8 w-8 text-green-500 mx-auto mb-2" />
+                    <p className="text-slate-500 text-sm">Tidak ada agenda mendesak.</p>
+                </div>
+            )}
+         </div>
+
+         <div className="px-1">
+             <h3 className="font-bold text-slate-800 dark:text-white mb-3 flex items-center gap-2">
+               <Briefcase className="h-4 w-4 text-cbp-gold" />
+               Akses Cepat
+            </h3>
+            <div className="grid grid-cols-2 gap-3">
+               <Link href="/app/schedule" className="p-4 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col items-center justify-center gap-2 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                  <Calendar className="h-6 w-6 text-blue-500" />
+                  <span className="text-xs font-bold text-slate-700 dark:text-slate-300">Kalender Lengkap</span>
+               </Link>
+               <Link href="/app/documents" className="p-4 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col items-center justify-center gap-2 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                  <Briefcase className="h-6 w-6 text-orange-500" />
+                  <span className="text-xs font-bold text-slate-700 dark:text-slate-300">Dokumen Lapangan</span>
+               </Link>
+            </div>
+         </div>
+      </div>
+    );
+  }
+
+  // 2. TAMPILAN INTERNAL (Admin, Produksi, Finance, IT)
   if (user?.role && user.role !== 'CLIENT') {
     const overdueInvoices = invoices.filter(i => i.status === 'Overdue');
     const upcomingDeadlines = events.filter(e => 
@@ -27,7 +109,7 @@ export default function DashboardPage() {
     return (
       <div className="space-y-6">
         <PageHeader 
-          title={`Dashboard ${user.role.replace('_', ' ')}`}
+          title={`Dashboard ${user.role.charAt(0) + user.role.slice(1).toLowerCase().replace('_', ' ')}`}
           subtitle="Ringkasan aktivitas dan performa firma hukum." 
         />
         
@@ -52,8 +134,8 @@ export default function DashboardPage() {
             variant="success" 
           />
           <StatCard 
-            label="Total Klien" 
-            value={4} 
+            label="Agenda Hari Ini" 
+            value={events.length} 
             icon={Calendar} 
             variant="secondary" 
           />
@@ -97,7 +179,7 @@ export default function DashboardPage() {
     );
   }
 
-  // Client View
+  // 3. TAMPILAN CLIENT PORTAL
   const userName = user?.name || '';
   const myCases = cases.filter(c => c.clientName.includes(userName));
   

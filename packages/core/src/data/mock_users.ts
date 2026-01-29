@@ -39,9 +39,24 @@ export const MOCK_USERS_DB: User[] = [
     id: 'u_admin',
     name: 'Dr. Christian Bagoes P.',
     email: 'admin@cbp.id',
-    role: 'SUPER_ADMIN',
+    role: 'ADMIN',
     division: null,
     avatarUrl: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=400'
+  },
+  {
+    id: 'u_prod',
+    name: 'Saumita Ngesti R., S.H.',
+    email: 'produksi@cbp.id',
+    role: 'PRODUCTION',
+    division: 'CHRISTIAN_LAW_FIRM',
+  },
+  {
+    id: 'u_field',
+    name: 'Bima Lapangan',
+    email: 'lapangan@cbp.id',
+    role: 'FIELD_OPS',
+    division: 'FIELD',
+    avatarUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=400'
   },
   {
     id: 'u_finance',
@@ -52,17 +67,10 @@ export const MOCK_USERS_DB: User[] = [
     avatarUrl: 'https://images.unsplash.com/photo-1573496359-136d475583dc?auto=format&fit=crop&q=80&w=400'
   },
   {
-    id: 'u_legal_1',
-    name: 'Saumita Ngesti R., S.H.',
-    email: 'legal@cbp.id',
-    role: 'LEGAL_STAFF',
-    division: 'CHRISTIAN_LAW_FIRM',
-  },
-  {
     id: 'u_it',
     name: 'Jamiun Mukromin',
     email: 'it@cbp.id',
-    role: 'IT_ADMIN',
+    role: 'IT',
     division: 'IT',
   },
   {

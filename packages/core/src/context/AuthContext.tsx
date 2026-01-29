@@ -47,12 +47,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
                division: null
              };
            } else {
-             // Default to Legal Staff if logging into admin panel with unknown email
+             // Default to Production Staff if logging into admin panel with unknown email
              foundUser = {
                id: `u_${Date.now()}`,
                name: 'Staf Demo',
                email: email,
-               role: 'LEGAL_STAFF',
+               role: 'PRODUCTION',
                division: 'CHRISTIAN_LAW_FIRM'
              };
            }
