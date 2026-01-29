@@ -1,11 +1,37 @@
-<div align="center">
+# CBP Corp - Integrated Legal System
 
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+Project ini menggunakan struktur **Monorepo** dengan Turborepo.
 
-  <h1>Built with AI Studio</h2>
+## Struktur Project
 
-  <p>The fastest path from prompt to production with Gemini.</p>
+### Apps
+* **`apps/compro`**: Website Company Profile (Public Facing) - Port 3000. Dikenal juga sebagai `cbp-compro`.
+* **`apps/syslegal`**: Sistem Manajemen Unit Bisnis Legal (Internal & Client Portal) - Port 3001. Dikenal juga sebagai `cbp-syslegal`.
 
-  <a href="https://aistudio.google.com/apps">Start building</a>
+### Packages
+* **`packages/ui`**: Komponen UI (Button, Card, dll) yang digunakan bersama.
+* **`packages/core`**: Logika bisnis, Tipe data (Types), Konstanta, dan Context.
 
-</div>
+## Cara Menjalankan
+
+1. **Install Dependencies**
+   ```bash
+   npm install
+   ```
+
+2. **Jalankan Mode Development**
+   ```bash
+   npm run dev
+   ```
+   Perintah ini akan menjalankan Website (Compro) dan SysLegal secara bersamaan.
+
+3. **Build Production**
+   ```bash
+   npm run build
+   ```
+
+## Catatan Migrasi
+Jika Anda masih melihat folder `app/`, `website/`, atau `components/` di root directory, silakan jalankan skrip pembersihan:
+```bash
+sh cleanup.sh
+```
