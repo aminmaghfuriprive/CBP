@@ -1,4 +1,3 @@
-
 "use client";
 
 import React from 'react';
@@ -28,15 +27,8 @@ export const Sidebar: React.FC = () => {
     { label: 'Asisten AI', path: '/app/assistant', icon: MessageSquare },
   ];
 
-  const clientItems = [
-    { label: 'Beranda', path: '/app', icon: LayoutDashboard },
-    { label: 'Kasus Saya', path: '/app/my-cases', icon: FileText },
-    { label: 'Tagihan Saya', path: '/app/my-invoices', icon: DollarSign },
-    { label: 'Dokumen', path: '/app/documents', icon: FolderOpen },
-    { label: 'Asisten Legal', path: '/app/assistant', icon: MessageSquare },
-  ];
-
-  const items = user?.role === 'ADMIN' ? adminItems : clientItems;
+  // SysLegal is now strictly for Admin/Staff
+  const items = adminItems;
 
   return (
     <div className="hidden md:flex flex-col w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 h-screen fixed left-0 top-0 z-40 transition-colors duration-300">
@@ -59,13 +51,13 @@ export const Sidebar: React.FC = () => {
           </div>
           <div className="overflow-hidden">
             <h4 className="text-sm font-bold text-slate-900 dark:text-slate-200 truncate">{user?.name}</h4>
-            <p className="text-xs text-slate-500 dark:text-slate-500 truncate">{user?.role === 'ADMIN' ? 'Managing Partner' : 'Client'}</p>
+            <p className="text-xs text-slate-500 dark:text-slate-500 truncate">{user?.role}</p>
           </div>
         </div>
       </div>
       
       <div className="flex-1 overflow-y-auto py-6 px-3 space-y-1 scrollbar-hide">
-        <p className="px-4 text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-3">Menu Utama</p>
+        <p className="px-4 text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-3">Menu Internal</p>
         {items.map((item) => {
           const isActive = pathname === item.path;
           return (

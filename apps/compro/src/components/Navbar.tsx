@@ -1,16 +1,17 @@
-
 "use client";
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X, Shield } from 'lucide-react';
+import { Menu, X, Shield, User } from 'lucide-react';
 import { Button, ThemeToggle } from '@cbp/ui';
+import { useAuth } from '@cbp/core';
 
 export const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
+  const { isAuthenticated, user } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -60,15 +61,23 @@ export const Navbar: React.FC = () => {
             
             <ThemeToggle className={scrolled ? '' : 'text-white hover:text-cbp-gold'} />
             
-            <Link href="/book">
-              <Button 
-                size="sm" 
-                variant={scrolled ? 'primary' : 'secondary'}
-                className={!scrolled ? 'bg-white text-cbp-navy hover:bg-slate-100 border-none' : ''}
-              >
-                Buat Janji
-              </Button>
-            </Link>
+            {isAuthenticated && user?.role === 'CLIENT' ? (
+              <Link href="/portal/dashboard">
+                 <Button size="sm" variant={scrolled ? 'secondary' : 'primary'} className="gap-2">
+                   <User className="h-4 w-4" /> Portal Klien
+                 </Button>
+              </Link>
+            ) : (
+              <Link href="/auth/login">
+                <Button 
+                  size="sm" 
+                  variant={scrolled ? 'primary' : 'secondary'}
+                  className={!scrolled ? 'bg-white text-cbp-navy hover:bg-slate-100 border-none' : ''}
+                >
+                  Login Klien
+                </Button>
+              </Link>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -99,12 +108,11 @@ export const Navbar: React.FC = () => {
             </Link>
           ))}
           <div className="h-px bg-slate-100 dark:bg-slate-800 my-2"></div>
-          <Link href="/book" onClick={() => setIsOpen(false)}>
-            <Button className="w-full">Jadwalkan Konsultasi</Button>
+          <Link href="/auth/login" onClick={() => setIsOpen(false)}>
+            <Button className="w-full">Login Portal Klien</Button>
           </Link>
         </div>
       )}
     </nav>
   );
 };
-    
