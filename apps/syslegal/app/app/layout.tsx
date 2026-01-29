@@ -37,7 +37,7 @@ export default function DashboardLayout({
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 font-sans flex transition-colors duration-300">
       <Sidebar />
-      <div className="flex-1 md:ml-64 flex flex-col h-screen overflow-hidden">
+      <div className="flex-1 md:mr-64 flex flex-col h-screen overflow-hidden">
         <AppHeader />
         <div className="flex-1 p-8 overflow-y-auto">
           {children}

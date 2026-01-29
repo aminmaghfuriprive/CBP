@@ -38,7 +38,7 @@ export const Sidebar: React.FC = () => {
       roles: ['ADMIN', 'PRODUCTION'] 
     },
     { 
-      label: 'Jadwal & Tugas', // Digabung untuk Lapangan & Admin
+      label: 'Jadwal & Tugas', 
       path: '/app/schedule', 
       icon: MapPin, 
       roles: ['ADMIN', 'FIELD_OPS', 'PRODUCTION'] 
@@ -87,35 +87,19 @@ export const Sidebar: React.FC = () => {
   );
 
   return (
-    <div className="hidden md:flex flex-col w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 h-screen fixed left-0 top-0 z-40 transition-colors duration-300">
+    <div className="hidden md:flex flex-col w-64 bg-white dark:bg-slate-900 border-l border-slate-200 dark:border-slate-800 h-screen fixed right-0 top-0 z-40 transition-colors duration-300">
       <div className="h-20 flex items-center px-6 border-b border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900">
         <Shield className="h-8 w-8 text-cbp-navy dark:text-cbp-gold mr-3" />
         <div>
           <span className="font-serif font-bold text-xl text-cbp-navy dark:text-white tracking-tight block leading-none">CBP Corp</span>
-          <span className="text-[10px] text-cbp-gold font-bold uppercase tracking-widest mt-1 block">Internal Sys</span>
+          <span className="text-[10px] text-cbp-gold font-bold uppercase tracking-widest mt-1 block">Menu Navigasi</span>
         </div>
       </div>
       
-      <div className="px-6 py-8 border-b border-slate-50 dark:border-slate-800/50 bg-slate-50/50 dark:bg-slate-900">
-        <div className="flex items-center gap-3">
-          <div className="h-10 w-10 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300 flex items-center justify-center font-bold text-sm overflow-hidden ring-2 ring-white dark:ring-slate-700 shadow-sm">
-             {user?.avatarUrl ? (
-               <img src={user.avatarUrl} alt="User" className="h-full w-full object-cover" />
-             ) : (
-               user?.name.charAt(0) || 'U'
-             )}
-          </div>
-          <div className="overflow-hidden">
-            <h4 className="text-sm font-bold text-slate-900 dark:text-slate-200 truncate">{user?.name}</h4>
-            <p className="text-xs text-slate-500 dark:text-slate-500 truncate font-mono uppercase tracking-tighter">
-              {user?.role.replace('_', ' ')}
-            </p>
-          </div>
-        </div>
-      </div>
+      {/* User Info Removed here as requested */}
       
       <div className="flex-1 overflow-y-auto py-6 px-3 space-y-1 scrollbar-hide">
-        <p className="px-4 text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-3">Menu Akses</p>
+        <p className="px-4 text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-3">Aplikasi</p>
         {allowedItems.map((item) => {
           const isActive = pathname === item.path || pathname.startsWith(`${item.path}/`);
           return (
