@@ -1,3 +1,6 @@
+
+"use client";
+
 import React, { useState } from 'react';
 import { useAuth, useNotifications } from '@cbp/core';
 import { ThemeToggle } from '@cbp/ui';

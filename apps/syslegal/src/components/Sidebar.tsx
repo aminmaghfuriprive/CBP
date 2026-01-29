@@ -1,16 +1,20 @@
+
+"use client";
+
 import React from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@cbp/core';
 import { LayoutDashboard, Users, FileText, MessageSquare, LogOut, Shield, FolderOpen, Calendar, CalendarClock, DollarSign } from 'lucide-react';
 
 export const Sidebar: React.FC = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
+  const pathname = usePathname();
+  const router = useRouter();
   const { logout, user } = useAuth();
 
   const handleLogout = () => {
     logout();
-    navigate('/login');
+    router.push('/login');
   };
 
   const adminItems = [
@@ -63,11 +67,11 @@ export const Sidebar: React.FC = () => {
       <div className="flex-1 overflow-y-auto py-6 px-3 space-y-1 scrollbar-hide">
         <p className="px-4 text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-3">Menu Utama</p>
         {items.map((item) => {
-          const isActive = location.pathname === item.path;
+          const isActive = pathname === item.path;
           return (
             <Link
               key={item.path}
-              to={item.path}
+              href={item.path}
               className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 group ${
                 isActive 
                   ? 'bg-cbp-navy text-white dark:bg-cbp-gold/10 dark:text-cbp-gold shadow-md dark:shadow-none' 
