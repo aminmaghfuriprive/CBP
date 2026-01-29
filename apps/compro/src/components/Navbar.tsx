@@ -13,8 +13,6 @@ export const Navbar: React.FC = () => {
   const pathname = usePathname();
   const { isAuthenticated } = useAuth();
 
-  // Gunakan Environment Variable untuk URL Dashboard di Production
-  // Default ke localhost jika env var tidak ada (untuk local dev)
   const APP_URL = process.env.NEXT_PUBLIC_DASHBOARD_URL || "http://localhost:3001"; 
 
   useEffect(() => {
@@ -33,7 +31,10 @@ export const Navbar: React.FC = () => {
     { name: 'Kontak', path: '/contact' },
   ];
 
-  const isActive = (path: string) => pathname === path;
+  const isActive = (path: string) => {
+    if (path === '/') return pathname === '/';
+    return pathname.startsWith(path);
+  };
 
   return (
     <nav className={`fixed w-full z-50 transition-all duration-300 ${
@@ -58,7 +59,7 @@ export const Navbar: React.FC = () => {
                   href={link.path}
                   className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
                     isActive(link.path) 
-                      ? 'text-cbp-gold' 
+                      ? 'text-cbp-gold bg-white/5' 
                       : 'text-slate-300 hover:text-white hover:bg-white/10'
                   }`}
                 >

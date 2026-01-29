@@ -3,6 +3,7 @@ import { Button } from '@cbp/ui';
 import { SERVICES } from '@cbp/core';
 import * as Icons from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Shield, Award, Users, Globe, Scale, ArrowRight } from 'lucide-react';
 
 const TimeIcon = () => <Globe className="h-6 w-6" />;
@@ -14,10 +15,12 @@ export default function Home() {
       {/* 1. HERO SECTION */}
       <section className="relative min-h-screen flex items-center">
         <div className="absolute inset-0 z-0">
-          <img 
+          <Image 
             src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=2070" 
             alt="Corporate Skyscrapers" 
-            className="w-full h-full object-cover"
+            fill
+            priority
+            className="object-cover"
           />
           <div className="absolute inset-0 bg-slate-900/80 mix-blend-multiply"></div>
           <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 to-transparent"></div>
@@ -105,11 +108,12 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="relative order-1">
               <div className="absolute -inset-4 bg-cbp-navy/5 dark:bg-cbp-gold/10 rounded-xl transform rotate-3"></div>
-              <div className="relative rounded-lg overflow-hidden shadow-2xl">
-                <img 
+              <div className="relative rounded-lg overflow-hidden shadow-2xl aspect-[4/5] lg:aspect-auto h-full min-h-[500px]">
+                <Image 
                   src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=1600" 
                   alt="Dr. Christian Bagoes Prasetyo" 
-                  className="w-full h-auto object-cover grayscale hover:grayscale-0 transition-all duration-700"
+                  fill
+                  className="object-cover grayscale hover:grayscale-0 transition-all duration-700"
                 />
                 <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-cbp-navy/90 to-transparent p-8">
                   <p className="text-white font-serif text-2xl italic">"Kepercayaan Anda adalah amanah profesi saya."</p>

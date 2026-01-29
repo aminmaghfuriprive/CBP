@@ -2,6 +2,7 @@ import React from 'react';
 import { ARTICLES } from '@cbp/core';
 import { Card } from '@cbp/ui';
 import { Calendar, User, ArrowRight } from 'lucide-react';
+import Image from 'next/image';
 
 export default function Insights() {
   return (
@@ -19,10 +20,11 @@ export default function Insights() {
             <Card key={article.id} className="h-full flex flex-col hover:-translate-y-1 hover:shadow-xl transition-all duration-300 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800" padding={false}>
               <div className="h-56 overflow-hidden relative">
                 <div className="absolute inset-0 bg-slate-900/10 dark:bg-slate-900/30 z-10"></div>
-                <img 
+                <Image 
                   src={article.imageUrl} 
                   alt={article.title} 
-                  className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                  fill
+                  className="object-cover transition-transform duration-700 hover:scale-105"
                 />
                 <div className="absolute top-4 left-4 z-20 bg-cbp-gold text-white px-3 py-1.5 text-xs font-bold uppercase tracking-wider rounded-md shadow-lg">
                   {article.category}
