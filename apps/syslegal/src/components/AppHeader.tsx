@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState } from 'react';
@@ -77,7 +76,10 @@ export const AppHeader: React.FC = () => {
         <div className="flex items-center gap-3">
           <div className="text-right hidden sm:block">
             <p className="text-sm font-bold text-slate-900 dark:text-slate-100 leading-tight">{user?.name}</p>
-            <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">{user?.role === 'ADMIN' ? 'Partner' : 'Client'}</p>
+            {/* FIX: Removed 'ADMIN' literal comparison */}
+            <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
+              {user?.role && user.role !== 'CLIENT' ? 'Internal Staff' : 'Client'}
+            </p>
           </div>
           <div className="h-9 w-9 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden ring-2 ring-white dark:ring-slate-700 shadow-sm">
              {user?.avatarUrl ? (

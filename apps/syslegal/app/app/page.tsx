@@ -11,7 +11,8 @@ export default function DashboardPage() {
   const { cases, invoices, events } = useData();
   const { theme } = useTheme();
 
-  if (user?.role === 'ADMIN') {
+  // FIX: Updated condition to check for internal roles instead of 'ADMIN'
+  if (user?.role && user.role !== 'CLIENT') {
     const overdueInvoices = invoices.filter(i => i.status === 'Overdue');
     const upcomingDeadlines = events.filter(e => 
       (e.type === 'Sidang' || e.type === 'Deadline') && new Date(e.date) >= new Date()
@@ -26,7 +27,7 @@ export default function DashboardPage() {
     return (
       <div className="space-y-6">
         <PageHeader 
-          title="Dashboard Admin" 
+          title={`Dashboard ${user.role.replace('_', ' ')}`}
           subtitle="Ringkasan aktivitas dan performa firma hukum." 
         />
         
