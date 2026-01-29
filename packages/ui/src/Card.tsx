@@ -1,20 +1,22 @@
 import React from 'react';
 
-interface CardProps {
+interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
-  className?: string;
   padding?: boolean;
 }
 
-export const Card: React.FC<CardProps> = ({ children, className = '', padding = true }) => {
+export const Card: React.FC<CardProps> = ({ children, className = '', padding = true, ...props }) => {
   return (
-    <div className={`
-      bg-white dark:bg-slate-900 
-      rounded-xl shadow-sm hover:shadow-md 
-      border border-slate-200 dark:border-slate-800 
-      overflow-hidden transition-all duration-300 
-      ${className}
-    `}>
+    <div 
+      className={`
+        bg-white dark:bg-slate-900 
+        rounded-xl shadow-sm hover:shadow-md 
+        border border-slate-200 dark:border-slate-800 
+        overflow-hidden transition-all duration-300 
+        ${className}
+      `}
+      {...props}
+    >
       <div className={padding ? "p-6" : ""}>
         {children}
       </div>

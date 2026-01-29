@@ -2,21 +2,9 @@
 
 import React from 'react';
 import { useData, useAuth } from '@cbp/core';
-import { Card, Button } from '@cbp/ui';
+import { Card, Button, StatCard } from '@cbp/ui';
 import { Briefcase, Calendar, DollarSign, ArrowRight, Plus } from 'lucide-react';
 import Link from 'next/link';
-
-const StatCard: React.FC<{ label: string; value: string | number; icon: any; color: string }> = ({ label, value, icon: Icon, color }) => (
-  <Card className="flex items-center p-6 border-l-4" style={{borderLeftColor: 'var(--color)'}} padding={false}>
-     <div className={`p-4 rounded-full mr-4 ml-6 ${color} bg-opacity-10 text-current`}>
-       <Icon className={`h-6 w-6 ${color.replace('bg-', 'text-')}`} />
-     </div>
-     <div className="py-6">
-       <p className="text-sm font-medium text-slate-500">{label}</p>
-       <p className="text-2xl font-bold text-slate-900 dark:text-white">{value}</p>
-     </div>
-  </Card>
-);
 
 export default function ClientDashboard() {
   const { user } = useAuth();
@@ -41,13 +29,13 @@ export default function ClientDashboard() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <StatCard label="Kasus Aktif" value={myCases.length} icon={Briefcase} color="text-cbp-navy" />
-        <StatCard label="Jadwal Berikutnya" value="-" icon={Calendar} color="text-cbp-gold" />
+        <StatCard label="Kasus Aktif" value={myCases.length} icon={Briefcase} variant="primary" />
+        <StatCard label="Jadwal Berikutnya" value="-" icon={Calendar} variant="secondary" />
         <StatCard 
           label="Tagihan Berjalan" 
           value={new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(unpaidAmount)} 
           icon={DollarSign} 
-          color="text-red-500" 
+          variant="danger" 
         />
       </div>
 
