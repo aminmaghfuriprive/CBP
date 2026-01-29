@@ -32,6 +32,7 @@ export const Navbar: React.FC = () => {
   ];
 
   const isActive = (path: string) => {
+    if (!pathname) return false;
     if (path === '/') return pathname === '/';
     return pathname.startsWith(path);
   };
