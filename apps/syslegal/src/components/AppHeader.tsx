@@ -14,7 +14,7 @@ export const AppHeader: React.FC = () => {
   return (
     <header className="h-20 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-8 sticky top-0 z-30 transition-colors duration-300">
       <div className="flex items-center gap-6 w-1/2">
-        {/* Brand Logo added here for balance since sidebar is on the right */}
+        {/* Brand Logo added here */}
         <div className="hidden md:flex items-center gap-2">
            <Shield className="h-6 w-6 text-cbp-navy dark:text-cbp-gold" />
            <div>
@@ -33,7 +33,7 @@ export const AppHeader: React.FC = () => {
         </div>
       </div>
 
-      <div className="flex items-center gap-3 sm:gap-6">
+      <div className="flex items-center gap-3 sm:gap-4">
         <ThemeToggle />
 
         <div className="relative">
@@ -79,26 +79,6 @@ export const AppHeader: React.FC = () => {
               </div>
             </div>
           )}
-        </div>
-
-        <div className="h-8 w-px bg-slate-200 dark:bg-slate-700 hidden sm:block"></div>
-
-        <div className="flex items-center gap-3">
-          <div className="text-right hidden sm:block">
-            <p className="text-sm font-bold text-slate-900 dark:text-slate-100 leading-tight">{user?.name}</p>
-            <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
-              {user?.role && user.role !== 'CLIENT' ? 'Internal Staff' : 'Client'}
-            </p>
-          </div>
-          <div className="h-9 w-9 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden ring-2 ring-white dark:ring-slate-700 shadow-sm">
-             {user?.avatarUrl ? (
-               <img src={user.avatarUrl} alt="User" className="h-full w-full object-cover" />
-             ) : (
-               <div className="h-full w-full flex items-center justify-center text-slate-500 dark:text-slate-400 font-bold text-xs">
-                 {user?.name.charAt(0) || 'U'}
-               </div>
-             )}
-          </div>
         </div>
       </div>
     </header>
