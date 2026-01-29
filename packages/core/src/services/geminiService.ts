@@ -1,18 +1,25 @@
 import { GoogleGenAI } from "@google/genai";
 
-// Helper untuk mengambil API Key secara aman di berbagai environment (Vite/Next.js)
 const getApiKey = (): string => {
-  // Cek Vite Environment
-  // Casting 'any' diperlukan karena TypeScript pada project Next.js tidak mengenali 'import.meta.env'
-  const meta = import.meta as any;
-  if (typeof meta !== 'undefined' && meta.env && meta.env.VITE_API_KEY) {
-    return String(meta.env.VITE_API_KEY);
+  // Safe check for process.env (Next.js / Node)
+  try {
+    if (typeof process !== 'undefined' && process.env) {
+      if (process.env.NEXT_PUBLIC_API_KEY) return process.env.NEXT_PUBLIC_API_KEY;
+      if (process.env.API_KEY) return process.env.API_KEY;
+    }
+  } catch (e) {
+    // Ignore error
   }
-  
-  // Cek Next.js / Node Environment
-  if (typeof process !== 'undefined' && process.env) {
-    // Prioritaskan public key jika di client-side Next.js, fallback ke server key
-    return (process.env.NEXT_PUBLIC_API_KEY || process.env.API_KEY || '') as string;
+
+  // Safe check for import.meta.env (Vite)
+  try {
+    // Casting 'any' to avoid TypeScript errors in Node environments
+    const meta = import.meta as any;
+    if (meta && meta.env && meta.env.VITE_API_KEY) {
+      return String(meta.env.VITE_API_KEY);
+    }
+  } catch (e) {
+    // Ignore syntax or reference errors
   }
   
   return '';
@@ -21,7 +28,9 @@ const getApiKey = (): string => {
 export const askLegalAssistant = async (prompt: string): Promise<string> => {
   const apiKey = getApiKey();
   
-  if (!apiKey) return "Konfigurasi API Key belum terpasang. Mohon hubungi IT Administrator.";
+  if (!apiKey) {
+    return "Konfigurasi API Key belum terpasang. Mohon hubungi IT Administrator.";
+  }
 
   try {
     // Initialize client lazily here instead of top-level to avoid build errors
