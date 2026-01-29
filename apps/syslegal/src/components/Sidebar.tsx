@@ -5,13 +5,13 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth, UserRole } from '@cbp/core';
-import { LayoutDashboard, Users, FileText, MessageSquare, LogOut, Shield, FolderOpen, CalendarClock, DollarSign, Settings, MapPin } from 'lucide-react';
+import { LayoutDashboard, Users, FileText, MessageSquare, LogOut, Shield, FolderOpen, CalendarClock, DollarSign, Settings, MapPin, Sliders } from 'lucide-react';
 
 interface MenuItem {
   label: string;
   path: string;
   icon: React.ElementType;
-  roles: UserRole[]; // Siapa saja yang boleh lihat menu ini
+  roles: UserRole[]; 
 }
 
 export const Sidebar: React.FC = () => {
@@ -79,16 +79,18 @@ export const Sidebar: React.FC = () => {
       icon: MessageSquare, 
       roles: ['ADMIN', 'PRODUCTION', 'IT'] 
     },
+    { 
+      label: 'Pengaturan', 
+      path: '/app/settings', 
+      icon: Sliders, 
+      roles: ['ADMIN', 'FINANCE', 'PRODUCTION', 'IT', 'FIELD_OPS'] 
+    },
   ];
 
-  // Filter menu items based on user role
-  const allowedItems = menuItems.filter(item => 
-    user && item.roles.includes(user.role)
-  );
+  const allowedItems = menuItems.filter(item => user && item.roles.includes(user.role));
 
   return (
     <div className="hidden md:flex flex-col w-64 bg-white dark:bg-slate-900 border-l border-slate-200 dark:border-slate-800 h-screen fixed right-0 top-0 z-40 transition-colors duration-300">
-      {/* Sidebar Header: Now displaying User Profile instead of Logo */}
       <div className="h-24 flex items-center px-6 border-b border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900">
         <div className="flex items-center gap-3 w-full">
           <div className="h-10 w-10 rounded-full bg-cbp-navy dark:bg-cbp-gold text-white dark:text-cbp-navy flex items-center justify-center font-bold text-sm overflow-hidden ring-2 ring-slate-100 dark:ring-slate-700 shadow-sm flex-shrink-0">
