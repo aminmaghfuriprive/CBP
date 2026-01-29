@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, Suspense } from 'react';
@@ -19,8 +20,9 @@ function LoginForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    // SysLegal always logs in as ADMIN/STAFF
-    await login(email, 'ADMIN'); 
+    // Don't enforce role here, let AuthContext mock DB decide based on email
+    // For manual overrides, admin@cbp.id = SUPER_ADMIN, finance@cbp.id = FINANCE
+    await login(email); 
     setIsSubmitting(false);
     router.push(from);
   };
@@ -59,8 +61,11 @@ function LoginForm() {
             </Button>
           </form>
           
-          <div className="mt-6 text-center text-xs text-slate-400">
-             Akses terbatas hanya untuk personel berwenang.<br/>IP Address Anda tercatat.
+          <div className="mt-6 text-center text-xs text-slate-400 bg-slate-50 dark:bg-slate-800/50 p-3 rounded-lg border border-slate-100 dark:border-slate-800">
+             <p className="font-bold mb-1">Akun Demo:</p>
+             <p>Admin: admin@cbp.id</p>
+             <p>Finance: finance@cbp.id</p>
+             <p>Legal: legal@cbp.id</p>
           </div>
         </div>
       </div>

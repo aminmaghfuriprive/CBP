@@ -5,6 +5,7 @@ export * from './context/AuthContext';
 export * from './context/DataContext';
 export * from './context/NotificationContext';
 export * from './context/ThemeContext';
+export * from './db';
 
 // Export Data Modules
 export * from './data/services';

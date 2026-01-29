@@ -1,14 +1,18 @@
 "use client";
 
-import { useState } from 'react';
+import { useLiveQuery } from 'dexie-react-hooks';
 import { CalendarEvent } from '../types';
-import { EVENTS } from '../data/mock_calendar';
+import { db } from '../db';
 
 export const useScheduleLogic = () => {
-  const [events, setEvents] = useState<CalendarEvent[]>(EVENTS);
+  const events = useLiveQuery(() => db.events.orderBy('date').toArray()) || [];
 
-  const addEvent = (event: CalendarEvent) => {
-    setEvents(prev => [...prev, event]);
+  const addEvent = async (event: CalendarEvent) => {
+    try {
+      await db.events.add(event);
+    } catch (error) {
+      console.error("Gagal menambah event:", error);
+    }
   };
 
   return { events, addEvent };

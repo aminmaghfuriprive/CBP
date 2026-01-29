@@ -1,10 +1,18 @@
+
 "use client";
 
 import React from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { useAuth } from '@cbp/core';
-import { LayoutDashboard, Users, FileText, MessageSquare, LogOut, Shield, FolderOpen, Calendar, CalendarClock, DollarSign } from 'lucide-react';
+import { useAuth, UserRole } from '@cbp/core';
+import { LayoutDashboard, Users, FileText, MessageSquare, LogOut, Shield, FolderOpen, Calendar, CalendarClock, DollarSign, Settings } from 'lucide-react';
+
+interface MenuItem {
+  label: string;
+  path: string;
+  icon: React.ElementType;
+  roles: UserRole[]; // Siapa saja yang boleh lihat menu ini
+}
 
 export const Sidebar: React.FC = () => {
   const pathname = usePathname();
@@ -16,19 +24,61 @@ export const Sidebar: React.FC = () => {
     router.push('/login');
   };
 
-  const adminItems = [
-    { label: 'Dashboard', path: '/app', icon: LayoutDashboard },
-    { label: 'Manajemen Kasus', path: '/app/cases', icon: FileText },
-    { label: 'Manajemen Booking', path: '/app/bookings', icon: CalendarClock },
-    { label: 'Database Klien', path: '/app/clients', icon: Users },
-    { label: 'Dokumen', path: '/app/documents', icon: FolderOpen },
-    { label: 'Jadwal', path: '/app/schedule', icon: Calendar },
-    { label: 'Keuangan', path: '/app/finance', icon: DollarSign },
-    { label: 'Asisten AI', path: '/app/assistant', icon: MessageSquare },
+  const menuItems: MenuItem[] = [
+    { 
+      label: 'Dashboard', 
+      path: '/app', 
+      icon: LayoutDashboard, 
+      roles: ['SUPER_ADMIN', 'FINANCE', 'LEGAL_STAFF', 'IT_ADMIN'] 
+    },
+    { 
+      label: 'Manajemen Kasus', 
+      path: '/app/cases', 
+      icon: FileText, 
+      roles: ['SUPER_ADMIN', 'LEGAL_STAFF'] 
+    },
+    { 
+      label: 'Booking & Jadwal', 
+      path: '/app/bookings', 
+      icon: CalendarClock, 
+      roles: ['SUPER_ADMIN', 'LEGAL_STAFF', 'IT_ADMIN'] 
+    },
+    { 
+      label: 'Database Klien', 
+      path: '/app/clients', 
+      icon: Users, 
+      roles: ['SUPER_ADMIN', 'LEGAL_STAFF', 'FINANCE'] 
+    },
+    { 
+      label: 'Dokumen', 
+      path: '/app/documents', 
+      icon: FolderOpen, 
+      roles: ['SUPER_ADMIN', 'LEGAL_STAFF'] 
+    },
+    { 
+      label: 'Keuangan', 
+      path: '/app/finance', 
+      icon: DollarSign, 
+      roles: ['SUPER_ADMIN', 'FINANCE'] 
+    },
+    { 
+      label: 'Konten Website', 
+      path: '/app/cms', // Placeholder for CMS
+      icon: Settings, 
+      roles: ['SUPER_ADMIN', 'IT_ADMIN'] 
+    },
+    { 
+      label: 'Asisten AI', 
+      path: '/app/assistant', 
+      icon: MessageSquare, 
+      roles: ['SUPER_ADMIN', 'LEGAL_STAFF'] 
+    },
   ];
 
-  // SysLegal is now strictly for Admin/Staff
-  const items = adminItems;
+  // Filter menu items based on user role
+  const allowedItems = menuItems.filter(item => 
+    user && item.roles.includes(user.role)
+  );
 
   return (
     <div className="hidden md:flex flex-col w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 h-screen fixed left-0 top-0 z-40 transition-colors duration-300">
@@ -51,15 +101,17 @@ export const Sidebar: React.FC = () => {
           </div>
           <div className="overflow-hidden">
             <h4 className="text-sm font-bold text-slate-900 dark:text-slate-200 truncate">{user?.name}</h4>
-            <p className="text-xs text-slate-500 dark:text-slate-500 truncate">{user?.role}</p>
+            <p className="text-xs text-slate-500 dark:text-slate-500 truncate font-mono">
+              {user?.role.replace('_', ' ')}
+            </p>
           </div>
         </div>
       </div>
       
       <div className="flex-1 overflow-y-auto py-6 px-3 space-y-1 scrollbar-hide">
-        <p className="px-4 text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-3">Menu Internal</p>
-        {items.map((item) => {
-          const isActive = pathname === item.path;
+        <p className="px-4 text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-3">Menu Akses</p>
+        {allowedItems.map((item) => {
+          const isActive = pathname === item.path || pathname.startsWith(`${item.path}/`);
           return (
             <Link
               key={item.path}

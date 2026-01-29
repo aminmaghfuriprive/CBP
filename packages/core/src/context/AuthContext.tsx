@@ -1,12 +1,14 @@
+
 "use client";
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { User, UserRole } from '../types';
+import { MOCK_USERS_DB } from '../data/mock_users';
 
 interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
-  login: (email: string, role: UserRole) => Promise<boolean>;
+  login: (email: string, role?: UserRole) => Promise<boolean>;
   logout: () => void;
   isLoading: boolean;
 }
@@ -26,24 +28,40 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setIsLoading(false);
   }, []);
 
-  const login = async (email: string, role: UserRole): Promise<boolean> => {
-    // Mock login logic - in real app, this hits an API
+  const login = async (email: string, role?: UserRole): Promise<boolean> => {
+    // Mock login logic with RBAC
     return new Promise((resolve) => {
       setTimeout(() => {
-        const mockUser: User = {
-          id: role === 'ADMIN' ? 'u_admin' : 'u_client',
-          name: role === 'ADMIN' ? 'Chandra B. Prakoso' : 'Budi Santoso',
-          email: email,
-          role: role,
-          avatarUrl: role === 'ADMIN' 
-            ? 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=400'
-            : undefined
-        };
+        // 1. Cari user di Mock DB berdasarkan email
+        let foundUser = MOCK_USERS_DB.find(u => u.email.toLowerCase() === email.toLowerCase());
+
+        // 2. Jika tidak ketemu (untuk testing bebas), buat mock user on the fly sesuai role yg direquest
+        if (!foundUser) {
+           // Default fallback logic for demo purposes if email not in mock DB
+           if (role === 'CLIENT') {
+             foundUser = {
+               id: `u_${Date.now()}`,
+               name: 'Klien Demo',
+               email: email,
+               role: 'CLIENT',
+               division: null
+             };
+           } else {
+             // Default to Legal Staff if logging into admin panel with unknown email
+             foundUser = {
+               id: `u_${Date.now()}`,
+               name: 'Staf Demo',
+               email: email,
+               role: 'LEGAL_STAFF',
+               division: 'CHRISTIAN_LAW_FIRM'
+             };
+           }
+        }
         
-        setUser(mockUser);
-        localStorage.setItem('cbp_user', JSON.stringify(mockUser));
+        setUser(foundUser);
+        localStorage.setItem('cbp_user', JSON.stringify(foundUser));
         resolve(true);
-      }, 800); // Simulate network delay
+      }, 800); 
     });
   };
 

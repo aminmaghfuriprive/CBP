@@ -1,22 +1,30 @@
 "use client";
 
-import { useState } from 'react';
+import { useLiveQuery } from 'dexie-react-hooks';
 import { Invoice } from '../types';
-import { MOCK_INVOICES } from '../data/mock_finance';
+import { db } from '../db';
 import { useNotifications } from '../context/NotificationContext';
 
 export const useFinanceLogic = () => {
-  const [invoices, setInvoices] = useState<Invoice[]>(MOCK_INVOICES);
+  const invoices = useLiveQuery(() => db.invoices.toArray()) || [];
   const { addNotification } = useNotifications();
 
-  const addInvoice = (invoice: Invoice) => {
-    setInvoices(prev => [invoice, ...prev]);
-    addNotification('Invoice Dibuat', `Tagihan untuk ${invoice.clientName} telah diterbitkan.`, 'success');
+  const addInvoice = async (invoice: Invoice) => {
+    try {
+      await db.invoices.add(invoice);
+      addNotification('Invoice Dibuat', `Tagihan untuk ${invoice.clientName} diterbitkan.`, 'success');
+    } catch (error) {
+      addNotification('Error', 'Gagal membuat invoice.', 'warning');
+    }
   };
 
-  const updateInvoiceStatus = (id: string, status: Invoice['status']) => {
-    setInvoices(prev => prev.map(inv => inv.id === id ? { ...inv, status } : inv));
-    addNotification('Status Invoice Diperbarui', `Status tagihan telah diubah menjadi ${status}.`, 'info');
+  const updateInvoiceStatus = async (id: string, status: Invoice['status']) => {
+    try {
+      await db.invoices.update(id, { status });
+      addNotification('Status Diperbarui', `Tagihan diubah menjadi ${status}.`, 'info');
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return { invoices, addInvoice, updateInvoiceStatus };

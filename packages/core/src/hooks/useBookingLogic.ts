@@ -1,18 +1,22 @@
 "use client";
 
-import { useState } from 'react';
+import { useLiveQuery } from 'dexie-react-hooks';
 import { Booking } from '../types';
-import { MOCK_BOOKINGS } from '../data/mock_calendar';
+import { db } from '../db';
 import { useNotifications } from '../context/NotificationContext';
 
 export const useBookingLogic = () => {
-  const [bookings, setBookings] = useState<Booking[]>(MOCK_BOOKINGS);
+  const bookings = useLiveQuery(() => db.bookings.toArray()) || [];
   const { addNotification } = useNotifications();
 
-  const updateBookingStatus = (id: string, status: Booking['status']) => {
-    setBookings(prev => prev.map(b => b.id === id ? { ...b, status } : b));
-    if (status === 'Rejected') {
-      addNotification('Booking Ditolak', 'Status booking telah diperbarui.', 'info');
+  const updateBookingStatus = async (id: string, status: Booking['status']) => {
+    try {
+      await db.bookings.update(id, { status });
+      if (status === 'Rejected') {
+        addNotification('Booking Ditolak', 'Status booking telah diperbarui.', 'info');
+      }
+    } catch (error) {
+      console.error("Gagal update booking:", error);
     }
   };
 

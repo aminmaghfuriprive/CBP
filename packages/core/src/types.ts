@@ -1,3 +1,4 @@
+
 export interface ServiceItem {
   id: string;
   title: string;
@@ -91,13 +92,29 @@ export enum AppView {
   DASHBOARD = 'DASHBOARD'
 }
 
-export type UserRole = 'ADMIN' | 'CLIENT';
+// UPDATE: Granular Roles based on PDF
+export type UserRole = 
+  | 'SUPER_ADMIN'   // Owner (Dr. Christian)
+  | 'FINANCE'       // Clara
+  | 'LEGAL_STAFF'   // Saumita, Yevita, Izatil, Khrisna, Imam
+  | 'IT_ADMIN'      // Jamiun
+  | 'CLIENT';       // Customers
+
+export type Division = 
+  | 'CHRISTIAN_LAW_FIRM' 
+  | 'SAHABAT_IJINKU' 
+  | 'CBP_LEGAL_SERVICE' 
+  | 'TANAH' 
+  | 'FINANCE'
+  | 'IT'
+  | null; // For Super Admin or Client
 
 export interface User {
   id: string;
   name: string;
   email: string;
   role: UserRole;
+  division: Division;
   avatarUrl?: string;
 }
 
