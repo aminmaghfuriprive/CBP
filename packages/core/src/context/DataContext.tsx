@@ -1,3 +1,5 @@
+"use client";
+
 import React, { createContext, useContext, useState } from 'react';
 import { CaseData, Booking, CalendarEvent, DocumentFile, Invoice } from '../types';
 import { MOCK_CASES, MOCK_BOOKINGS, EVENTS, DOCUMENTS, MOCK_INVOICES, SERVICES } from '../constants';
