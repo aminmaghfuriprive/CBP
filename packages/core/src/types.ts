@@ -1,12 +1,20 @@
 
+export interface ServiceStep {
+  id: string;
+  phase: string; // e.g., "Persiapan", "Eksekusi", "Finalisasi"
+  task: string;
+  estimatedDays: number;
+}
+
 export interface ServiceItem {
   id: string;
   title: string;
   description: string;
   iconName: string;
   division: 'Christian Law Firm' | 'Sahabat Ijinku' | 'CBP Legal Service';
-  basePrice?: number; // Tambahan untuk manajemen harga
-  isActive?: boolean; // Tambahan untuk enable/disable layanan
+  basePrice?: number;
+  isActive?: boolean;
+  sop?: ServiceStep[]; // Tambahan modul SOP
 }
 
 export interface Lawyer {
