@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect } from 'react';
@@ -20,6 +21,9 @@ export const Navbar: React.FC = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Sembunyikan Navbar publik jika berada di dalam portal klien
+  if (pathname && pathname.startsWith('/portal')) return null;
 
   const navLinks = [
     { name: 'Beranda', path: '/' },

@@ -3,9 +3,15 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Shield, Mail, Phone, MapPin, Instagram, Linkedin, Facebook } from 'lucide-react';
 
 export const Footer: React.FC = () => {
+  const pathname = usePathname();
+
+  // Sembunyikan Footer publik jika berada di dalam portal klien
+  if (pathname && pathname.startsWith('/portal')) return null;
+
   return (
     <footer className="bg-cbp-navy dark:bg-slate-950 text-white pt-20 pb-10 border-t border-slate-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -92,4 +98,3 @@ export const Footer: React.FC = () => {
     </footer>
   );
 };
-    
