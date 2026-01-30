@@ -7,7 +7,7 @@ import { useLiveQuery } from 'dexie-react-hooks';
 import { db, ServiceItem, useServiceLogic } from '@cbp/core';
 import { Button, Card, Badge, PageHeader } from '@cbp/ui';
 import { ArrowLeft, Briefcase, DollarSign, FileText, Save, Trash2, Globe } from 'lucide-react';
-import { ServiceSOPManager } from '../../../src/components/services/ServiceSOPManager';
+import { ServiceSOPManager } from '@/components/services/ServiceSOPManager';
 
 export default function ServiceDetailPage() {
   const params = useParams();
