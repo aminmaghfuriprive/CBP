@@ -11,7 +11,13 @@ export * from './db';
 // Hooks
 export * from './hooks/useServiceLogic';
 export * from './hooks/useContentLogic';
-export * from './hooks/useServiceCatalog'; // <-- Export baru
+export * from './hooks/useServiceCatalog';
+export * from './hooks/useAgendaSchedule'; // Export Hook Step 2
+export * from './hooks/useBookingManager'; // Export Hook Step 2
+
+// Utils (New in Step 4)
+export * from './utils/formatters';
+export * from './utils/mappers';
 
 // Export Data Modules
 export * from './data/services';
