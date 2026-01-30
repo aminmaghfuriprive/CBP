@@ -25,8 +25,7 @@ export * from './hooks/useOmnichannelLogic';
 export * from './hooks/useAttendanceLogic';
 export * from './hooks/usePayrollLogic';
 export * from './hooks/useRoleLogic';
-export * from './hooks/useGoogleBusinessLogic';
-export * from './hooks/useAyrshareLogic'; // New Hook
+export * from './hooks/useAyrshareLogic';
 
 // Utils
 export * from './utils/formatters';
@@ -41,5 +40,4 @@ export * from './data/mock_content';
 export * from './data/mock_calendar';
 export * from './data/mock_social';
 export * from './data/mock_templates';
-export * from './data/mock_gbp'; 
-export * from './data/mock_ayrshare'; // New Data
+export * from './data/mock_ayrshare';

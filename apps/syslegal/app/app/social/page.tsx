@@ -8,13 +8,12 @@ import { ConnectedAccountsView } from '../../../src/components/social/organisms/
 import { PostComposer } from '../../../src/components/social/molecules/PostComposer';
 import { SocialFeedView } from '../../../src/components/social/organisms/SocialFeedView';
 import { OmnichannelView } from '../../../src/components/omnichannel/OmnichannelView';
-import { GBPIntegrationView } from '../../../src/components/gbp/GBPIntegrationView';
 import { AyrshareIntegrationView } from '../../../src/components/ayrshare/AyrshareIntegrationView';
-import { MessageSquare, Share2, MapPin, Radio } from 'lucide-react';
+import { MessageSquare, Share2, Radio } from 'lucide-react';
 
 export default function SocialMediaPage() {
   const { accounts, posts, toggleConnection, createPost } = useSocialMediaLogic();
-  const [activeTab, setActiveTab] = useState<'social' | 'inbox' | 'google' | 'ayrshare'>('social');
+  const [activeTab, setActiveTab] = useState<'social' | 'inbox' | 'ayrshare'>('social');
 
   // Filter connected platforms for composer
   const connectedPlatforms = accounts.filter(a => a.isConnected).map(a => a.platform);
@@ -23,7 +22,7 @@ export default function SocialMediaPage() {
     <div className="h-full flex flex-col">
       <PageHeader 
         title="Sosial & Komunikasi" 
-        subtitle="Kelola media sosial, Google Business, integrasi API, dan pesan masuk." 
+        subtitle="Kelola media sosial terpadu, integrasi API Ayrshare, dan pesan masuk." 
       />
 
       {/* Tabs */}
@@ -38,18 +37,6 @@ export default function SocialMediaPage() {
         >
           <Share2 className="h-4 w-4" /> Media Sosial
           {activeTab === 'social' && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-cbp-gold rounded-t-full"></div>}
-        </button>
-
-        <button
-          onClick={() => setActiveTab('google')}
-          className={`pb-3 px-2 text-sm font-bold flex items-center gap-2 transition-all relative whitespace-nowrap ${
-            activeTab === 'google' 
-              ? 'text-cbp-navy dark:text-cbp-gold' 
-              : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
-          }`}
-        >
-          <MapPin className="h-4 w-4" /> Google Business
-          {activeTab === 'google' && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-cbp-gold rounded-t-full"></div>}
         </button>
 
         <button
@@ -103,12 +90,6 @@ export default function SocialMediaPage() {
                 </div>
               </div>
             </div>
-        )}
-
-        {activeTab === 'google' && (
-           <div className="max-w-6xl mx-auto pb-10">
-             <GBPIntegrationView />
-           </div>
         )}
 
         {activeTab === 'ayrshare' && (

@@ -16,7 +16,7 @@ interface ServiceModalProps {
 export const ServiceModal: React.FC<ServiceModalProps> = ({ isOpen, onClose, onSave, initialData }) => {
   const [formData, setFormData] = useState<Partial<ServiceItem>>({
     title: '',
-    division: 'Legal Administratif & Korporasi', // Updated default value
+    division: 'Legal Administratif & Korporasi',
     basePrice: 0,
     description: '',
     isActive: true,
@@ -29,7 +29,7 @@ export const ServiceModal: React.FC<ServiceModalProps> = ({ isOpen, onClose, onS
     } else {
       setFormData({
         title: '',
-        division: 'Legal Administratif & Korporasi', // Updated default value
+        division: 'Legal Administratif & Korporasi',
         basePrice: 0,
         description: '',
         isActive: true,
@@ -49,7 +49,7 @@ export const ServiceModal: React.FC<ServiceModalProps> = ({ isOpen, onClose, onS
       division: formData.division as any,
       basePrice: Number(formData.basePrice) || 0,
       iconName: formData.iconName || 'Scale',
-      isActive: formData.isActive
+      isActive: formData.isActive ?? true // Fix: Provide default boolean value
     };
     onSave(serviceToSave);
     onClose();
