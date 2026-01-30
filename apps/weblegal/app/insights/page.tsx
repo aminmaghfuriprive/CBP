@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { ARTICLES } from '@cbp/core';
 import { Card } from '@cbp/ui';
@@ -6,8 +7,8 @@ import Image from 'next/image';
 
 export default function Insights() {
   return (
-    <div className="bg-slate-50 dark:bg-slate-950 min-h-screen transition-colors duration-300 pt-20">
-      <div className="bg-cbp-navy dark:bg-slate-900 py-24 text-center text-white">
+    <div className="bg-slate-50 dark:bg-slate-950 min-h-screen transition-colors duration-300">
+      <div className="bg-cbp-navy dark:bg-slate-900 pt-32 pb-24 text-center text-white">
         <div className="max-w-4xl mx-auto px-4">
           <h1 className="text-4xl md:text-5xl font-serif font-bold mb-6">Wawasan Hukum</h1>
           <p className="text-slate-300 text-lg md:text-xl">Analisis mendalam dan berita terbaru seputar dunia hukum Indonesia.</p>

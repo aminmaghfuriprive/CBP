@@ -30,16 +30,12 @@ export const Navbar: React.FC = () => {
     { name: 'Hubungi', path: '/contact' },
   ];
 
-  // LOGIKA BACKGROUND HEADER
-  const isHomePage = pathname === '/';
-  
-  // Jika Homepage: Transparan di atas, Gelap saat scroll
-  // Jika Halaman Lain: Selalu Gelap (agar teks putih terbaca di background apapun)
-  const navBg = isHomePage 
-    ? (scrolled ? 'bg-slate-950/90 backdrop-blur-md shadow-lg py-4 border-b border-white/10' : 'bg-transparent py-6')
-    : 'bg-slate-950 shadow-lg py-4 border-b border-white/10'; // Solid dark for inner pages
+  // Logic: Transparent at top, Dark when scrolled.
+  // We rely on ALL pages having a dark hero section at the top.
+  const navBg = scrolled 
+    ? 'bg-slate-950/90 backdrop-blur-md shadow-lg py-4 border-b border-white/10' 
+    : 'bg-transparent py-6';
 
-  // Force text colors using !important to override any theme defaults
   const textColor = 'text-slate-200 hover:text-white';
   const activeColor = 'text-cbp-gold font-bold';
 
@@ -48,10 +44,10 @@ export const Navbar: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
           <Link href="/" className="flex items-center gap-2 group">
-            <Shield className={`h-8 w-8 transition-colors ${scrolled || !isHomePage ? 'text-cbp-gold' : 'text-white group-hover:text-cbp-gold'}`} />
+            <Shield className={`h-8 w-8 transition-colors ${scrolled ? 'text-cbp-gold' : 'text-white group-hover:text-cbp-gold'}`} />
             <div>
               <span className="block font-serif font-bold text-xl leading-none tracking-tight text-white">CBP Corp</span>
-              <span className={`block text-[10px] font-bold uppercase tracking-widest transition-colors ${scrolled || !isHomePage ? 'text-cbp-gold' : 'text-slate-300'}`}>Legal Firm</span>
+              <span className={`block text-[10px] font-bold uppercase tracking-widest transition-colors ${scrolled ? 'text-cbp-gold' : 'text-slate-300'}`}>Legal Firm</span>
             </div>
           </Link>
 
@@ -68,7 +64,6 @@ export const Navbar: React.FC = () => {
             
             <div className="h-6 w-px bg-white/20"></div>
             
-            {/* Theme Toggle forced to dark style (Transparent/White) regardless of theme */}
             <ThemeToggle className="!bg-white/10 !text-white hover:!bg-white/20 !border-transparent" />
             
             {isAuthenticated && user?.role === 'CLIENT' ? (
@@ -96,7 +91,7 @@ export const Navbar: React.FC = () => {
         </div>
       </div>
 
-      {/* Mobile Menu - Always Dark */}
+      {/* Mobile Menu */}
       {isOpen && (
         <div className="md:hidden absolute top-full left-0 w-full bg-slate-950 border-t border-white/10 shadow-xl py-4 px-4 flex flex-col gap-4 animate-in slide-in-from-top-5 duration-200">
           {navLinks.map((link) => (
