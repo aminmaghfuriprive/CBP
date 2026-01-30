@@ -2,7 +2,7 @@
 "use client";
 
 import React, { createContext, useContext } from 'react';
-import { CaseData, Booking, CalendarEvent, DocumentFile, Invoice, ClientData, User, Conversation, Message, AttendanceRecord } from '../types';
+import { CaseData, Booking, CalendarEvent, DocumentFile, Invoice, ClientData, User, Conversation, Message, AttendanceRecord, PayrollSlip } from '../types';
 import { SERVICES } from '../data/services';
 import { useNotifications } from './NotificationContext';
 import { useAuth } from './AuthContext';
@@ -15,6 +15,7 @@ import { useClientLogic } from '../hooks/useClientLogic';
 import { useEmployeeLogic } from '../hooks/useEmployeeLogic';
 import { useOmnichannelLogic } from '../hooks/useOmnichannelLogic';
 import { useAttendanceLogic } from '../hooks/useAttendanceLogic';
+import { usePayrollLogic } from '../hooks/usePayrollLogic';
 
 interface DataContextType {
   cases: CaseData[];
@@ -37,6 +38,11 @@ interface DataContextType {
   todayRecord: AttendanceRecord | undefined;
   clockIn: () => Promise<void>;
   clockOut: () => Promise<void>;
+
+  // Payroll
+  payrolls: PayrollSlip[];
+  createSlip: (slip: PayrollSlip) => Promise<void>;
+  markAsPaid: (id: string) => Promise<void>;
 
   addCase: (newCase: CaseData) => void;
   addBooking: (booking: Booking) => void;
@@ -65,6 +71,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   const { employees, addEmployee, updateEmployee, deleteEmployee } = useEmployeeLogic();
   const { conversations, activeMessages, selectedConversationId, selectConversation, sendMessage } = useOmnichannelLogic();
   const { attendanceHistory, todayRecord, clockIn, clockOut } = useAttendanceLogic(user);
+  const { payrolls, createSlip, markAsPaid } = usePayrollLogic();
   const { addNotification } = useNotifications();
 
   const handleUpdateBooking = (id: string, status: Booking['status']) => {
@@ -107,6 +114,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
       cases, bookings, events, documents, invoices, clients, employees,
       conversations, activeMessages, selectedConversationId, selectConversation, sendMessage,
       attendanceHistory, todayRecord, clockIn, clockOut,
+      payrolls, createSlip, markAsPaid,
       addCase, addBooking, updateBookingStatus: handleUpdateBooking, addEvent, 
       addDocument, deleteDocument, addInvoice, updateInvoiceStatus, addClient,
       addEmployee, updateEmployee, deleteEmployee

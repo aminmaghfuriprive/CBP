@@ -195,3 +195,17 @@ export interface AttendanceRecord {
   status: 'Present' | 'Late' | 'Absent' | 'Leave';
   notes?: string;
 }
+
+// Payroll Types
+export interface PayrollSlip {
+  id: string;
+  employeeId: string;
+  employeeName: string;
+  period: string; // e.g., "Oktober 2023"
+  basicSalary: number;
+  allowances: number;
+  deductions: number;
+  netSalary: number;
+  status: 'Draft' | 'Paid';
+  paymentDate?: string;
+}

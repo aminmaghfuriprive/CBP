@@ -1,6 +1,6 @@
 
 import Dexie, { type Table } from 'dexie';
-import { CaseData, Booking, CalendarEvent, DocumentFile, Invoice, ServiceItem, Article, ClientData, User, Conversation, Message, AttendanceRecord } from '../types';
+import { CaseData, Booking, CalendarEvent, DocumentFile, Invoice, ServiceItem, Article, ClientData, User, Conversation, Message, AttendanceRecord, PayrollSlip } from '../types';
 import { MOCK_CASES } from '../data/mock_cases';
 import { MOCK_BOOKINGS, EVENTS } from '../data/mock_calendar';
 import { DOCUMENTS, ARTICLES } from '../data/mock_content';
@@ -8,6 +8,7 @@ import { MOCK_INVOICES } from '../data/mock_finance';
 import { SERVICES } from '../data/services';
 import { CLIENTS, MOCK_USERS_DB } from '../data/mock_users';
 import { MOCK_CONVERSATIONS, MOCK_MESSAGES } from '../data/mock_omnichannel';
+import { MOCK_PAYROLL } from '../data/mock_payroll';
 
 export class CBPDatabase extends Dexie {
   cases!: Table<CaseData, string>;
@@ -22,11 +23,12 @@ export class CBPDatabase extends Dexie {
   conversations!: Table<Conversation, string>;
   messages!: Table<Message, string>;
   attendance!: Table<AttendanceRecord, string>;
+  payroll!: Table<PayrollSlip, string>;
 
   constructor() {
     super('CBPDatabase');
     
-    // Previous versions omitted for brevity...
+    // Previous versions
     (this as any).version(1).stores({
       cases: 'id, status, clientName, division',
       bookings: 'id, status, date',
@@ -35,21 +37,6 @@ export class CBPDatabase extends Dexie {
       invoices: 'id, status, clientName'
     });
     
-    (this as any).version(8).stores({
-      cases: 'id, status, clientName, division',
-      bookings: 'id, status, date',
-      events: 'id, date, type, client',
-      documents: 'id, category, type',
-      invoices: 'id, status, clientName',
-      services: 'id, division, title', 
-      articles: 'id, category, date',
-      clients: 'id, name, industry',
-      users: 'id, name, email, role, division',
-      conversations: 'id, channel, lastMessage',
-      messages: 'id, conversationId, timestamp'
-    });
-
-    // Version 9: Attendance
     (this as any).version(9).stores({
       cases: 'id, status, clientName, division',
       bookings: 'id, status, date',
@@ -65,6 +52,26 @@ export class CBPDatabase extends Dexie {
       attendance: 'id, userId, date, status'
     });
 
+    // Version 10: Payroll
+    (this as any).version(10).stores({
+      cases: 'id, status, clientName, division',
+      bookings: 'id, status, date',
+      events: 'id, date, type, client',
+      documents: 'id, category, type',
+      invoices: 'id, status, clientName',
+      services: 'id, division, title', 
+      articles: 'id, category, date',
+      clients: 'id, name, industry',
+      users: 'id, name, email, role, division',
+      conversations: 'id, channel, lastMessage',
+      messages: 'id, conversationId, timestamp',
+      attendance: 'id, userId, date, status',
+      payroll: 'id, employeeId, period, status'
+    }).upgrade(async (trans: any) => {
+       await trans.table('payroll').clear();
+       await trans.table('payroll').bulkAdd(MOCK_PAYROLL);
+    });
+
     // Populate data
     (this as any).on('populate', () => {
       this.cases.bulkAdd(MOCK_CASES);
@@ -78,6 +85,7 @@ export class CBPDatabase extends Dexie {
       this.users.bulkAdd(MOCK_USERS_DB);
       this.conversations.bulkAdd(MOCK_CONVERSATIONS);
       this.messages.bulkAdd(MOCK_MESSAGES);
+      this.payroll.bulkAdd(MOCK_PAYROLL);
     });
   }
 }
