@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { useServiceCatalog, ServiceItem } from '@cbp/core';
+import { useServiceCatalog, ServiceItem, ServiceDivision } from '@cbp/core';
 import { ServiceCardPublic } from './ServiceCardPublic';
 import { ServiceAnchorNav } from './ServiceAnchorNav';
 import { Loader2, MessageSquare, ArrowRight } from 'lucide-react';
@@ -33,7 +33,8 @@ export const ServicePublicCatalog: React.FC<ServicePublicCatalogProps> = ({ onSe
   }
 
   // Filter layanan berdasarkan tab aktif, dan ambil max 6
-  const currentServices = groupedServices[activeTab as any] || [];
+  // Type assertion: activeTab is validated by UI flow to be one of the divisions (keys of GroupedServices)
+  const currentServices = groupedServices[activeTab as ServiceDivision] || [];
   const displayServices = currentServices.slice(0, 6);
 
   return (
