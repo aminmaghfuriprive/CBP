@@ -1,7 +1,8 @@
+
 {
   "files": [],
   "references": [
-    { "path": "./apps/compro" },
+    { "path": "./apps/weblegal" },
     { "path": "./apps/syslegal" },
     { "path": "./packages/core" },
     { "path": "./packages/ui" }

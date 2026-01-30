@@ -1,3 +1,4 @@
+
 # CBP Corp - Integrated Legal System
 
 Project ini menggunakan struktur **Monorepo** dengan Turborepo.
@@ -5,7 +6,7 @@ Project ini menggunakan struktur **Monorepo** dengan Turborepo.
 ## Struktur Project
 
 ### Apps
-* **`apps/compro`**: Website Company Profile (Public Facing) - Port 3000. Dikenal juga sebagai `cbp-compro`.
+* **`apps/weblegal`**: Website Company Profile (Public Facing) - Port 3000. Dikenal juga sebagai `cbp-weblegal`.
 * **`apps/syslegal`**: Sistem Manajemen Unit Bisnis Legal (Internal & Client Portal) - Port 3001. Dikenal juga sebagai `cbp-syslegal`.
 
 ### Packages
@@ -23,7 +24,7 @@ Project ini menggunakan struktur **Monorepo** dengan Turborepo.
    ```bash
    npm run dev
    ```
-   Perintah ini akan menjalankan Website (Compro) dan SysLegal secara bersamaan.
+   Perintah ini akan menjalankan Website (Weblegal) dan SysLegal secara bersamaan.
 
 3. **Build Production**
    ```bash

@@ -3,13 +3,13 @@
 
 echo "=== MEMULAI PEMBERSIHAN FILE LEGACY ==="
 
-# --- COMPRO CLEANUP ---
-echo "Membersihkan apps/compro..."
-rm -f apps/compro/index.html
-rm -f apps/compro/vite.config.ts
-rm -f apps/compro/src/main.tsx
-rm -f apps/compro/src/App.tsx
-rm -rf apps/compro/src/pages
+# --- WEBLEGAL CLEANUP ---
+echo "Membersihkan apps/weblegal..."
+rm -f apps/weblegal/index.html
+rm -f apps/weblegal/vite.config.ts
+rm -f apps/weblegal/src/main.tsx
+rm -f apps/weblegal/src/App.tsx
+rm -rf apps/weblegal/src/pages
 
 # --- SYSLEGAL CLEANUP ---
 echo "Membersihkan apps/syslegal..."
