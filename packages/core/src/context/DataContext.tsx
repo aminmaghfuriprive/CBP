@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { createContext, useContext } from 'react';
@@ -42,7 +43,8 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
       const booking = bookings.find(b => b.id === id);
       if (booking) {
         const service = SERVICES.find(s => s.title === booking.serviceType);
-        const division = service?.division || 'Christian Law Firm';
+        // Fallback ke divisi umum jika service tidak ditemukan
+        const division = service?.division || 'Legal Administratif & Korporasi';
 
         const newCase: CaseData = {
           id: `c${Date.now()}`,

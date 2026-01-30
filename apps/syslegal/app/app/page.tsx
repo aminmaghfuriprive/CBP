@@ -5,7 +5,7 @@ import React from 'react';
 import { useData, useAuth, useTheme } from '@cbp/core';
 import { Card, CardHeader, PageHeader, StatCard } from '@cbp/ui';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
-import { Briefcase, CheckCircle, AlertCircle, Calendar, DollarSign, AlertTriangle, MapPin, Clock, Navigation } from 'lucide-react';
+import { Briefcase, CheckCircle, AlertCircle, Calendar, DollarSign, AlertTriangle, MapPin, Navigation } from 'lucide-react';
 import Link from 'next/link';
 
 export default function DashboardPage() {
@@ -100,10 +100,12 @@ export default function DashboardPage() {
       (e.type === 'Sidang' || e.type === 'Deadline') && new Date(e.date) >= new Date()
     ).slice(0, 3);
 
+    // Update Chart Data untuk 4 Divisi Baru
     const chartData = [
-      { name: 'Legal Service', kasus: cases.filter(c => c.division === 'CBP Legal Service').length }, 
-      { name: 'Law Firm', kasus: cases.filter(c => c.division === 'Christian Law Firm').length }, 
-      { name: 'Sahabat Ijinku', kasus: cases.filter(c => c.division === 'Sahabat Ijinku').length },
+      { name: 'Korporasi', kasus: cases.filter(c => c.division === 'Legal Administratif & Korporasi').length }, 
+      { name: 'Litigasi', kasus: cases.filter(c => c.division === 'Hukum Umum & Litigasi').length }, 
+      { name: 'Perizinan', kasus: cases.filter(c => c.division === 'Perizinan & Bisnis').length },
+      { name: 'Agraria', kasus: cases.filter(c => c.division === 'Pertanahan & Agraria').length },
     ];
 
     return (
@@ -143,14 +145,14 @@ export default function DashboardPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <Card className="lg:col-span-2">
-            <CardHeader title="Distribusi Kasus" subtitle="Berdasarkan unit bisnis" />
+            <CardHeader title="Distribusi Divisi" subtitle="Beban kerja per divisi" />
             <div className="h-64">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={chartData} layout="vertical">
                   <XAxis type="number" hide />
-                  <YAxis dataKey="name" type="category" width={120} stroke={theme === 'dark' ? '#94a3b8' : '#64748b'} fontSize={12} tickLine={false} axisLine={false} />
+                  <YAxis dataKey="name" type="category" width={100} stroke={theme === 'dark' ? '#94a3b8' : '#64748b'} fontSize={11} tickLine={false} axisLine={false} />
                   <Tooltip cursor={{fill: 'transparent'}} contentStyle={{backgroundColor: theme === 'dark' ? '#1e293b' : '#fff', borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'}} />
-                  <Bar dataKey="kasus" barSize={20} radius={[0, 4, 4, 0]}>
+                  <Bar dataKey="kasus" barSize={15} radius={[0, 4, 4, 0]}>
                     {chartData.map((_, index) => <Cell key={index} fill={theme === 'dark' ? '#d4af37' : '#0f172a'} />)}
                   </Bar>
                 </BarChart>

@@ -16,7 +16,7 @@ interface ServiceModalProps {
 export const ServiceModal: React.FC<ServiceModalProps> = ({ isOpen, onClose, onSave, initialData }) => {
   const [formData, setFormData] = useState<Partial<ServiceItem>>({
     title: '',
-    division: 'Christian Law Firm',
+    division: 'Legal Administratif & Korporasi', // Updated default value
     basePrice: 0,
     description: '',
     isActive: true,
@@ -29,7 +29,7 @@ export const ServiceModal: React.FC<ServiceModalProps> = ({ isOpen, onClose, onS
     } else {
       setFormData({
         title: '',
-        division: 'Christian Law Firm',
+        division: 'Legal Administratif & Korporasi', // Updated default value
         basePrice: 0,
         description: '',
         isActive: true,
@@ -84,13 +84,14 @@ export const ServiceModal: React.FC<ServiceModalProps> = ({ isOpen, onClose, onS
             <div>
               <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-1.5">Divisi</label>
               <select 
-                className="w-full px-4 py-2.5 border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-lg outline-none focus:ring-2 focus:ring-cbp-navy dark:focus:ring-cbp-gold dark:text-white"
+                className="w-full px-4 py-2.5 border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-lg outline-none focus:ring-2 focus:ring-cbp-navy dark:focus:ring-cbp-gold dark:text-white text-sm"
                 value={formData.division}
                 onChange={(e) => setFormData({...formData, division: e.target.value as any})}
               >
-                <option value="Christian Law Firm">Law Firm</option>
-                <option value="Sahabat Ijinku">Sahabat Ijinku</option>
-                <option value="CBP Legal Service">Legal Service</option>
+                <option value="Legal Administratif & Korporasi">Legal & Korporasi</option>
+                <option value="Hukum Umum & Litigasi">Litigasi & Umum</option>
+                <option value="Perizinan & Bisnis">Perizinan & Bisnis</option>
+                <option value="Pertanahan & Agraria">Pertanahan & Agraria</option>
               </select>
             </div>
             <div>

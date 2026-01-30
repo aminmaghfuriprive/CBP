@@ -1,3 +1,4 @@
+
 import { CaseData } from '../types';
 
 export const MOCK_CASES: CaseData[] = [
@@ -5,7 +6,7 @@ export const MOCK_CASES: CaseData[] = [
     id: 'case_001',
     clientName: 'PT. Maju Sejahtera',
     caseType: 'Pendirian PT Perorangan',
-    division: 'Sahabat Ijinku',
+    division: 'Legal Administratif & Korporasi',
     status: 'Aktif',
     currentStage: '8_produksi',
     lastUpdate: '2023-10-25',
@@ -15,7 +16,7 @@ export const MOCK_CASES: CaseData[] = [
     id: 'case_002',
     clientName: 'Bpk. Hartono',
     caseType: 'Sengketa Tanah Waris',
-    division: 'Christian Law Firm',
+    division: 'Hukum Umum & Litigasi',
     status: 'Aktif',
     currentStage: '4_penawaran',
     lastUpdate: '2023-10-24',
@@ -25,7 +26,7 @@ export const MOCK_CASES: CaseData[] = [
     id: 'case_003',
     clientName: 'CV. Kuliner Nusantara',
     caseType: 'Pendaftaran Merek',
-    division: 'Sahabat Ijinku',
+    division: 'Perizinan & Bisnis',
     status: 'Selesai',
     currentStage: '14_pengarsipan',
     lastUpdate: '2023-10-20',
@@ -35,7 +36,7 @@ export const MOCK_CASES: CaseData[] = [
     id: 'case_004',
     clientName: 'Ibu Ratna Sari',
     caseType: 'Penaikan HGB ke HM',
-    division: 'CBP Legal Service',
+    division: 'Pertanahan & Agraria',
     status: 'Aktif',
     currentStage: '10_monitoring',
     lastUpdate: '2023-10-26',
