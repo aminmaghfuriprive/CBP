@@ -3,7 +3,7 @@
 
 import React from 'react';
 import { useAgendaSchedule } from '../../hooks/useAgendaSchedule';
-import { AgendaEventCard } from './molecules/AgendaEventCard';
+import { AgendaTable } from './molecules/AgendaTable';
 import { MiniCalendarWidget } from './molecules/MiniCalendarWidget';
 import { AgendaDailyStats } from './molecules/AgendaDailyStats';
 import { FilterBar } from './atoms/FilterBar';
@@ -29,18 +29,14 @@ export const ScheduleView: React.FC = () => {
           />
         </div>
         
-        {/* Event List */}
-        <div className="space-y-4">
-          {events.length > 0 ? (
-            events.map((event) => (
-              <AgendaEventCard key={event.id} event={event} />
-            ))
-          ) : (
-            <div className="p-12 text-center text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-900 rounded-lg border border-dashed border-slate-300 dark:border-slate-700">
-              <p>Tidak ada agenda untuk filter ini.</p>
-            </div>
-          )}
-        </div>
+        {/* Table View */}
+        {events.length > 0 ? (
+          <AgendaTable events={events} />
+        ) : (
+          <div className="p-12 text-center text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-900 rounded-lg border border-dashed border-slate-300 dark:border-slate-700">
+            <p>Tidak ada agenda untuk filter ini.</p>
+          </div>
+        )}
       </div>
 
       {/* Kolom Kanan: Sidebar Widget */}

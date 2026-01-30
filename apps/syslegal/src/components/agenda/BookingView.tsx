@@ -3,7 +3,7 @@
 
 import React from 'react';
 import { useBookingManager } from '../../hooks/useBookingManager';
-import { BookingRequestCard } from './molecules/BookingRequestCard';
+import { BookingTable } from './molecules/BookingTable';
 import { FilterBar } from './atoms/FilterBar';
 import { Filter } from 'lucide-react';
 
@@ -21,27 +21,22 @@ export const BookingView: React.FC = () => {
         />
       </div>
 
-      {/* Booking List */}
-      <div className="grid grid-cols-1 gap-4">
-        {bookings.length > 0 ? (
-          bookings.map((booking) => (
-            <BookingRequestCard 
-              key={booking.id} 
-              booking={booking}
-              onAccept={actions.accept}
-              onReject={actions.reject}
-              onDetail={actions.viewDetail}
-            />
-          ))
-        ) : (
-          <div className="text-center py-16 bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 border-dashed">
-            <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-slate-50 dark:bg-slate-800 mb-4">
-              <Filter className="h-6 w-6 text-slate-400 dark:text-slate-500" />
-            </div>
-            <p className="text-slate-500 dark:text-slate-400">Tidak ada booking dengan status ini.</p>
+      {/* Booking Table */}
+      {bookings.length > 0 ? (
+        <BookingTable 
+          bookings={bookings}
+          onAccept={actions.accept}
+          onReject={actions.reject}
+          onDetail={actions.viewDetail}
+        />
+      ) : (
+        <div className="text-center py-16 bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 border-dashed">
+          <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-slate-50 dark:bg-slate-800 mb-4">
+            <Filter className="h-6 w-6 text-slate-400 dark:text-slate-500" />
           </div>
-        )}
-      </div>
+          <p className="text-slate-500 dark:text-slate-400">Tidak ada booking dengan status ini.</p>
+        </div>
+      )}
     </div>
   );
 };
