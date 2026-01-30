@@ -161,3 +161,25 @@ export interface ClientData {
   email: string;
   address?: string;
 }
+
+// Omnichannel Types
+export type ChannelType = 'WHATSAPP' | 'EMAIL';
+
+export interface Conversation {
+  id: string;
+  contactName: string;
+  lastMessage: string;
+  timestamp: string;
+  unreadCount: number;
+  channel: ChannelType;
+  tags?: string[]; // e.g. 'Client', 'Prospect'
+}
+
+export interface Message {
+  id: string;
+  conversationId: string;
+  text: string;
+  sender: 'user' | 'agent'; // user = client, agent = kita
+  timestamp: string;
+  isRead: boolean;
+}

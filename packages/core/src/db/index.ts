@@ -1,12 +1,13 @@
 
 import Dexie, { type Table } from 'dexie';
-import { CaseData, Booking, CalendarEvent, DocumentFile, Invoice, ServiceItem, Article, ClientData, User } from '../types';
+import { CaseData, Booking, CalendarEvent, DocumentFile, Invoice, ServiceItem, Article, ClientData, User, Conversation, Message } from '../types';
 import { MOCK_CASES } from '../data/mock_cases';
 import { MOCK_BOOKINGS, EVENTS } from '../data/mock_calendar';
 import { DOCUMENTS, ARTICLES } from '../data/mock_content';
 import { MOCK_INVOICES } from '../data/mock_finance';
 import { SERVICES } from '../data/services';
 import { CLIENTS, MOCK_USERS_DB } from '../data/mock_users';
+import { MOCK_CONVERSATIONS, MOCK_MESSAGES } from '../data/mock_omnichannel';
 
 export class CBPDatabase extends Dexie {
   cases!: Table<CaseData, string>;
@@ -18,6 +19,8 @@ export class CBPDatabase extends Dexie {
   articles!: Table<Article, string>;
   clients!: Table<ClientData, string>;
   users!: Table<User, string>;
+  conversations!: Table<Conversation, string>;
+  messages!: Table<Message, string>;
 
   constructor() {
     super('CBPDatabase');
@@ -52,7 +55,6 @@ export class CBPDatabase extends Dexie {
       clients: 'id, name, industry'
     });
 
-    // Version 7: Add Users (Employees)
     (this as any).version(7).stores({
       cases: 'id, status, clientName, division',
       bookings: 'id, status, date',
@@ -63,9 +65,26 @@ export class CBPDatabase extends Dexie {
       articles: 'id, category, date',
       clients: 'id, name, industry',
       users: 'id, name, email, role, division'
+    });
+
+    // Version 8: Omnichannel
+    (this as any).version(8).stores({
+      cases: 'id, status, clientName, division',
+      bookings: 'id, status, date',
+      events: 'id, date, type, client',
+      documents: 'id, category, type',
+      invoices: 'id, status, clientName',
+      services: 'id, division, title', 
+      articles: 'id, category, date',
+      clients: 'id, name, industry',
+      users: 'id, name, email, role, division',
+      conversations: 'id, channel, lastMessage',
+      messages: 'id, conversationId, timestamp'
     }).upgrade(async (trans: any) => {
-       await trans.table('users').clear();
-       await trans.table('users').bulkAdd(MOCK_USERS_DB);
+       await trans.table('conversations').clear();
+       await trans.table('conversations').bulkAdd(MOCK_CONVERSATIONS);
+       await trans.table('messages').clear();
+       await trans.table('messages').bulkAdd(MOCK_MESSAGES);
     });
 
     // Populate data
@@ -79,6 +98,8 @@ export class CBPDatabase extends Dexie {
       this.services.bulkAdd(SERVICES);
       this.clients.bulkAdd(CLIENTS);
       this.users.bulkAdd(MOCK_USERS_DB);
+      this.conversations.bulkAdd(MOCK_CONVERSATIONS);
+      this.messages.bulkAdd(MOCK_MESSAGES);
     });
   }
 }

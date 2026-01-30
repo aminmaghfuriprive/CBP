@@ -2,7 +2,7 @@
 "use client";
 
 import React, { createContext, useContext } from 'react';
-import { CaseData, Booking, CalendarEvent, DocumentFile, Invoice, ClientData, User } from '../types';
+import { CaseData, Booking, CalendarEvent, DocumentFile, Invoice, ClientData, User, Conversation, Message } from '../types';
 import { SERVICES } from '../data/services';
 import { useNotifications } from './NotificationContext';
 import { useCaseLogic } from '../hooks/useCaseLogic';
@@ -12,6 +12,7 @@ import { useDocumentLogic } from '../hooks/useDocumentLogic';
 import { useFinanceLogic } from '../hooks/useFinanceLogic';
 import { useClientLogic } from '../hooks/useClientLogic';
 import { useEmployeeLogic } from '../hooks/useEmployeeLogic';
+import { useOmnichannelLogic } from '../hooks/useOmnichannelLogic';
 
 interface DataContextType {
   cases: CaseData[];
@@ -21,6 +22,14 @@ interface DataContextType {
   invoices: Invoice[];
   clients: ClientData[];
   employees: User[];
+  
+  // Omnichannel
+  conversations: Conversation[];
+  activeMessages: Message[];
+  selectedConversationId: string | null;
+  selectConversation: (id: string) => void;
+  sendMessage: (text: string) => void;
+
   addCase: (newCase: CaseData) => void;
   addBooking: (booking: Booking) => void;
   updateBookingStatus: (id: string, status: Booking['status']) => void;
@@ -45,6 +54,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   const { invoices, addInvoice, updateInvoiceStatus } = useFinanceLogic();
   const { clients, addClient } = useClientLogic();
   const { employees, addEmployee, updateEmployee, deleteEmployee } = useEmployeeLogic();
+  const { conversations, activeMessages, selectedConversationId, selectConversation, sendMessage } = useOmnichannelLogic();
   const { addNotification } = useNotifications();
 
   const handleUpdateBooking = (id: string, status: Booking['status']) => {
@@ -85,6 +95,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <DataContext.Provider value={{ 
       cases, bookings, events, documents, invoices, clients, employees,
+      conversations, activeMessages, selectedConversationId, selectConversation, sendMessage,
       addCase, addBooking, updateBookingStatus: handleUpdateBooking, addEvent, 
       addDocument, deleteDocument, addInvoice, updateInvoiceStatus, addClient,
       addEmployee, updateEmployee, deleteEmployee

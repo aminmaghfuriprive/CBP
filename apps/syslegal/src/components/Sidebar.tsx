@@ -5,7 +5,7 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth, UserRole } from '@cbp/core';
-import { LayoutDashboard, Users, MessageSquare, LogOut, DollarSign, Settings, Calendar, Sliders, Briefcase, UserCog } from 'lucide-react';
+import { LayoutDashboard, Users, MessageSquare, LogOut, DollarSign, Settings, Calendar, Sliders, Briefcase, UserCog, MessageCircle } from 'lucide-react';
 
 interface MenuItem {
   label: string;
@@ -37,6 +37,12 @@ export const Sidebar: React.FC = () => {
       path: '/app/agenda', 
       icon: Calendar, 
       roles: ['ADMIN', 'PRODUCTION', 'FIELD_OPS'] 
+    },
+    { 
+      label: 'Omnichannel', 
+      path: '/app/omnichannel', 
+      icon: MessageCircle, 
+      roles: ['ADMIN', 'PRODUCTION', 'FINANCE', 'FIELD_OPS'] 
     },
     { 
       label: 'Database Klien', 
