@@ -18,17 +18,35 @@ export class CBPDatabase extends Dexie {
   constructor() {
     super('CBPDatabase');
     
-    // Schema definition
+    // Version 1 (Legacy)
     (this as any).version(1).stores({
+      cases: 'id, status, clientName, division',
+      bookings: 'id, status, date',
+      events: 'id, date, type, client',
+      documents: 'id, category, type',
+      invoices: 'id, status, clientName'
+    });
+
+    // Version 2 (Add Services Table)
+    // Dexie akan otomatis mendeteksi versi baru dan menjalankan upgrade
+    (this as any).version(2).stores({
       cases: 'id, status, clientName, division',
       bookings: 'id, status, date',
       events: 'id, date, type, client',
       documents: 'id, category, type',
       invoices: 'id, status, clientName',
       services: 'id, division, title'
+    }).upgrade(async (trans: any) => {
+       // Populate default services saat upgrade terjadi
+       const initialServices = SERVICES.map(s => ({
+        ...s,
+        basePrice: 5000000,
+        isActive: true
+      }));
+      await trans.table('services').bulkAdd(initialServices);
     });
 
-    // Populate data awal
+    // Populate data awal (hanya jalan jika database baru dibuat pertama kali)
     (this as any).on('populate', () => {
       this.cases.bulkAdd(MOCK_CASES);
       this.bookings.bulkAdd(MOCK_BOOKINGS);
@@ -36,10 +54,9 @@ export class CBPDatabase extends Dexie {
       this.documents.bulkAdd(DOCUMENTS);
       this.invoices.bulkAdd(MOCK_INVOICES);
       
-      // Populate services dengan default value untuk field baru
       const initialServices = SERVICES.map(s => ({
         ...s,
-        basePrice: 5000000, // Default price mockup
+        basePrice: 5000000, 
         isActive: true
       }));
       this.services.bulkAdd(initialServices);
