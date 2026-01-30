@@ -1,8 +1,8 @@
 
 import React from 'react';
-import { SERVICES } from '@cbp/core';
 import { SERVICES_SECTION_CONTENT } from '../../../data/landing-content';
 import { ServicePreviewCard } from '../molecules/ServicePreviewCard';
+import { ServiceItem } from '@cbp/core';
 
 export const ServicesSection: React.FC = () => {
   return (
@@ -15,9 +15,11 @@ export const ServicesSection: React.FC = () => {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {SERVICES.slice(0, 3).map((service) => (
-            <ServicePreviewCard key={service.id} service={service} />
+        {/* Changed grid from 3 to 4 columns on large screens to accommodate the 4 divisions */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {SERVICES_SECTION_CONTENT.divisions.map((division) => (
+            // Casting to ServiceItem to satisfy the component prop, as division data matches the structure needed for display
+            <ServicePreviewCard key={division.id} service={division as unknown as ServiceItem} />
           ))}
         </div>
       </div>
