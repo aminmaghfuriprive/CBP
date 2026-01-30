@@ -350,33 +350,50 @@ export default function Contact() {
                          <div className="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-xl border border-slate-200 dark:border-slate-800">
                             <h4 className="font-bold text-cbp-navy dark:text-white mb-4 border-b border-slate-200 dark:border-slate-700 pb-2">Ringkasan Data</h4>
                             <div className="space-y-3 text-sm">
-                               <div className="flex justify-between">
-                                  <span className="text-slate-500">Nama:</span>
-                                  <span className="font-medium text-slate-900 dark:text-white">{formData.name}</span>
+                               <div className="grid grid-cols-3 gap-4">
+                                  <span className="text-slate-500 font-medium">Nama Lengkap</span>
+                                  <span className="col-span-2 font-bold text-slate-900 dark:text-white text-right">{formData.name}</span>
                                </div>
-                               <div className="flex justify-between">
-                                  <span className="text-slate-500">WhatsApp:</span>
-                                  <span className="font-medium text-slate-900 dark:text-white">{formData.whatsapp}</span>
+                               <div className="grid grid-cols-3 gap-4">
+                                  <span className="text-slate-500 font-medium">WhatsApp</span>
+                                  <span className="col-span-2 font-bold text-slate-900 dark:text-white text-right font-mono">{formData.whatsapp}</span>
                                </div>
-                               <div className="flex justify-between">
-                                  <span className="text-slate-500">Layanan:</span>
-                                  <span className="font-medium text-slate-900 dark:text-white text-right max-w-[200px]">{formData.service}</span>
+                               <div className="border-t border-slate-200 dark:border-slate-700 my-2"></div>
+                               <div className="grid grid-cols-3 gap-4">
+                                  <span className="text-slate-500 font-medium">Layanan</span>
+                                  <span className="col-span-2 font-bold text-slate-900 dark:text-white text-right">{formData.service}</span>
                                </div>
-                               <div className="flex justify-between">
-                                  <span className="text-slate-500">Jadwal:</span>
-                                  <span className="font-medium text-slate-900 dark:text-white">{formData.date} - {formData.time}</span>
+                               <div className="grid grid-cols-3 gap-4">
+                                  <span className="text-slate-500 font-medium">Jadwal</span>
+                                  <span className="col-span-2 font-bold text-slate-900 dark:text-white text-right">
+                                    {formData.date} <span className="mx-1">•</span> {formData.time}
+                                  </span>
                                </div>
-                               <div className="pt-2">
-                                  <span className="text-slate-500 block mb-1">Alamat:</span>
-                                  <p className="font-medium text-slate-900 dark:text-white bg-white dark:bg-slate-800 p-2 rounded border border-slate-200 dark:border-slate-700">
-                                    {formData.address}, {formData.district}, {formData.city}, {formData.province}
-                                  </p>
+                               
+                               <div className="border-t border-slate-200 dark:border-slate-700 my-2"></div>
+                               
+                               <div>
+                                  <span className="text-slate-500 font-medium block mb-2">Alamat Lengkap</span>
+                                  <div className="bg-white dark:bg-slate-900 p-3 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-xs leading-relaxed">
+                                    <p>{formData.address}</p>
+                                    <p>{formData.district}, {formData.city}</p>
+                                    <p>{formData.province}, {formData.country}</p>
+                                  </div>
                                </div>
+
+                               {formData.notes && (
+                                 <div className="mt-4">
+                                    <span className="text-slate-500 font-medium block mb-2">Catatan Tambahan</span>
+                                    <div className="bg-white dark:bg-slate-900 p-3 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-xs italic">
+                                      "{formData.notes}"
+                                    </div>
+                                 </div>
+                               )}
                             </div>
                          </div>
-                         <div className="flex items-start gap-3 p-4 bg-blue-50 dark:bg-blue-900/10 rounded-lg text-sm text-blue-700 dark:text-blue-300">
+                         <div className="flex items-start gap-3 p-4 bg-blue-50 dark:bg-blue-900/10 rounded-lg text-sm text-blue-700 dark:text-blue-300 border border-blue-100 dark:border-blue-900/20">
                             <Clock className="h-5 w-5 flex-shrink-0 mt-0.5" />
-                            <p>Pastikan data sudah benar. Tim admin kami akan menghubungi nomor WhatsApp yang tertera untuk konfirmasi akhir.</p>
+                            <p>Pastikan semua data sudah benar. Tim admin kami akan menghubungi nomor WhatsApp Anda untuk konfirmasi akhir sebelum jadwal ditetapkan.</p>
                          </div>
                       </div>
                     )}
