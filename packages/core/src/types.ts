@@ -1,77 +1,91 @@
 
-export interface ServiceStep {
-  id: string;
-  phase: string; // e.g., "Persiapan", "Eksekusi", "Finalisasi"
-  task: string;
-  estimatedDays: number;
-}
+export type UserRole = 'ADMIN' | 'PRODUCTION' | 'FINANCE' | 'IT' | 'FIELD_OPS' | 'CLIENT';
+export type Division = 'Hukum Umum & Litigasi' | 'Perizinan & Bisnis' | 'Pertanahan & Agraria' | 'Legal Administratif & Korporasi' | 'FIELD' | 'FINANCE' | 'IT' | null;
 
-// 1. Definisi Strict untuk 4 Divisi Layanan Publik
-export type ServiceDivision = 
-  | 'Hukum Umum & Litigasi' 
-  | 'Perizinan & Bisnis' 
-  | 'Pertanahan & Agraria' 
-  | 'Legal Administratif & Korporasi';
-
-export interface ServiceItem {
+export interface User {
   id: string;
-  title: string;
-  description: string;
-  iconName: string;
-  division: ServiceDivision; // Menggunakan tipe strict
-  basePrice?: number;
-  isActive?: boolean;
-  sop?: ServiceStep[];
+  name: string;
+  email: string;
+  role: UserRole;
+  division?: Division | null;
+  avatarUrl?: string;
 }
 
 export interface Lawyer {
   id: string;
   name: string;
-  role: string;
+  role: string; // Display role for public website
   specialty: string;
   imageUrl: string;
 }
 
-export type CaseStage = 
-  | '1_permintaan_awal'
-  | '2_konflik_check'
-  | '3_konsultasi'
-  | '4_penawaran'
-  | '5_verifikasi_dok'
-  | '6_klasifikasi'
-  | '7_buka_file'
-  | '8_produksi'
-  | '9_review_internal'
-  | '10_monitoring'
-  | '11_notifikasi_akhir'
-  | '12_penagihan_akhir'
-  | '13_pengembalian_dok'
-  | '14_pengarsipan';
+export interface Notification {
+  id: string;
+  title: string;
+  message: string;
+  type: 'info' | 'success' | 'warning';
+  read: boolean;
+  timestamp: string;
+}
+
+export type ServiceDivision = 'Hukum Umum & Litigasi' | 'Perizinan & Bisnis' | 'Pertanahan & Agraria' | 'Legal Administratif & Korporasi';
+
+export interface ServiceStep {
+  id: string;
+  phase: string;
+  task: string;
+  estimatedDays: number;
+}
+
+export interface ServiceItem {
+  id: string;
+  title: string;
+  description: string;
+  division: ServiceDivision;
+  basePrice: number;
+  isActive: boolean;
+  iconName: string;
+  sop?: ServiceStep[];
+}
+
+export interface ClientData {
+  id: string;
+  name: string;
+  contact: string;
+  industry: string;
+  email?: string;
+  address?: string;
+}
 
 export interface CaseData {
   id: string;
   clientName: string;
   caseType: string;
   division: string;
-  status: 'Aktif' | 'Selesai' | 'Menunggu';
-  currentStage: CaseStage;
+  status: 'Aktif' | 'Menunggu' | 'Selesai';
+  currentStage: string;
   lastUpdate: string;
   description: string;
 }
 
-export interface NavItem {
-  label: string;
-  path: string;
-  icon?: string;
+export interface Booking {
+  id: string;
+  clientName: string;
+  contact: string;
+  serviceType: string;
+  date: string;
+  time: string;
+  status: 'Pending' | 'Confirmed' | 'Rejected';
+  notes: string;
 }
 
-export interface Article {
+export interface CalendarEvent {
   id: string;
   title: string;
-  category: string;
   date: string;
-  excerpt: string;
-  imageUrl: string;
+  time: string;
+  type: 'Sidang' | 'Meeting' | 'Konsultasi' | 'Deadline';
+  client: string;
 }
 
 export interface DocumentFile {
@@ -83,64 +97,13 @@ export interface DocumentFile {
   lastModified: string;
 }
 
-export interface CalendarEvent {
+export interface Article {
   id: string;
   title: string;
+  category: string;
   date: string;
-  time: string;
-  type: 'Sidang' | 'Meeting' | 'Deadline' | 'Konsultasi';
-  client: string;
-  isBooking?: boolean;
-}
-
-export interface Booking {
-  id: string;
-  clientName: string;
-  serviceType: string;
-  date: string;
-  time: string;
-  status: 'Pending' | 'Confirmed' | 'Rejected' | 'Done';
-  notes: string;
-  contact: string;
-}
-
-export enum AppView {
-  WEBSITE = 'WEBSITE',
-  DASHBOARD = 'DASHBOARD'
-}
-
-export type UserRole = 
-  | 'ADMIN'         
-  | 'PRODUCTION'    
-  | 'FIELD_OPS'     
-  | 'FINANCE'       
-  | 'IT'            
-  | 'CLIENT';       
-
-// Union type untuk semua divisi (Internal + Eksternal)
-export type Division = 
-  | ServiceDivision
-  | 'FINANCE'
-  | 'IT'
-  | 'FIELD'
-  | null; 
-
-export interface User {
-  id: string;
-  name: string;
-  email: string;
-  role: UserRole;
-  division: Division;
-  avatarUrl?: string;
-}
-
-export interface Notification {
-  id: string;
-  title: string;
-  message: string;
-  type: 'info' | 'success' | 'warning';
-  read: boolean;
-  timestamp: string;
+  excerpt: string;
+  imageUrl: string;
 }
 
 export interface Invoice {
@@ -153,16 +116,6 @@ export interface Invoice {
   description: string;
 }
 
-export interface ClientData {
-  id: string;
-  name: string;
-  industry: string;
-  contact: string;
-  email: string;
-  address?: string;
-}
-
-// Omnichannel Types
 export type ChannelType = 'WHATSAPP' | 'EMAIL';
 
 export interface Conversation {
@@ -172,25 +125,61 @@ export interface Conversation {
   timestamp: string;
   unreadCount: number;
   channel: ChannelType;
-  tags?: string[]; // e.g. 'Client', 'Prospect'
+  tags: string[];
 }
 
 export interface Message {
   id: string;
   conversationId: string;
   text: string;
-  sender: 'user' | 'agent'; // user = client, agent = kita
+  sender: 'agent' | 'user';
   timestamp: string;
   isRead: boolean;
 }
 
-// Social Media Types
+export interface AttendanceRecord {
+  id: string;
+  userId: string;
+  userName: string;
+  date: string;
+  checkIn: string;
+  checkOut?: string;
+  status: 'Present' | 'Late' | 'Absent' | 'Leave';
+}
+
+export interface PayrollSlip {
+  id: string;
+  employeeId: string;
+  employeeName: string;
+  period: string;
+  basicSalary: number;
+  allowances: number;
+  deductions: number;
+  netSalary: number;
+  status: 'Draft' | 'Paid';
+  paymentDate?: string;
+}
+
+export interface RoleConfig {
+  id: string;
+  roleCode: UserRole;
+  label: string;
+  description: string;
+  permissions: string[];
+  memberCount?: number;
+}
+
+export interface PermissionGroup {
+  category: string;
+  items: { key: string; label: string }[];
+}
+
 export type SocialPlatform = 'FACEBOOK' | 'INSTAGRAM' | 'LINKEDIN' | 'TWITTER';
 
 export interface SocialAccount {
   id: string;
   platform: SocialPlatform;
-  handle: string; // @username
+  handle: string;
   followers: number;
   isConnected: boolean;
   lastSync: string;
@@ -203,71 +192,63 @@ export interface SocialPost {
   date: string;
   likes: number;
   shares: number;
-  status: 'Published' | 'Scheduled';
+  status: 'Draft' | 'Published' | 'Scheduled';
 }
 
-// Attendance Types
-export interface AttendanceRecord {
+export interface GBPLocation {
   id: string;
-  userId: string;
-  userName: string;
-  date: string; // YYYY-MM-DD
-  checkIn: string; // HH:mm
-  checkOut?: string; // HH:mm
-  status: 'Present' | 'Late' | 'Absent' | 'Leave';
-  notes?: string;
+  name: string;
+  address: string;
+  rating: number;
+  reviewsCount: number;
 }
 
-// Payroll Types
-export interface PayrollSlip {
+export interface GBPReview {
   id: string;
-  employeeId: string;
-  employeeName: string;
-  period: string; // e.g., "Oktober 2023"
-  basicSalary: number;
-  allowances: number;
-  deductions: number;
-  netSalary: number;
-  status: 'Draft' | 'Paid';
-  paymentDate?: string;
+  reviewer: string;
+  rating: number;
+  comment: string;
+  date: string;
+  reply?: string;
 }
 
-// Role & Permission Types
-export interface RoleConfig {
+export interface GBPUpdate {
   id: string;
-  roleCode: UserRole;
-  label: string;
-  description: string;
-  permissions: string[]; // e.g., 'case.view', 'finance.edit'
-  memberCount?: number;
+  content: string;
+  date: string;
+  views: number;
+  clicks: number;
 }
 
-export interface PermissionNode {
-  key: string;
-  label: string;
+export interface AyrshareConfig {
+  id: string;
+  apiKey: string;
+  isConnected: boolean;
+  lastSync?: string;
 }
 
-export interface PermissionGroup {
-  category: string;
-  items: PermissionNode[];
+export interface AyrshareProfile {
+  title: string;
+  refId: string;
+  platform: string;
+  username: string;
+  avatarUrl?: string;
 }
 
-// Document Template Types (Kop Surat/Amplop)
-export type TemplateType = 'LETTERHEAD' | 'ENVELOPE';
 export type HeaderLayout = 'left' | 'center' | 'right' | 'split';
 
 export interface DocumentTemplate {
   id: string;
-  type: TemplateType;
-  name: string; // e.g., "Kop Surat Resmi 2023"
+  type: 'LETTERHEAD' | 'ENVELOPE';
+  name: string;
   companyName: string;
   addressLine1: string;
   addressLine2?: string;
   contactInfo: string;
-  website?: string;
-  logoUrl?: string; // Base64 or URL
+  website: string;
   layout: HeaderLayout;
   isActive: boolean;
-  accentColor?: string; // Hex code
+  accentColor?: string;
+  logoUrl?: string;
   fontFamily?: string;
 }

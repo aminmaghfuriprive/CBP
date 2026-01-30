@@ -1,7 +1,5 @@
 {
   "name": "CBP",
   "description": "Website profil firma hukum modern dan aplikasi manajemen internal terintegrasi.",
-  "requestFramePermissions": [
-    "microphone"
-  ]
+  "requestFramePermissions": []
 }

@@ -1,6 +1,6 @@
 
 import Dexie, { type Table } from 'dexie';
-import { CaseData, Booking, CalendarEvent, DocumentFile, Invoice, ServiceItem, Article, ClientData, User, Conversation, Message, AttendanceRecord, PayrollSlip, RoleConfig, SocialAccount, SocialPost, DocumentTemplate } from '../types';
+import { CaseData, Booking, CalendarEvent, DocumentFile, Invoice, ServiceItem, Article, ClientData, User, Conversation, Message, AttendanceRecord, PayrollSlip, RoleConfig, SocialAccount, SocialPost, DocumentTemplate, GBPLocation, GBPReview, GBPUpdate, AyrshareConfig } from '../types';
 import { MOCK_CASES } from '../data/mock_cases';
 import { MOCK_BOOKINGS, EVENTS } from '../data/mock_calendar';
 import { DOCUMENTS, ARTICLES } from '../data/mock_content';
@@ -12,6 +12,7 @@ import { MOCK_PAYROLL } from '../data/mock_payroll';
 import { MOCK_ROLES } from '../data/mock_roles';
 import { MOCK_SOCIAL_ACCOUNTS, MOCK_SOCIAL_POSTS } from '../data/mock_social';
 import { MOCK_TEMPLATES } from '../data/mock_templates';
+import { MOCK_GBP_LOCATIONS, MOCK_GBP_REVIEWS, MOCK_GBP_UPDATES } from '../data/mock_gbp';
 
 export class CBPDatabase extends Dexie {
   cases!: Table<CaseData, string>;
@@ -31,14 +32,18 @@ export class CBPDatabase extends Dexie {
   socialAccounts!: Table<SocialAccount, string>;
   socialPosts!: Table<SocialPost, string>;
   templates!: Table<DocumentTemplate, string>;
+  gbpLocations!: Table<GBPLocation, string>;
+  gbpReviews!: Table<GBPReview, string>;
+  gbpUpdates!: Table<GBPUpdate, string>;
+  ayrshareConfig!: Table<AyrshareConfig, string>;
 
   constructor() {
     super('CBPDatabase');
     
-    // Previous versions omitted for brevity...
+    // Previous versions omitted...
     
-    // Version 14: Document Templates Module
-    (this as any).version(14).stores({
+    // Version 16: Ayrshare Module
+    (this as any).version(16).stores({
       cases: 'id, status, clientName, division',
       bookings: 'id, status, date',
       events: 'id, date, type, client',
@@ -55,12 +60,13 @@ export class CBPDatabase extends Dexie {
       roles: 'id, roleCode, label',
       socialAccounts: 'id, platform, isConnected',
       socialPosts: 'id, date, status',
-      templates: 'id, type, isActive'
-    }).upgrade(async (trans: any) => {
-       // Optional: Data migration logic if needed
+      templates: 'id, type, isActive',
+      gbpLocations: 'id, name',
+      gbpReviews: 'id, rating, date',
+      gbpUpdates: 'id, type, date',
+      ayrshareConfig: 'id'
     });
 
-    // Populate data
     (this as any).on('populate', () => {
       this.cases.bulkAdd(MOCK_CASES);
       this.bookings.bulkAdd(MOCK_BOOKINGS);
@@ -78,6 +84,9 @@ export class CBPDatabase extends Dexie {
       this.socialAccounts.bulkAdd(MOCK_SOCIAL_ACCOUNTS);
       this.socialPosts.bulkAdd(MOCK_SOCIAL_POSTS);
       this.templates.bulkAdd(MOCK_TEMPLATES);
+      this.gbpLocations.bulkAdd(MOCK_GBP_LOCATIONS);
+      this.gbpReviews.bulkAdd(MOCK_GBP_REVIEWS);
+      this.gbpUpdates.bulkAdd(MOCK_GBP_UPDATES);
     });
   }
 }

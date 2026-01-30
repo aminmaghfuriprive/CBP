@@ -16,7 +16,7 @@ export * from './hooks/useAgendaSchedule';
 export * from './hooks/useBookingManager'; 
 export * from './hooks/useSocialMediaLogic'; 
 export * from './hooks/useTemplateLogic'; 
-export * from './hooks/useClientLogic'; // Added missing export
+export * from './hooks/useClientLogic';
 export * from './hooks/useEmployeeLogic';
 export * from './hooks/useFinanceLogic';
 export * from './hooks/useDocumentLogic';
@@ -25,6 +25,8 @@ export * from './hooks/useOmnichannelLogic';
 export * from './hooks/useAttendanceLogic';
 export * from './hooks/usePayrollLogic';
 export * from './hooks/useRoleLogic';
+export * from './hooks/useGoogleBusinessLogic';
+export * from './hooks/useAyrshareLogic'; // New Hook
 
 // Utils
 export * from './utils/formatters';
@@ -39,3 +41,5 @@ export * from './data/mock_content';
 export * from './data/mock_calendar';
 export * from './data/mock_social';
 export * from './data/mock_templates';
+export * from './data/mock_gbp'; 
+export * from './data/mock_ayrshare'; // New Data
