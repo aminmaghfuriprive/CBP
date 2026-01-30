@@ -1,3 +1,4 @@
+
 export * from './Button';
 export * from './Card';
 export * from './Badge';
@@ -9,3 +10,7 @@ export * from './StatusBadge';
 export * from './SearchInput';
 export * from './PageHeader';
 export * from './SectionHeader';
+
+// Service Specific Atoms (Step 3 & 4)
+export * from './ServiceIcon';
+export * from './DivisionTag';

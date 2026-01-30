@@ -6,15 +6,22 @@ export interface ServiceStep {
   estimatedDays: number;
 }
 
+// 1. Definisi Strict untuk 4 Divisi Layanan Publik
+export type ServiceDivision = 
+  | 'Hukum Umum & Litigasi' 
+  | 'Perizinan & Bisnis' 
+  | 'Pertanahan & Agraria' 
+  | 'Legal Administratif & Korporasi';
+
 export interface ServiceItem {
   id: string;
   title: string;
   description: string;
   iconName: string;
-  division: 'Hukum Umum & Litigasi' | 'Perizinan & Bisnis' | 'Pertanahan & Agraria' | 'Legal Administratif & Korporasi';
+  division: ServiceDivision; // Menggunakan tipe strict
   basePrice?: number;
   isActive?: boolean;
-  sop?: ServiceStep[]; // Tambahan modul SOP
+  sop?: ServiceStep[];
 }
 
 export interface Lawyer {
@@ -45,7 +52,7 @@ export interface CaseData {
   id: string;
   clientName: string;
   caseType: string;
-  division: string; // Changed to string to be flexible with new divisions
+  division: string;
   status: 'Aktif' | 'Selesai' | 'Menunggu';
   currentStage: CaseStage;
   lastUpdate: string;
@@ -102,20 +109,17 @@ export enum AppView {
   DASHBOARD = 'DASHBOARD'
 }
 
-// UPDATE: Granular Roles sesuai Request
 export type UserRole = 
-  | 'ADMIN'         // Super Admin / Owner
-  | 'PRODUCTION'    // Staff Legal / Produksi Dokumen (Kantor)
-  | 'FIELD_OPS'     // Tim Lapangan (Mobile First)
-  | 'FINANCE'       // Keuangan
-  | 'IT'            // Teknologi
-  | 'CLIENT';       // Klien
+  | 'ADMIN'         
+  | 'PRODUCTION'    
+  | 'FIELD_OPS'     
+  | 'FINANCE'       
+  | 'IT'            
+  | 'CLIENT';       
 
+// Union type untuk semua divisi (Internal + Eksternal)
 export type Division = 
-  | 'Hukum Umum & Litigasi' 
-  | 'Perizinan & Bisnis' 
-  | 'Pertanahan & Agraria' 
-  | 'Legal Administratif & Korporasi' 
+  | ServiceDivision
   | 'FINANCE'
   | 'IT'
   | 'FIELD'

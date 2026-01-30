@@ -11,6 +11,7 @@ export * from './db';
 // Hooks
 export * from './hooks/useServiceLogic';
 export * from './hooks/useContentLogic';
+export * from './hooks/useServiceCatalog'; // <-- Export baru
 
 // Export Data Modules
 export * from './data/services';
