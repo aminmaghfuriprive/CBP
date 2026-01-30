@@ -1,23 +1,19 @@
 
 "use client";
 
-import { useLiveQuery } from 'dexie-react-hooks';
-import { db } from '../db';
-import { useNotifications } from '../context/NotificationContext';
+import { useState } from 'react';
 import { MOCK_AYRSHARE_PROFILES } from '../data/mock_ayrshare';
+import { useNotifications } from '../context/NotificationContext';
 
 export const useAyrshareLogic = () => {
   const { addNotification } = useNotifications();
-
-  // Query config (Single row)
-  const config = useLiveQuery(() => db.ayrshareConfig.get('default')) || {
-    id: 'default',
+  
+  // State lokal untuk prototipe visual (tidak masuk ke DB Dexie untuk simplifikasi saat ini)
+  const [config, setConfig] = useState({
     apiKey: '',
-    isConnected: false,
-    lastSync: ''
-  };
+    isConnected: false
+  });
 
-  // Mock Profiles (Only show if connected)
   const profiles = config.isConnected ? MOCK_AYRSHARE_PROFILES : [];
 
   const saveApiKey = async (apiKey: string) => {
@@ -26,34 +22,22 @@ export const useAyrshareLogic = () => {
       return;
     }
 
-    try {
-      // Simulate API Validation
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      await db.ayrshareConfig.put({
-        id: 'default',
-        apiKey: apiKey,
-        isConnected: true,
-        lastSync: new Date().toISOString()
-      });
-      addNotification('Terhubung', 'Ayrshare API Key valid dan tersimpan.', 'success');
-    } catch (error) {
-      addNotification('Gagal', 'Gagal menyimpan konfigurasi.', 'warning');
-    }
+    // Simulasi loading
+    await new Promise(resolve => setTimeout(resolve, 800));
+    
+    setConfig({
+      apiKey,
+      isConnected: true
+    });
+    addNotification('Terhubung', 'Ayrshare API Key valid (Simulasi).', 'success');
   };
 
   const disconnect = async () => {
-    try {
-      await db.ayrshareConfig.put({
-        id: 'default',
-        apiKey: '',
-        isConnected: false,
-        lastSync: ''
-      });
-      addNotification('Terputus', 'Koneksi Ayrshare telah dihapus.', 'info');
-    } catch (error) {
-      addNotification('Gagal', 'Gagal memutus koneksi.', 'warning');
-    }
+    setConfig({
+      apiKey: '',
+      isConnected: false
+    });
+    addNotification('Terputus', 'Koneksi Ayrshare diputus.', 'info');
   };
 
   return { config, profiles, saveApiKey, disconnect };

@@ -14,7 +14,7 @@ export interface User {
 export interface Lawyer {
   id: string;
   name: string;
-  role: string; // Display role for public website
+  role: string;
   specialty: string;
   imageUrl: string;
 }
@@ -195,12 +195,20 @@ export interface SocialPost {
   status: 'Draft' | 'Published' | 'Scheduled';
 }
 
+// GBP Types
 export interface GBPLocation {
   id: string;
   name: string;
   address: string;
   rating: number;
   reviewsCount: number;
+  stats: {
+    views: number;
+    calls: number;
+    directions: number;
+    websiteClicks: number;
+  };
+  isConnected: boolean;
 }
 
 export interface GBPReview {
@@ -210,16 +218,21 @@ export interface GBPReview {
   comment: string;
   date: string;
   reply?: string;
+  replyDate?: string;
 }
 
 export interface GBPUpdate {
   id: string;
   content: string;
+  type: 'UPDATE' | 'EVENT' | 'OFFER';
   date: string;
+  status: 'LIVE' | 'PENDING';
   views: number;
   clicks: number;
+  imageUrl?: string;
 }
 
+// Ayrshare Types
 export interface AyrshareConfig {
   id: string;
   apiKey: string;
