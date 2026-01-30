@@ -212,6 +212,7 @@ export interface AyrshareProfile {
 }
 
 export type HeaderLayout = 'left' | 'center' | 'right' | 'split';
+export type DesignStyle = 'SIMPLE' | 'GEOMETRIC';
 
 export interface DocumentTemplate {
   id: string;
@@ -223,6 +224,7 @@ export interface DocumentTemplate {
   contactInfo: string;
   website: string;
   layout: HeaderLayout;
+  designStyle?: DesignStyle;
   isActive: boolean;
   accentColor?: string;
   logoUrl?: string;

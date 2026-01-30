@@ -13,6 +13,7 @@ export const MOCK_TEMPLATES: DocumentTemplate[] = [
     contactInfo: 'Telp: +62 21 5555 8888 | Email: info@cbpcorp.id',
     website: 'www.cbpcorp.id',
     layout: 'center',
+    designStyle: 'SIMPLE',
     isActive: true,
     accentColor: '#d4af37', // Gold
     logoUrl: '' // Empty string will use default icon in UI
@@ -27,6 +28,7 @@ export const MOCK_TEMPLATES: DocumentTemplate[] = [
     contactInfo: '',
     website: '',
     layout: 'left',
+    designStyle: 'SIMPLE',
     isActive: true,
     accentColor: '#0f172a', // Navy
     logoUrl: ''
