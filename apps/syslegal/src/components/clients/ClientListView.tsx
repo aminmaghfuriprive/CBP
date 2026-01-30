@@ -1,13 +1,15 @@
 
 "use client";
 
-import React from 'react';
-import { useData } from '@cbp/core';
+import React, { useState } from 'react';
+import { useData, ClientData } from '@cbp/core';
 import { Card, Button } from '@cbp/ui';
 import { Mail, User, Building, Download, Plus, ArrowRight } from 'lucide-react';
+import { ClientDetailModal } from './organisms/ClientDetailModal';
 
 export const ClientListView: React.FC = () => {
   const { clients } = useData();
+  const [selectedClient, setSelectedClient] = useState<ClientData | null>(null);
 
   return (
     <div className="space-y-6">
@@ -52,14 +54,32 @@ export const ClientListView: React.FC = () => {
             </div>
             
             <div className="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800 flex gap-2">
-              <Button variant="ghost" size="sm" className="w-full text-xs hover:bg-slate-50 dark:hover:bg-slate-800">Lihat Profil</Button>
-              <Button variant="outline" size="sm" className="w-full text-xs border-slate-200 dark:border-slate-700 group">
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="w-full text-xs hover:bg-slate-50 dark:hover:bg-slate-800"
+                onClick={() => setSelectedClient(client)}
+              >
+                Lihat Profil
+              </Button>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="w-full text-xs border-slate-200 dark:border-slate-700 group"
+                onClick={() => setSelectedClient(client)}
+              >
                 Detail <ArrowRight className="h-3 w-3 ml-1 group-hover:translate-x-0.5 transition-transform" />
               </Button>
             </div>
           </Card>
         ))}
       </div>
+
+      <ClientDetailModal 
+        isOpen={!!selectedClient} 
+        onClose={() => setSelectedClient(null)} 
+        client={selectedClient} 
+      />
     </div>
   );
 };
