@@ -3,15 +3,13 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useServiceLogic, ServiceItem } from '@cbp/core';
+import { useServiceLogic } from '@cbp/core';
 import { Card, Button, SearchInput, Badge } from '@cbp/ui';
-import { Plus, Edit2, Trash2, Tag, Building2, ArrowRight } from 'lucide-react';
-import { ServiceModal } from './ServiceModal';
+import { Plus, Trash2, ArrowRight } from 'lucide-react';
 
 export const ServiceListView: React.FC = () => {
-  const { services, addService, deleteService } = useServiceLogic();
+  const { services, deleteService } = useServiceLogic();
   const [searchTerm, setSearchTerm] = useState('');
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
 
   const filteredServices = services.filter(s => 
@@ -20,7 +18,7 @@ export const ServiceListView: React.FC = () => {
   );
 
   const handleAddNew = () => {
-    setIsModalOpen(true);
+    router.push('/app/services/create');
   };
 
   const handleCardClick = (id: string) => {
@@ -99,17 +97,6 @@ export const ServiceListView: React.FC = () => {
           </Card>
         ))}
       </div>
-
-      <ServiceModal 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)}
-        onSave={(data) => {
-          addService(data);
-          // Optional: Navigate to detail page immediately after creation
-          // router.push(`/app/services/${data.id}`);
-        }}
-        initialData={null}
-      />
     </div>
   );
 };

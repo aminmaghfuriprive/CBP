@@ -2,17 +2,16 @@
 "use client";
 
 import React, { useState } from 'react';
-import { ServiceItem, ServiceStep, useServiceLogic } from '@cbp/core';
+import { ServiceStep } from '@cbp/core';
 import { Button, Card } from '@cbp/ui';
-import { Plus, Trash2, Clock, CheckCircle, Save } from 'lucide-react';
+import { Plus, Trash2, Clock } from 'lucide-react';
 
 interface ServiceSOPManagerProps {
-  service: ServiceItem;
+  steps: ServiceStep[];
+  onStepsChange: (steps: ServiceStep[]) => void;
 }
 
-export const ServiceSOPManager: React.FC<ServiceSOPManagerProps> = ({ service }) => {
-  const { updateService } = useServiceLogic();
-  const [steps, setSteps] = useState<ServiceStep[]>(service.sop || []);
+export const ServiceSOPManager: React.FC<ServiceSOPManagerProps> = ({ steps, onStepsChange }) => {
   const [newStep, setNewStep] = useState<Partial<ServiceStep>>({
     phase: 'Persiapan',
     task: '',
@@ -24,21 +23,19 @@ export const ServiceSOPManager: React.FC<ServiceSOPManagerProps> = ({ service })
   const handleAddStep = () => {
     if (!newStep.task) return;
     const step: ServiceStep = {
-      id: `step_${Date.now()}`,
+      id: `step_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       phase: newStep.phase || 'Persiapan',
       task: newStep.task,
       estimatedDays: Number(newStep.estimatedDays) || 1
     };
     const updatedSteps = [...steps, step];
-    setSteps(updatedSteps);
+    onStepsChange(updatedSteps);
     setNewStep({ phase: 'Persiapan', task: '', estimatedDays: 1 });
-    updateService(service.id, { sop: updatedSteps });
   };
 
   const handleDeleteStep = (id: string) => {
     const updatedSteps = steps.filter(s => s.id !== id);
-    setSteps(updatedSteps);
-    updateService(service.id, { sop: updatedSteps });
+    onStepsChange(updatedSteps);
   };
 
   return (

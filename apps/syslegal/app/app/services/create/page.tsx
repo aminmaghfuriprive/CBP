@@ -1,89 +1,72 @@
 
 "use client";
 
-import React, { useState, useEffect } from 'react';
-import { useParams, useRouter } from 'next/navigation';
-import { useLiveQuery } from 'dexie-react-hooks';
-import { db, ServiceItem, useServiceLogic } from '@cbp/core';
-import { Button, Card, Badge } from '@cbp/ui';
-import { ArrowLeft, DollarSign, FileText, Save, Trash2, Globe } from 'lucide-react';
+import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { ServiceItem, ServiceStep, useServiceLogic } from '@cbp/core';
+import { Button, Card } from '@cbp/ui';
+import { ArrowLeft, FileText, Save, DollarSign, Globe } from 'lucide-react';
 import { ServiceSOPManager } from '@/components/services/ServiceSOPManager';
 
-export default function ServiceDetailPage() {
-  const params = useParams();
+export default function CreateServicePage() {
   const router = useRouter();
-  const id = Array.isArray(params.id) ? params.id[0] : params.id;
+  const { addService } = useServiceLogic();
+
+  // Local State untuk Draft Layanan Baru
+  const [formData, setFormData] = useState<Partial<ServiceItem>>({
+    title: '',
+    description: '',
+    division: 'Christian Law Firm',
+    basePrice: 0,
+    isActive: true,
+    iconName: 'Scale'
+  });
   
-  const service = useLiveQuery(() => db.services.get(id), [id]);
-  const { updateService, deleteService } = useServiceLogic();
-
-  // Form State
-  const [formData, setFormData] = useState<Partial<ServiceItem>>({});
-  const [isDirty, setIsDirty] = useState(false);
-
-  useEffect(() => {
-    if (service) {
-      setFormData({
-        title: service.title,
-        division: service.division,
-        basePrice: service.basePrice,
-        description: service.description,
-        isActive: service.isActive
-      });
-    }
-  }, [service]);
+  const [sopSteps, setSopSteps] = useState<ServiceStep[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (field: keyof ServiceItem, value: any) => {
     setFormData(prev => ({ ...prev, [field]: value }));
-    setIsDirty(true);
   };
 
-  const handleSaveInfo = async () => {
-    if (service) {
-      await updateService(service.id, formData);
-      setIsDirty(false);
+  const handleSave = async () => {
+    if (!formData.title) {
+        alert("Nama layanan wajib diisi");
+        return;
     }
-  };
+    
+    setIsSubmitting(true);
+    
+    const newService: ServiceItem = {
+      id: `svc_${Date.now()}`,
+      title: formData.title || 'Layanan Baru',
+      description: formData.description || '',
+      division: formData.division as any,
+      basePrice: Number(formData.basePrice) || 0,
+      iconName: formData.iconName || 'Scale',
+      isActive: formData.isActive,
+      sop: sopSteps
+    };
 
-  const handleDelete = async () => {
-    if (confirm('Apakah Anda yakin ingin menghapus layanan ini beserta seluruh SOP-nya?')) {
-      await deleteService(id);
-      router.push('/app/services');
-    }
+    await addService(newService);
+    router.push('/app/services');
   };
-
-  // Handler untuk SOP Change
-  const handleSopChange = (newSteps: any[]) => {
-    if(service) {
-       updateService(service.id, { sop: newSteps });
-    }
-  };
-
-  if (!service) return <div className="p-8">Loading...</div>;
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto">
-      <button onClick={() => router.push('/app/services')} className="flex items-center text-sm text-slate-500 hover:text-cbp-navy dark:text-slate-400 dark:hover:text-cbp-gold mb-2">
-        <ArrowLeft className="h-4 w-4 mr-1" /> Kembali ke Daftar Layanan
+      <button onClick={() => router.back()} className="flex items-center text-sm text-slate-500 hover:text-cbp-navy dark:text-slate-400 dark:hover:text-cbp-gold mb-2">
+        <ArrowLeft className="h-4 w-4 mr-1" /> Batal & Kembali
       </button>
 
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-           <div className="flex items-center gap-3 mb-1">
-              <h1 className="text-2xl font-serif font-bold text-cbp-navy dark:text-white">{service.title}</h1>
-              <Badge variant={service.isActive ? 'success' : 'neutral'}>{service.isActive ? 'Active' : 'Draft'}</Badge>
-           </div>
-           <p className="text-slate-500 dark:text-slate-400">{service.division}</p>
+           <h1 className="text-2xl font-serif font-bold text-cbp-navy dark:text-white">Tambah Layanan Baru</h1>
+           <p className="text-slate-500 dark:text-slate-400">Lengkapi informasi layanan dan SOP.</p>
         </div>
-        <div className="flex gap-2">
-           <Button variant="outline" className="text-red-600 border-red-200 hover:bg-red-50" onClick={handleDelete}>
-             <Trash2 className="h-4 w-4 mr-2" /> Hapus
+        <div>
+           <Button onClick={handleSave} disabled={isSubmitting} className="animate-in fade-in zoom-in duration-300">
+             <Save className="h-4 w-4 mr-2" /> {isSubmitting ? 'Menyimpan...' : 'Simpan Layanan'}
            </Button>
-           {isDirty && (
-             <Button onClick={handleSaveInfo} className="animate-in fade-in zoom-in duration-300">
-               <Save className="h-4 w-4 mr-2" /> Simpan Perubahan
-             </Button>
-           )}
         </div>
       </div>
 
@@ -102,6 +85,8 @@ export default function ServiceDetailPage() {
                      className="w-full px-4 py-2.5 border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-lg outline-none focus:ring-2 focus:ring-cbp-navy dark:text-white"
                      value={formData.title}
                      onChange={(e) => handleChange('title', e.target.value)}
+                     placeholder="Contoh: Pendirian PT Perorangan"
+                     autoFocus
                    />
                 </div>
                 <div>
@@ -111,13 +96,14 @@ export default function ServiceDetailPage() {
                      className="w-full px-4 py-2.5 border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-lg outline-none focus:ring-2 focus:ring-cbp-navy dark:text-white"
                      value={formData.description}
                      onChange={(e) => handleChange('description', e.target.value)}
+                     placeholder="Jelaskan cakupan layanan ini untuk klien..."
                    />
                 </div>
               </div>
            </Card>
 
-           {/* SOP Module */}
-           <ServiceSOPManager steps={service.sop || []} onStepsChange={handleSopChange} />
+           {/* SOP Module (Controlled) */}
+           <ServiceSOPManager steps={sopSteps} onStepsChange={setSopSteps} />
         </div>
 
         {/* Right Column: Settings & Summary */}
@@ -167,8 +153,7 @@ export default function ServiceDetailPage() {
            <div className="bg-cbp-navy dark:bg-slate-800 text-white p-6 rounded-xl relative overflow-hidden">
               <Globe className="absolute -right-4 -bottom-4 h-24 w-24 text-white/10" />
               <h4 className="font-bold text-lg mb-2 relative z-10">Tampilan Web</h4>
-              <p className="text-slate-300 text-sm mb-4 relative z-10">Lihat bagaimana layanan ini ditampilkan kepada calon klien di website compro.</p>
-              <Button size="sm" variant="secondary" className="w-full relative z-10">Preview Halaman</Button>
+              <p className="text-slate-300 text-sm mb-4 relative z-10">Preview tidak tersedia saat membuat layanan baru.</p>
            </div>
         </div>
       </div>
