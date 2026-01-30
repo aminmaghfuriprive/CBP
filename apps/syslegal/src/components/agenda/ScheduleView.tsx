@@ -2,7 +2,7 @@
 "use client";
 
 import React from 'react';
-import { useAgendaSchedule } from '../../hooks/useAgendaSchedule';
+import { useAgendaSchedule } from '@cbp/core';
 import { AgendaTable } from './molecules/AgendaTable';
 import { MiniCalendarWidget } from './molecules/MiniCalendarWidget';
 import { AgendaDailyStats } from './molecules/AgendaDailyStats';

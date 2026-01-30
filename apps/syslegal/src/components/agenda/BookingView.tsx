@@ -2,7 +2,7 @@
 "use client";
 
 import React from 'react';
-import { useBookingManager } from '../../hooks/useBookingManager';
+import { useBookingManager } from '@cbp/core';
 import { BookingTable } from './molecules/BookingTable';
 import { FilterBar } from './atoms/FilterBar';
 import { Filter } from 'lucide-react';
