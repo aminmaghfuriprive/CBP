@@ -60,20 +60,18 @@ export const Navbar: React.FC = () => {
             
             <div className="h-6 w-px bg-white/20"></div>
             
-            {/* Theme Toggle forced to dark style */}
-            <div className="[&>button]:bg-white/10 [&>button]:text-white hover:[&>button]:bg-white/20">
-               <ThemeToggle />
-            </div>
+            {/* Theme Toggle forced to dark style (Transparent/White) regardless of theme */}
+            <ThemeToggle className="!bg-white/10 !text-white hover:!bg-white/20" />
             
             {isAuthenticated && user?.role === 'CLIENT' ? (
               <Link href="/portal/dashboard">
-                 <Button size="sm" className="bg-cbp-gold text-cbp-navy hover:bg-white border-none font-bold">
+                 <Button size="sm" className="bg-cbp-gold dark:bg-cbp-gold text-cbp-navy dark:text-cbp-navy hover:bg-white dark:hover:bg-white border-none font-bold shadow-none">
                    <User className="h-4 w-4 mr-2" /> Portal
                  </Button>
               </Link>
             ) : (
               <Link href="/auth/login">
-                <Button size="sm" className="bg-white text-cbp-navy hover:bg-slate-200 border-none font-bold">
+                <Button size="sm" className="bg-white dark:bg-white text-cbp-navy dark:text-cbp-navy hover:bg-slate-200 dark:hover:bg-slate-200 border-none font-bold shadow-none">
                   Login Klien
                 </Button>
               </Link>
@@ -82,7 +80,7 @@ export const Navbar: React.FC = () => {
 
           {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center gap-4">
-             <div className="[&>button]:bg-white/10 [&>button]:text-white"><ThemeToggle /></div>
+             <ThemeToggle className="!bg-white/10 !text-white hover:!bg-white/20" />
              <button onClick={() => setIsOpen(!isOpen)} className="p-2 text-white hover:bg-white/10 rounded-lg transition-colors">
               {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
