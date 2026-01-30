@@ -32,7 +32,8 @@ interface DataContextType {
   activeMessages: Message[];
   selectedConversationId: string | null;
   selectConversation: (id: string) => void;
-  sendMessage: (text: string) => void;
+  sendMessage: (text: string, isInternal?: boolean) => void;
+  currentContext: { client?: ClientData; activeCases: CaseData[]; conversation: Conversation } | null | undefined;
 
   // Attendance
   attendanceHistory: AttendanceRecord[];
@@ -74,7 +75,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   const { invoices, addInvoice, updateInvoiceStatus } = useFinanceLogic();
   const { clients, addClient } = useClientLogic();
   const { employees, addEmployee, updateEmployee, deleteEmployee } = useEmployeeLogic();
-  const { conversations, activeMessages, selectedConversationId, selectConversation, sendMessage } = useOmnichannelLogic();
+  const { conversations, activeMessages, selectedConversationId, selectConversation, sendMessage, currentContext } = useOmnichannelLogic();
   const { attendanceHistory, todayRecord, clockIn, clockOut } = useAttendanceLogic(user);
   const { payrolls, createSlip, markAsPaid } = usePayrollLogic();
   const { roles, updateRolePermissions } = useRoleLogic();
@@ -118,7 +119,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <DataContext.Provider value={{ 
       cases, bookings, events, documents, invoices, clients, employees,
-      conversations, activeMessages, selectedConversationId, selectConversation, sendMessage,
+      conversations, activeMessages, selectedConversationId, selectConversation, sendMessage, currentContext,
       attendanceHistory, todayRecord, clockIn, clockOut,
       payrolls, createSlip, markAsPaid,
       roles, updateRolePermissions,

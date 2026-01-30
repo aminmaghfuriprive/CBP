@@ -1,11 +1,11 @@
 
 import React from 'react';
-import { useOmnichannelLogic, formatDateID } from '@cbp/core';
+import { useData } from '@cbp/core';
 import { Card, Button, Badge } from '@cbp/ui';
 import { User, Briefcase, Calendar, DollarSign, PlusCircle, AlertCircle } from 'lucide-react';
 
 export const ContextPanel: React.FC = () => {
-  const { currentContext } = useOmnichannelLogic();
+  const { currentContext } = useData();
 
   if (!currentContext) {
     return (
