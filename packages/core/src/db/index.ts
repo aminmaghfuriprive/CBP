@@ -72,6 +72,23 @@ export class CBPDatabase extends Dexie {
        await trans.table('payroll').bulkAdd(MOCK_PAYROLL);
     });
 
+    // Version 11: Fix missing timestamp index on conversations
+    (this as any).version(11).stores({
+      cases: 'id, status, clientName, division',
+      bookings: 'id, status, date',
+      events: 'id, date, type, client',
+      documents: 'id, category, type',
+      invoices: 'id, status, clientName',
+      services: 'id, division, title', 
+      articles: 'id, category, date',
+      clients: 'id, name, industry',
+      users: 'id, name, email, role, division',
+      conversations: 'id, channel, lastMessage, timestamp', // Added timestamp index here
+      messages: 'id, conversationId, timestamp',
+      attendance: 'id, userId, date, status',
+      payroll: 'id, employeeId, period, status'
+    });
+
     // Populate data
     (this as any).on('populate', () => {
       this.cases.bulkAdd(MOCK_CASES);
