@@ -2,9 +2,10 @@
 "use client";
 
 import React, { createContext, useContext } from 'react';
-import { CaseData, Booking, CalendarEvent, DocumentFile, Invoice, ClientData, User, Conversation, Message } from '../types';
+import { CaseData, Booking, CalendarEvent, DocumentFile, Invoice, ClientData, User, Conversation, Message, AttendanceRecord } from '../types';
 import { SERVICES } from '../data/services';
 import { useNotifications } from './NotificationContext';
+import { useAuth } from './AuthContext';
 import { useCaseLogic } from '../hooks/useCaseLogic';
 import { useBookingLogic } from '../hooks/useBookingLogic';
 import { useScheduleLogic } from '../hooks/useScheduleLogic';
@@ -13,6 +14,7 @@ import { useFinanceLogic } from '../hooks/useFinanceLogic';
 import { useClientLogic } from '../hooks/useClientLogic';
 import { useEmployeeLogic } from '../hooks/useEmployeeLogic';
 import { useOmnichannelLogic } from '../hooks/useOmnichannelLogic';
+import { useAttendanceLogic } from '../hooks/useAttendanceLogic';
 
 interface DataContextType {
   cases: CaseData[];
@@ -29,6 +31,12 @@ interface DataContextType {
   selectedConversationId: string | null;
   selectConversation: (id: string) => void;
   sendMessage: (text: string) => void;
+
+  // Attendance
+  attendanceHistory: AttendanceRecord[];
+  todayRecord: AttendanceRecord | undefined;
+  clockIn: () => Promise<void>;
+  clockOut: () => Promise<void>;
 
   addCase: (newCase: CaseData) => void;
   addBooking: (booking: Booking) => void;
@@ -47,6 +55,7 @@ interface DataContextType {
 const DataContext = createContext<DataContextType | undefined>(undefined);
 
 export const DataProvider = ({ children }: { children: React.ReactNode }) => {
+  const { user } = useAuth(); // Need current user for attendance
   const { cases, addCase } = useCaseLogic();
   const { bookings, addBooking, updateBookingStatus: _updateBooking } = useBookingLogic();
   const { events, addEvent } = useScheduleLogic();
@@ -55,6 +64,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   const { clients, addClient } = useClientLogic();
   const { employees, addEmployee, updateEmployee, deleteEmployee } = useEmployeeLogic();
   const { conversations, activeMessages, selectedConversationId, selectConversation, sendMessage } = useOmnichannelLogic();
+  const { attendanceHistory, todayRecord, clockIn, clockOut } = useAttendanceLogic(user);
   const { addNotification } = useNotifications();
 
   const handleUpdateBooking = (id: string, status: Booking['status']) => {
@@ -96,6 +106,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
     <DataContext.Provider value={{ 
       cases, bookings, events, documents, invoices, clients, employees,
       conversations, activeMessages, selectedConversationId, selectConversation, sendMessage,
+      attendanceHistory, todayRecord, clockIn, clockOut,
       addCase, addBooking, updateBookingStatus: handleUpdateBooking, addEvent, 
       addDocument, deleteDocument, addInvoice, updateInvoiceStatus, addClient,
       addEmployee, updateEmployee, deleteEmployee

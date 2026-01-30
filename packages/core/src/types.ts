@@ -183,3 +183,15 @@ export interface Message {
   timestamp: string;
   isRead: boolean;
 }
+
+// Attendance Types
+export interface AttendanceRecord {
+  id: string;
+  userId: string;
+  userName: string;
+  date: string; // YYYY-MM-DD
+  checkIn: string; // HH:mm
+  checkOut?: string; // HH:mm
+  status: 'Present' | 'Late' | 'Absent' | 'Leave';
+  notes?: string;
+}
