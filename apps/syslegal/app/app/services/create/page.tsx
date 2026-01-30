@@ -16,7 +16,7 @@ export default function CreateServicePage() {
   const [formData, setFormData] = useState<Partial<ServiceItem>>({
     title: '',
     description: '',
-    division: 'Christian Law Firm',
+    division: 'Legal Administratif & Korporasi', // Default Division
     basePrice: 0,
     isActive: true,
     iconName: 'Scale'
@@ -124,9 +124,10 @@ export default function CreateServicePage() {
                     value={formData.division}
                     onChange={(e) => handleChange('division', e.target.value)}
                   >
-                    <option value="Christian Law Firm">Christian Law Firm</option>
-                    <option value="Sahabat Ijinku">Sahabat Ijinku</option>
-                    <option value="CBP Legal Service">CBP Legal Service</option>
+                    <option value="Legal Administratif & Korporasi">Legal Administratif & Korporasi</option>
+                    <option value="Hukum Umum & Litigasi">Hukum Umum & Litigasi</option>
+                    <option value="Perizinan & Bisnis">Perizinan & Bisnis</option>
+                    <option value="Pertanahan & Agraria">Pertanahan & Agraria</option>
                   </select>
                 </div>
 

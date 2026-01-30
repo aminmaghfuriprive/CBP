@@ -138,9 +138,10 @@ export default function ServiceDetailPage() {
                     value={formData.division}
                     onChange={(e) => handleChange('division', e.target.value)}
                   >
-                    <option value="Christian Law Firm">Christian Law Firm</option>
-                    <option value="Sahabat Ijinku">Sahabat Ijinku</option>
-                    <option value="CBP Legal Service">CBP Legal Service</option>
+                    <option value="Hukum Umum & Litigasi">Hukum Umum & Litigasi</option>
+                    <option value="Perizinan & Bisnis">Perizinan & Bisnis</option>
+                    <option value="Pertanahan & Agraria">Pertanahan & Agraria</option>
+                    <option value="Legal Administratif & Korporasi">Legal Administratif & Korporasi</option>
                   </select>
                 </div>
 

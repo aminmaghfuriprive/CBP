@@ -53,7 +53,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
                name: 'Staf Demo',
                email: email,
                role: 'PRODUCTION',
-               division: 'CHRISTIAN_LAW_FIRM'
+               division: 'Hukum Umum & Litigasi'
              };
            }
         }

@@ -11,7 +11,7 @@ export default function ServicesPage() {
   const { services } = useServiceLogic();
   
   const activeServices = services.filter(s => s.isActive).length;
-  const lawFirmServices = services.filter(s => s.division === 'Christian Law Firm').length;
+  const corporateServices = services.filter(s => s.division.includes('Korporasi')).length;
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto">
@@ -34,8 +34,8 @@ export default function ServicesPage() {
             variant="success" 
          />
          <StatCard 
-            label="Divisi Law Firm" 
-            value={lawFirmServices} 
+            label="Layanan Korporasi" 
+            value={corporateServices} 
             icon={Tag} 
             variant="secondary" 
          />

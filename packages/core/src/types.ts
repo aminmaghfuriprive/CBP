@@ -11,7 +11,7 @@ export interface ServiceItem {
   title: string;
   description: string;
   iconName: string;
-  division: 'Christian Law Firm' | 'Sahabat Ijinku' | 'CBP Legal Service';
+  division: 'Hukum Umum & Litigasi' | 'Perizinan & Bisnis' | 'Pertanahan & Agraria' | 'Legal Administratif & Korporasi';
   basePrice?: number;
   isActive?: boolean;
   sop?: ServiceStep[]; // Tambahan modul SOP
@@ -45,7 +45,7 @@ export interface CaseData {
   id: string;
   clientName: string;
   caseType: string;
-  division: 'Christian Law Firm' | 'Sahabat Ijinku' | 'CBP Legal Service';
+  division: string; // Changed to string to be flexible with new divisions
   status: 'Aktif' | 'Selesai' | 'Menunggu';
   currentStage: CaseStage;
   lastUpdate: string;
@@ -112,10 +112,10 @@ export type UserRole =
   | 'CLIENT';       // Klien
 
 export type Division = 
-  | 'CHRISTIAN_LAW_FIRM' 
-  | 'SAHABAT_IJINKU' 
-  | 'CBP_LEGAL_SERVICE' 
-  | 'TANAH' 
+  | 'Hukum Umum & Litigasi' 
+  | 'Perizinan & Bisnis' 
+  | 'Pertanahan & Agraria' 
+  | 'Legal Administratif & Korporasi' 
   | 'FINANCE'
   | 'IT'
   | 'FIELD'

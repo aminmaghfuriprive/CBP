@@ -48,7 +48,7 @@ export const MOCK_USERS_DB: User[] = [
     name: 'Saumita Ngesti R., S.H.',
     email: 'produksi@cbp.id',
     role: 'PRODUCTION',
-    division: 'CHRISTIAN_LAW_FIRM',
+    division: 'Hukum Umum & Litigasi',
   },
   {
     id: 'u_field',

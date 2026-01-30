@@ -30,6 +30,14 @@ export const ServiceListView: React.FC = () => {
     return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(amount);
   };
 
+  const getDivisionBadgeColor = (division: string) => {
+    if (division.includes('Litigasi')) return 'danger';
+    if (division.includes('Perizinan')) return 'info';
+    if (division.includes('Pertanahan')) return 'warning';
+    if (division.includes('Korporasi')) return 'success';
+    return 'neutral';
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
@@ -55,7 +63,7 @@ export const ServiceListView: React.FC = () => {
              <div className="absolute top-0 left-0 w-1 h-full bg-cbp-navy dark:bg-cbp-gold group-hover:w-1.5 transition-all"></div>
              
              <div className="flex justify-between items-start mb-3 pl-3">
-               <Badge variant={service.division === 'Christian Law Firm' ? 'info' : service.division === 'Sahabat Ijinku' ? 'warning' : 'success'}>
+               <Badge variant={getDivisionBadgeColor(service.division)}>
                   {service.division}
                </Badge>
                <span className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded ${service.isActive ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-500'}`}>
