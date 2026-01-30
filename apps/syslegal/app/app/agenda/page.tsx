@@ -4,8 +4,8 @@
 import React, { useState } from 'react';
 import { PageHeader } from '@cbp/ui';
 import { CalendarDays, MapPin } from 'lucide-react';
-import { ScheduleView } from '../../src/components/agenda/ScheduleView';
-import { BookingView } from '../../src/components/agenda/BookingView';
+import { ScheduleView } from '../../../src/components/agenda/ScheduleView';
+import { BookingView } from '../../../src/components/agenda/BookingView';
 
 export default function AgendaPage() {
   const [activeTab, setActiveTab] = useState<'schedule' | 'booking'>('schedule');
