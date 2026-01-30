@@ -29,9 +29,10 @@ export const ValueItem: React.FC<ValueItemProps> = ({ title, description, iconNa
       <h3 className="text-xl font-bold text-cbp-navy dark:text-white mb-3 group-hover:text-cbp-gold transition-colors">
         {title}
       </h3>
-      <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
-        {description}
-      </p>
+      <div 
+        className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed"
+        dangerouslySetInnerHTML={{ __html: description }}
+      />
     </div>
   );
 };
