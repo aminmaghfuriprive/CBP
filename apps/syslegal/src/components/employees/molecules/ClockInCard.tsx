@@ -15,13 +15,16 @@ interface ClockInCardProps {
 export const ClockInCard: React.FC<ClockInCardProps> = ({ todayRecord, onClockIn, onClockOut }) => {
   const [currentTime, setCurrentTime] = useState('');
 
+  // Hydration safe timestamp
   useEffect(() => {
+    setCurrentTime(new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' }));
     const timer = setInterval(() => {
       setCurrentTime(new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' }));
     }, 1000);
     return () => clearInterval(timer);
   }, []);
 
+  // Safe checks
   const isCheckedIn = !!todayRecord;
   const isCheckedOut = !!todayRecord?.checkOut;
 
@@ -31,7 +34,9 @@ export const ClockInCard: React.FC<ClockInCardProps> = ({ todayRecord, onClockIn
       
       <div className="relative z-10 text-center">
         <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide uppercase">Waktu Server</p>
-        <h2 className="text-5xl font-mono font-bold text-white mb-8 tracking-wider">{currentTime}</h2>
+        <h2 className="text-5xl font-mono font-bold text-white mb-8 tracking-wider min-h-[3rem]">
+          {currentTime || '--:--:--'}
+        </h2>
         
         {isCheckedOut ? (
           <div className="p-4 bg-white/10 rounded-xl border border-white/10">
@@ -50,7 +55,7 @@ export const ClockInCard: React.FC<ClockInCardProps> = ({ todayRecord, onClockIn
           </Button>
         )}
 
-        {isCheckedIn && !isCheckedOut && (
+        {isCheckedIn && !isCheckedOut && todayRecord && (
           <p className="text-xs text-slate-400 mt-4">
             Masuk: {todayRecord.checkIn} WIB
           </p>

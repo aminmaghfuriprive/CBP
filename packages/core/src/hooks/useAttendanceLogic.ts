@@ -11,22 +11,33 @@ export const useAttendanceLogic = (user: User | null) => {
   const today = new Date().toISOString().split('T')[0];
 
   // Get all attendance records sorted by date descending
-  const attendanceHistory = useLiveQuery(() => 
-    db.attendance.orderBy('date').reverse().toArray()
-  ) || [];
+  // Fail-safe: jika db.attendance belum ada (race condition), return empty array
+  const attendanceHistory = useLiveQuery(() => {
+    if (!db.attendance) return [];
+    return db.attendance.orderBy('date').reverse().toArray();
+  }) || [];
 
   // Get today's record for current user
   const todayRecord = useLiveQuery(async () => {
-    if (!user) return undefined;
-    return await db.attendance
-      .where('userId')
-      .equals(user.id)
-      .filter(r => r.date === today)
-      .first();
+    if (!user || !db.attendance) return undefined;
+    
+    try {
+      return await db.attendance
+        .where('userId')
+        .equals(user.id)
+        .filter(r => r.date === today)
+        .first();
+    } catch (e) {
+      console.warn("Attendance DB query failed:", e);
+      return undefined;
+    }
   }, [user, today]);
 
   const clockIn = async () => {
-    if (!user) return;
+    if (!user) {
+      addNotification('Gagal', 'User tidak teridentifikasi.', 'warning');
+      return;
+    }
     
     const now = new Date();
     const timeString = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
