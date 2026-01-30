@@ -10,6 +10,7 @@ export * from './db';
 
 // Hooks
 export * from './hooks/useServiceLogic';
+export * from './hooks/useContentLogic';
 
 // Export Data Modules
 export * from './data/services';

@@ -1,9 +1,9 @@
 
 import Dexie, { type Table } from 'dexie';
-import { CaseData, Booking, CalendarEvent, DocumentFile, Invoice, ServiceItem } from '../types';
+import { CaseData, Booking, CalendarEvent, DocumentFile, Invoice, ServiceItem, Article } from '../types';
 import { MOCK_CASES } from '../data/mock_cases';
 import { MOCK_BOOKINGS, EVENTS } from '../data/mock_calendar';
-import { DOCUMENTS } from '../data/mock_content';
+import { DOCUMENTS, ARTICLES } from '../data/mock_content';
 import { MOCK_INVOICES } from '../data/mock_finance';
 import { SERVICES } from '../data/services';
 
@@ -14,6 +14,7 @@ export class CBPDatabase extends Dexie {
   documents!: Table<DocumentFile, string>;
   invoices!: Table<Invoice, string>;
   services!: Table<ServiceItem, string>;
+  articles!: Table<Article, string>;
 
   constructor() {
     super('CBPDatabase');
@@ -28,7 +29,6 @@ export class CBPDatabase extends Dexie {
     });
 
     // Version 2 (Add Services Table)
-    // Dexie akan otomatis mendeteksi versi baru dan menjalankan upgrade
     (this as any).version(2).stores({
       cases: 'id, status, clientName, division',
       bookings: 'id, status, date',
@@ -36,14 +36,20 @@ export class CBPDatabase extends Dexie {
       documents: 'id, category, type',
       invoices: 'id, status, clientName',
       services: 'id, division, title'
+    });
+
+    // Version 3 (Add Articles Table for CMS)
+    (this as any).version(3).stores({
+      cases: 'id, status, clientName, division',
+      bookings: 'id, status, date',
+      events: 'id, date, type, client',
+      documents: 'id, category, type',
+      invoices: 'id, status, clientName',
+      services: 'id, division, title',
+      articles: 'id, category, date'
     }).upgrade(async (trans: any) => {
-       // Populate default services saat upgrade terjadi
-       const initialServices = SERVICES.map(s => ({
-        ...s,
-        basePrice: 5000000,
-        isActive: true
-      }));
-      await trans.table('services').bulkAdd(initialServices);
+      // Populate default articles saat upgrade
+      await trans.table('articles').bulkAdd(ARTICLES);
     });
 
     // Populate data awal (hanya jalan jika database baru dibuat pertama kali)
@@ -60,6 +66,8 @@ export class CBPDatabase extends Dexie {
         isActive: true
       }));
       this.services.bulkAdd(initialServices);
+
+      this.articles.bulkAdd(ARTICLES);
     });
   }
 }
