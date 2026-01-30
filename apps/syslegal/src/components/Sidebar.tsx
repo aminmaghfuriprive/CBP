@@ -5,7 +5,7 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth, UserRole } from '@cbp/core';
-import { LayoutDashboard, Users, MessageSquare, LogOut, DollarSign, Settings, Calendar, Sliders } from 'lucide-react';
+import { LayoutDashboard, Users, MessageSquare, LogOut, DollarSign, Settings, Calendar, Sliders, Briefcase } from 'lucide-react';
 
 interface MenuItem {
   label: string;
@@ -44,6 +44,12 @@ export const Sidebar: React.FC = () => {
       matchPaths: ['/app/cases', '/app/documents'], // Highlight menu ini jika user ada di cases atau docs
       icon: Users, 
       roles: ['ADMIN', 'PRODUCTION', 'FINANCE'] 
+    },
+    { 
+      label: 'Layanan', 
+      path: '/app/services',
+      icon: Briefcase, 
+      roles: ['ADMIN', 'FINANCE', 'PRODUCTION'] 
     },
     { 
       label: 'Keuangan', 

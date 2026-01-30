@@ -5,6 +5,8 @@ export interface ServiceItem {
   description: string;
   iconName: string;
   division: 'Christian Law Firm' | 'Sahabat Ijinku' | 'CBP Legal Service';
+  basePrice?: number; // Tambahan untuk manajemen harga
+  isActive?: boolean; // Tambahan untuk enable/disable layanan
 }
 
 export interface Lawyer {

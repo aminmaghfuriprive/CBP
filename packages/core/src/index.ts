@@ -1,3 +1,4 @@
+
 export * from './types';
 export * from './constants';
 export * from './services/geminiService';
@@ -6,6 +7,9 @@ export * from './context/DataContext';
 export * from './context/NotificationContext';
 export * from './context/ThemeContext';
 export * from './db';
+
+// Hooks
+export * from './hooks/useServiceLogic';
 
 // Export Data Modules
 export * from './data/services';
