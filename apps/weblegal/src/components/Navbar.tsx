@@ -30,9 +30,15 @@ export const Navbar: React.FC = () => {
     { name: 'Hubungi', path: '/contact' },
   ];
 
-  // FORCE DARK STYLE: Navbar selalu menggunakan background gelap/transparan gelap
-  const navBg = scrolled ? 'bg-slate-950/90 backdrop-blur-md shadow-lg py-4 border-b border-white/10' : 'bg-transparent py-6';
+  // LOGIKA BACKGROUND HEADER
+  const isHomePage = pathname === '/';
   
+  // Jika Homepage: Transparan di atas, Gelap saat scroll
+  // Jika Halaman Lain: Selalu Gelap (agar teks putih terbaca di background apapun)
+  const navBg = isHomePage 
+    ? (scrolled ? 'bg-slate-950/90 backdrop-blur-md shadow-lg py-4 border-b border-white/10' : 'bg-transparent py-6')
+    : 'bg-slate-950 shadow-lg py-4 border-b border-white/10'; // Solid dark for inner pages
+
   // Force text colors using !important to override any theme defaults
   const textColor = 'text-slate-200 hover:text-white';
   const activeColor = 'text-cbp-gold font-bold';
@@ -42,10 +48,10 @@ export const Navbar: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
           <Link href="/" className="flex items-center gap-2 group">
-            <Shield className={`h-8 w-8 transition-colors ${scrolled ? 'text-cbp-gold' : 'text-white group-hover:text-cbp-gold'}`} />
+            <Shield className={`h-8 w-8 transition-colors ${scrolled || !isHomePage ? 'text-cbp-gold' : 'text-white group-hover:text-cbp-gold'}`} />
             <div>
               <span className="block font-serif font-bold text-xl leading-none tracking-tight text-white">CBP Corp</span>
-              <span className={`block text-[10px] font-bold uppercase tracking-widest transition-colors ${scrolled ? 'text-cbp-gold' : 'text-slate-300'}`}>Legal Firm</span>
+              <span className={`block text-[10px] font-bold uppercase tracking-widest transition-colors ${scrolled || !isHomePage ? 'text-cbp-gold' : 'text-slate-300'}`}>Legal Firm</span>
             </div>
           </Link>
 

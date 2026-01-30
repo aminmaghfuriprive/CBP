@@ -3,9 +3,8 @@
 
 import React, { useState } from 'react';
 import { Card, Button } from '@cbp/ui';
-import { Mail, Phone, MapPin, Clock, ExternalLink, Calendar, User, FileText, CheckCircle, ArrowRight, ArrowLeft, Home, Map } from 'lucide-react';
+import { Mail, Phone, MapPin, Clock, ExternalLink, User, CheckCircle, ArrowRight, ArrowLeft } from 'lucide-react';
 import { SERVICES } from '@cbp/core';
-import Link from 'next/link';
 
 export default function Contact() {
   const [step, setStep] = useState(1);
@@ -29,10 +28,19 @@ export default function Contact() {
   };
 
   const nextStep = () => {
-    // Simple validation
-    if (step === 1 && (!formData.name || !formData.whatsapp)) {
-      alert("Mohon lengkapi Nama dan Nomor WhatsApp.");
-      return;
+    // Validation Step 1
+    if (step === 1) {
+        if (!formData.name || !formData.whatsapp) {
+            alert("Mohon lengkapi Nama dan Nomor WhatsApp.");
+            return;
+        }
+    }
+    // Validation Step 2
+    if (step === 2) {
+        if (!formData.date) {
+            alert("Mohon pilih tanggal konsultasi.");
+            return;
+        }
     }
     setStep(s => s + 1);
   };
@@ -352,7 +360,7 @@ export default function Contact() {
                             <div className="space-y-3 text-sm">
                                <div className="grid grid-cols-3 gap-4">
                                   <span className="text-slate-500 font-medium">Nama Lengkap</span>
-                                  <span className="col-span-2 font-bold text-slate-900 dark:text-white text-right">{formData.name}</span>
+                                  <span className="col-span-2 font-bold text-slate-900 dark:text-white text-right break-words">{formData.name}</span>
                                </div>
                                <div className="grid grid-cols-3 gap-4">
                                   <span className="text-slate-500 font-medium">WhatsApp</span>
@@ -375,9 +383,10 @@ export default function Contact() {
                                <div>
                                   <span className="text-slate-500 font-medium block mb-2">Alamat Lengkap</span>
                                   <div className="bg-white dark:bg-slate-900 p-3 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-xs leading-relaxed">
-                                    <p>{formData.address}</p>
-                                    <p>{formData.district}, {formData.city}</p>
-                                    <p>{formData.province}, {formData.country}</p>
+                                    <p>{formData.address || '-'}</p>
+                                    <p>
+                                        {[formData.district, formData.city, formData.province, formData.country].filter(Boolean).join(', ')}
+                                    </p>
                                   </div>
                                </div>
 
