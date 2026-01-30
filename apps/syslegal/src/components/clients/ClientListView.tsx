@@ -2,11 +2,13 @@
 "use client";
 
 import React from 'react';
-import { CLIENTS } from '@cbp/core';
+import { useData } from '@cbp/core';
 import { Card, Button } from '@cbp/ui';
 import { Mail, User, Building, Download, Plus, ArrowRight } from 'lucide-react';
 
 export const ClientListView: React.FC = () => {
+  const { clients } = useData();
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center mb-2">
@@ -22,7 +24,7 @@ export const ClientListView: React.FC = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {CLIENTS.map((client) => (
+        {clients.map((client) => (
           <Card key={client.id} className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-t-4 border-t-cbp-gold bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800">
             <div className="flex items-start justify-between mb-4">
               <div className="p-3 bg-slate-50 dark:bg-slate-800 rounded-full border border-slate-100 dark:border-slate-700">
@@ -34,7 +36,7 @@ export const ClientListView: React.FC = () => {
             </div>
             
             <h3 className="text-lg font-bold text-cbp-navy dark:text-white mb-1">{client.name}</h3>
-            <p className="text-sm text-slate-500 dark:text-slate-400 mb-6 font-mono">ID: {client.id.toUpperCase()}</p>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mb-6 font-mono">ID: {client.id.substring(0, 8).toUpperCase()}</p>
             
             <div className="space-y-3">
               <div className="flex items-center text-sm text-slate-600 dark:text-slate-300 group cursor-pointer">
@@ -43,8 +45,8 @@ export const ClientListView: React.FC = () => {
               </div>
               <div className="flex items-center text-sm text-slate-600 dark:text-slate-300 group cursor-pointer">
                 <Mail className="h-4 w-4 mr-3 text-cbp-gold group-hover:text-cbp-navy transition-colors" />
-                <span className="group-hover:text-cbp-navy dark:group-hover:text-white transition-colors">
-                  {client.email}
+                <span className="group-hover:text-cbp-navy dark:group-hover:text-white transition-colors truncate">
+                  {client.email || '-'}
                 </span>
               </div>
             </div>

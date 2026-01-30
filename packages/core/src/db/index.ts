@@ -1,11 +1,12 @@
 
 import Dexie, { type Table } from 'dexie';
-import { CaseData, Booking, CalendarEvent, DocumentFile, Invoice, ServiceItem, Article } from '../types';
+import { CaseData, Booking, CalendarEvent, DocumentFile, Invoice, ServiceItem, Article, ClientData } from '../types';
 import { MOCK_CASES } from '../data/mock_cases';
 import { MOCK_BOOKINGS, EVENTS } from '../data/mock_calendar';
 import { DOCUMENTS, ARTICLES } from '../data/mock_content';
 import { MOCK_INVOICES } from '../data/mock_finance';
 import { SERVICES } from '../data/services';
+import { CLIENTS } from '../data/mock_users';
 
 export class CBPDatabase extends Dexie {
   cases!: Table<CaseData, string>;
@@ -15,11 +16,12 @@ export class CBPDatabase extends Dexie {
   invoices!: Table<Invoice, string>;
   services!: Table<ServiceItem, string>;
   articles!: Table<Article, string>;
+  clients!: Table<ClientData, string>;
 
   constructor() {
     super('CBPDatabase');
     
-    // Version 1-4 History
+    // Previous versions
     (this as any).version(1).stores({
       cases: 'id, status, clientName, division',
       bookings: 'id, status, date',
@@ -27,7 +29,7 @@ export class CBPDatabase extends Dexie {
       documents: 'id, category, type',
       invoices: 'id, status, clientName'
     });
-    // ... history versions 2, 3, 4 omitted for brevity but logic remains ...
+    
     (this as any).version(4).stores({
       cases: 'id, status, clientName, division',
       bookings: 'id, status, date',
@@ -38,7 +40,7 @@ export class CBPDatabase extends Dexie {
       articles: 'id, category, date'
     });
 
-    // Version 5: Re-seed Services with New Division Structure
+    // Version 5: Services update
     (this as any).version(5).stores({
       cases: 'id, status, clientName, division',
       bookings: 'id, status, date',
@@ -47,13 +49,24 @@ export class CBPDatabase extends Dexie {
       invoices: 'id, status, clientName',
       services: 'id, division, title', 
       articles: 'id, category, date'
-    }).upgrade(async (trans: any) => {
-       // Clear old services and add new ones from the updated source
-       await trans.table('services').clear();
-       await trans.table('services').bulkAdd(SERVICES);
     });
 
-    // Populate data awal untuk instalasi baru
+    // Version 6: Add Clients
+    (this as any).version(6).stores({
+      cases: 'id, status, clientName, division',
+      bookings: 'id, status, date',
+      events: 'id, date, type, client',
+      documents: 'id, category, type',
+      invoices: 'id, status, clientName',
+      services: 'id, division, title', 
+      articles: 'id, category, date',
+      clients: 'id, name, industry'
+    }).upgrade(async (trans: any) => {
+       await trans.table('clients').clear();
+       await trans.table('clients').bulkAdd(CLIENTS);
+    });
+
+    // Populate data
     (this as any).on('populate', () => {
       this.cases.bulkAdd(MOCK_CASES);
       this.bookings.bulkAdd(MOCK_BOOKINGS);
@@ -62,6 +75,7 @@ export class CBPDatabase extends Dexie {
       this.invoices.bulkAdd(MOCK_INVOICES);
       this.articles.bulkAdd(ARTICLES);
       this.services.bulkAdd(SERVICES);
+      this.clients.bulkAdd(CLIENTS);
     });
   }
 }

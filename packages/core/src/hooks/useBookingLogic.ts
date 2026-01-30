@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useLiveQuery } from 'dexie-react-hooks';
@@ -6,8 +7,18 @@ import { db } from '../db';
 import { useNotifications } from '../context/NotificationContext';
 
 export const useBookingLogic = () => {
-  const bookings = useLiveQuery(() => db.bookings.toArray()) || [];
+  const bookings = useLiveQuery(() => db.bookings.orderBy('date').reverse().toArray()) || [];
   const { addNotification } = useNotifications();
+
+  const addBooking = async (booking: Booking) => {
+    try {
+      await db.bookings.add(booking);
+      addNotification('Booking Diterima', 'Permintaan jadwal berhasil dikirim.', 'success');
+    } catch (error) {
+      console.error(error);
+      addNotification('Error', 'Gagal mengirim booking.', 'warning');
+    }
+  };
 
   const updateBookingStatus = async (id: string, status: Booking['status']) => {
     try {
@@ -20,5 +31,5 @@ export const useBookingLogic = () => {
     }
   };
 
-  return { bookings, updateBookingStatus };
+  return { bookings, addBooking, updateBookingStatus };
 };

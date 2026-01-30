@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { useData, CLIENTS } from '@cbp/core';
+import { useData } from '@cbp/core';
 import { PageHeader, StatCard } from '@cbp/ui';
 import { Users, FileText, FolderOpen, Briefcase } from 'lucide-react';
 import { ClientListView } from '../../../src/components/clients/ClientListView';
@@ -11,7 +11,7 @@ import { DocumentRepositoryView } from '../../../src/components/documents/Docume
 
 export default function ClientDatabasePage() {
   const [activeTab, setActiveTab] = useState<'clients' | 'cases' | 'documents'>('clients');
-  const { cases, documents } = useData();
+  const { cases, documents, clients } = useData();
 
   // Summary Stats untuk Header
   const activeCasesCount = cases.filter(c => c.status === 'Aktif').length;
@@ -27,7 +27,7 @@ export default function ClientDatabasePage() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
          <StatCard 
             label="Total Klien" 
-            value={CLIENTS.length} 
+            value={clients.length} 
             icon={Users} 
             variant="primary" 
          />

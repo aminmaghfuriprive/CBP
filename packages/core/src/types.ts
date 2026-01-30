@@ -152,3 +152,12 @@ export interface Invoice {
   dueDate: string;
   description: string;
 }
+
+export interface ClientData {
+  id: string;
+  name: string;
+  industry: string;
+  contact: string;
+  email: string;
+  address?: string;
+}

@@ -4,12 +4,14 @@
 import React, { useState } from 'react';
 import { Card, Button } from '@cbp/ui';
 import { Mail, Phone, MapPin, Clock, ExternalLink, User, CheckCircle, ArrowRight, ArrowLeft, FileText } from 'lucide-react';
-import { SERVICES } from '@cbp/core';
+import { SERVICES, useData, Booking, ClientData } from '@cbp/core';
 
 export default function Contact() {
   const [step, setStep] = useState(1);
   const [submitted, setSubmitted] = useState(false);
-  const [isNavigating, setIsNavigating] = useState(false); 
+  const [isNavigating, setIsNavigating] = useState(false);
+  
+  const { addBooking, addClient } = useData();
   
   const [formData, setFormData] = useState({
     name: '',
@@ -61,6 +63,31 @@ export default function Contact() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (isNavigating) return;
+
+    // 1. Simpan Data Booking
+    const newBooking: Booking = {
+      id: `bk_${Date.now()}`,
+      clientName: formData.name,
+      contact: formData.whatsapp,
+      serviceType: formData.service,
+      date: formData.date,
+      time: formData.time,
+      status: 'Pending',
+      notes: formData.notes || 'Konsultasi via Website'
+    };
+    addBooking(newBooking);
+
+    // 2. Simpan Data Klien ke Database
+    const newClient: ClientData = {
+      id: `cl_${Date.now()}`,
+      name: formData.name,
+      contact: formData.whatsapp,
+      industry: 'Individual', // Default for public form
+      email: '', // Email not captured in this simplified form
+      address: `${formData.address}, ${formData.district}, ${formData.city}, ${formData.province}`
+    };
+    addClient(newClient);
+
     setSubmitted(true);
   };
 
@@ -94,9 +121,7 @@ export default function Contact() {
   return (
     <div className="bg-white dark:bg-slate-950 transition-colors duration-300">
       
-      {/* HERO SECTION 
-          - pt-32 pb-24: Konsisten dengan halaman Insights/Articles & Services
-      */}
+      {/* HERO SECTION */}
       <div className="bg-cbp-navy dark:bg-slate-900 pt-32 pb-24 text-center text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
         <div className="absolute top-0 right-0 w-64 h-64 bg-cbp-gold/20 rounded-full blur-[100px] pointer-events-none"></div>
@@ -108,10 +133,6 @@ export default function Contact() {
         </div>
       </div>
 
-      {/* CONTENT CONTAINER
-          - -mt-12: Negative margin disesuaikan (dikurangi dari 20/24) agar overlap proporsional dengan hero yang lebih pendek
-          - py-12: Padding vertikal
-      */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 -mt-12 relative z-20">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           
@@ -138,9 +159,6 @@ export default function Contact() {
                           SCBD Lot 9, Jl. Jend. Sudirman Kav. 52-53<br/>
                           Jakarta Selatan 12190
                         </p>
-                        <a href="https://maps.google.com" target="_blank" rel="noreferrer" className="inline-flex items-center text-xs font-bold text-cbp-gold mt-3 hover:underline">
-                          Petunjuk Arah <ExternalLink className="h-3 w-3 ml-1" />
-                        </a>
                       </div>
                     </div>
                   </div>
@@ -153,7 +171,6 @@ export default function Contact() {
                       <div>
                         <h4 className="font-bold text-lg mb-1">Telepon</h4>
                         <p className="text-slate-300 text-sm font-mono tracking-wide">+62 21 5555 8888</p>
-                        <p className="text-slate-400 text-xs mt-1">Fax: +62 21 5555 8889</p>
                       </div>
                     </div>
                   </div>
@@ -166,26 +183,6 @@ export default function Contact() {
                       <div>
                         <h4 className="font-bold text-lg mb-1">Email</h4>
                         <a href="mailto:info@cbpcorp.id" className="text-slate-300 text-sm hover:text-white transition-colors block">info@cbpcorp.id</a>
-                        <a href="mailto:karir@cbpcorp.id" className="text-slate-300 text-sm hover:text-white transition-colors block">karir@cbpcorp.id</a>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="group">
-                    <div className="flex items-start gap-4">
-                      <div className="bg-cbp-gold/10 p-3 rounded-xl group-hover:bg-cbp-gold group-hover:text-cbp-navy transition-colors duration-300">
-                        <Clock className="h-6 w-6 text-cbp-gold group-hover:text-cbp-navy" />
-                      </div>
-                      <div>
-                        <h4 className="font-bold text-lg mb-1">Jam Operasional</h4>
-                        <div className="flex justify-between text-sm text-slate-300 w-48">
-                          <span>Senin - Jumat</span>
-                          <span>09:00 - 17:00</span>
-                        </div>
-                        <div className="flex justify-between text-sm text-slate-500 w-48 mt-1">
-                          <span>Sabtu - Minggu</span>
-                          <span>Tutup</span>
-                        </div>
                       </div>
                     </div>
                   </div>
@@ -218,12 +215,11 @@ export default function Contact() {
                   <div>
                     <h3 className="text-2xl font-serif font-bold text-cbp-navy dark:text-white mb-2">Buat Janji Temu</h3>
                     <p className="text-slate-500 dark:text-slate-400 mb-8">Lengkapi data diri dan preferensi jadwal konsultasi Anda.</p>
-                    
                     {renderStepIndicator()}
                   </div>
                   
                   <form onSubmit={handleSubmit} onKeyDown={handleKeyDown} className="flex-1">
-                    {/* STEP 1: IDENTITAS & ALAMAT */}
+                    {/* STEP 1 */}
                     {step === 1 && (
                       <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -236,34 +232,14 @@ export default function Contact() {
                             <input required name="whatsapp" value={formData.whatsapp} onChange={handleChange} type="tel" className="w-full px-4 py-3 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white" placeholder="0812..." />
                           </div>
                         </div>
-
                         <div>
                            <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Alamat Lengkap</label>
-                           <textarea name="address" value={formData.address} onChange={handleChange} rows={3} className="w-full px-4 py-3 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white" placeholder="Jalan, Nomor Rumah, RT/RW..." />
-                        </div>
-
-                        <div className="grid grid-cols-2 gap-4">
-                           <div>
-                              <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1">Kecamatan</label>
-                              <input name="district" value={formData.district} onChange={handleChange} type="text" className="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white" placeholder="Kecamatan" />
-                           </div>
-                           <div>
-                              <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1">Kabupaten/Kota</label>
-                              <input name="city" value={formData.city} onChange={handleChange} type="text" className="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white" placeholder="Kota" />
-                           </div>
-                           <div>
-                              <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1">Provinsi</label>
-                              <input name="province" value={formData.province} onChange={handleChange} type="text" className="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white" placeholder="Provinsi" />
-                           </div>
-                           <div>
-                              <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1">Negara</label>
-                              <input name="country" value={formData.country} onChange={handleChange} type="text" className="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white" />
-                           </div>
+                           <textarea name="address" value={formData.address} onChange={handleChange} rows={3} className="w-full px-4 py-3 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white" placeholder="Jalan, Nomor Rumah..." />
                         </div>
                       </div>
                     )}
 
-                    {/* STEP 2: JADWAL */}
+                    {/* STEP 2 */}
                     {step === 2 && (
                       <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
                         <div>
@@ -292,26 +268,21 @@ export default function Contact() {
                       </div>
                     )}
 
-                    {/* STEP 3: REVIEW (SUMMARY) */}
+                    {/* STEP 3 */}
                     {step === 3 && (
                       <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
                          <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border-2 border-cbp-gold/50 shadow-sm relative overflow-hidden">
-                            <div className="absolute top-0 right-0 p-4 opacity-10">
-                               <FileText className="h-24 w-24 text-cbp-navy dark:text-white" />
-                            </div>
-                            
                             <h4 className="font-bold text-lg text-cbp-navy dark:text-white mb-6 border-b-2 border-slate-100 dark:border-slate-800 pb-2">
                                Periksa Kembali Data Anda
                             </h4>
-                            
                             <div className="space-y-4 text-sm relative z-10">
                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                                   <span className="text-slate-500 font-medium">Nama Lengkap</span>
-                                  <span className="sm:col-span-2 font-bold text-slate-900 dark:text-white">{formData.name || '-'}</span>
+                                  <span className="sm:col-span-2 font-bold text-slate-900 dark:text-white">{formData.name}</span>
                                </div>
                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                                   <span className="text-slate-500 font-medium">WhatsApp</span>
-                                  <span className="sm:col-span-2 font-bold text-slate-900 dark:text-white font-mono">{formData.whatsapp || '-'}</span>
+                                  <span className="sm:col-span-2 font-bold text-slate-900 dark:text-white font-mono">{formData.whatsapp}</span>
                                </div>
                                <div className="border-t border-slate-100 dark:border-slate-800 my-1"></div>
                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
@@ -321,36 +292,10 @@ export default function Contact() {
                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                                   <span className="text-slate-500 font-medium">Jadwal</span>
                                   <span className="sm:col-span-2 font-bold text-slate-900 dark:text-white">
-                                    {formData.date ? `${new Date(formData.date).toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}` : '-'} 
-                                    <span className="mx-2 text-slate-300">|</span> 
-                                    {formData.time} WIB
+                                    {formData.date} <span className="mx-2 text-slate-300">|</span> {formData.time} WIB
                                   </span>
                                </div>
-                               
-                               <div className="border-t border-slate-100 dark:border-slate-800 my-1"></div>
-                               
-                               <div>
-                                  <span className="text-slate-500 font-medium block mb-2">Alamat Lengkap</span>
-                                  <div className="bg-slate-50 dark:bg-slate-800 p-3 rounded-lg border border-slate-100 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-xs leading-relaxed">
-                                    <p className="font-semibold mb-1">{formData.address || '-'}</p>
-                                    <p className="text-slate-500">
-                                        {[formData.district, formData.city, formData.province, formData.country].filter(Boolean).join(', ') || '-'}
-                                    </p>
-                                  </div>
-                               </div>
-
-                               <div className="mt-4">
-                                  <span className="text-slate-500 font-medium block mb-2">Catatan Tambahan</span>
-                                  <div className="bg-slate-50 dark:bg-slate-800 p-3 rounded-lg border border-slate-100 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-xs italic">
-                                    "{formData.notes || 'Tidak ada catatan.'}"
-                                  </div>
-                               </div>
                             </div>
-                         </div>
-                         
-                         <div className="flex items-start gap-3 p-4 bg-blue-50 dark:bg-blue-900/10 rounded-lg text-sm text-blue-700 dark:text-blue-300 border border-blue-100 dark:border-blue-900/20">
-                            <Clock className="h-5 w-5 flex-shrink-0 mt-0.5" />
-                            <p>Pastikan data sudah benar sebelum konfirmasi. Admin kami akan menghubungi Anda untuk verifikasi akhir.</p>
                          </div>
                       </div>
                     )}
@@ -378,21 +323,6 @@ export default function Contact() {
               )}
             </Card>
           </div>
-        </div>
-
-        {/* FAQ Section */}
-        <div className="mt-20">
-           <h3 className="text-xl font-serif font-bold text-center mb-8 text-cbp-navy dark:text-white">Pertanyaan Umum</h3>
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-             <div className="bg-slate-50 dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800">
-               <h4 className="font-bold text-cbp-navy dark:text-white mb-2">Apakah konsultasi awal berbayar?</h4>
-               <p className="text-sm text-slate-600 dark:text-slate-400">Untuk konsultasi awal via email (assessment), kami tidak memungut biaya. Biaya konsultasi mendalam akan diinformasikan setelah review awal.</p>
-             </div>
-             <div className="bg-slate-50 dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800">
-               <h4 className="font-bold text-cbp-navy dark:text-white mb-2">Apakah parkir tersedia?</h4>
-               <p className="text-sm text-slate-600 dark:text-slate-400">Ya, tersedia parkir tamu di basement Equity Tower. Silakan tukarkan ID Card di resepsionis lobi utama.</p>
-             </div>
-           </div>
         </div>
       </div>
     </div>
