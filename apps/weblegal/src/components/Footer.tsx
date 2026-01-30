@@ -8,6 +8,7 @@ import { Shield, Mail, Phone, MapPin, Instagram, Linkedin, Facebook } from 'luci
 
 export const Footer: React.FC = () => {
   const pathname = usePathname();
+  const sysLegalUrl = process.env.NEXT_PUBLIC_SYSLEGAL_URL || "http://localhost:3001/login";
 
   // Sembunyikan Footer publik jika berada di dalam portal klien
   if (pathname && pathname.startsWith('/portal')) return null;
@@ -89,7 +90,7 @@ export const Footer: React.FC = () => {
           <div className="flex gap-6">
             <a href="#" className="hover:text-white transition-colors">Kebijakan Privasi</a>
             <a href="#" className="hover:text-white transition-colors">Syarat & Ketentuan</a>
-            <a href="http://localhost:3001/login" className="hover:text-cbp-gold transition-colors font-bold flex items-center gap-1">
+            <a href={sysLegalUrl} className="hover:text-cbp-gold transition-colors font-bold flex items-center gap-1">
               Login Klien & Staf
             </a>
           </div>

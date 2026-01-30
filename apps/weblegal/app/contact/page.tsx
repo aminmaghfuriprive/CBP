@@ -1,17 +1,29 @@
-import React from 'react';
+
+"use client";
+
+import React, { useState } from 'react';
 import { Card, Button } from '@cbp/ui';
-import { Mail, Phone, MapPin, Clock, ExternalLink } from 'lucide-react';
+import { Mail, Phone, MapPin, Clock, ExternalLink, Calendar, User, FileText, CheckCircle } from 'lucide-react';
+import { SERVICES } from '@cbp/core';
+import Link from 'next/link';
 
 export default function Contact() {
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitted(true);
+  };
+
   return (
     <div className="bg-white dark:bg-slate-950 transition-colors duration-300 pt-20">
       <div className="bg-cbp-navy dark:bg-slate-900 py-24 text-center text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
         <div className="absolute top-0 right-0 w-64 h-64 bg-cbp-gold/20 rounded-full blur-[100px] pointer-events-none"></div>
         <div className="relative z-10 max-w-4xl mx-auto px-4">
-          <h1 className="text-4xl md:text-5xl font-serif font-bold mb-6">Hubungi Kami</h1>
+          <h1 className="text-4xl md:text-5xl font-serif font-bold mb-6">Hubungi & Reservasi</h1>
           <p className="text-slate-300 text-lg md:text-xl max-w-2xl mx-auto">
-            Tim kami siap mendengarkan dan memberikan solusi hukum terbaik untuk Anda. Silakan isi formulir di bawah atau kunjungi kantor kami.
+            Jadwalkan konsultasi hukum atau kunjungi kantor kami. Tim kami siap memberikan solusi terbaik untuk Anda.
           </p>
         </div>
       </div>
@@ -19,6 +31,7 @@ export default function Contact() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 -mt-10 relative z-20">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           
+          {/* KOLOM KIRI: INFORMASI KANTOR (DIPERTAHANKAN) */}
           <div className="lg:col-span-1 h-full">
             <div className="bg-slate-900 dark:bg-slate-800 text-white rounded-2xl shadow-2xl overflow-hidden h-full relative border border-slate-700">
               <div className="absolute inset-0 bg-gradient-to-br from-cbp-navy to-slate-900 opacity-90 z-0"></div>
@@ -101,47 +114,98 @@ export default function Contact() {
             </div>
           </div>
 
+          {/* KOLOM KANAN: FORMULIR BOOKING (MENGGANTIKAN FORM KONTAK BIASA) */}
           <div className="lg:col-span-2">
             <Card className="h-full bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 p-8 md:p-12 shadow-xl">
-              <div className="mb-8">
-                <h3 className="text-2xl font-serif font-bold text-cbp-navy dark:text-white mb-2">Kirim Pesan</h3>
-                <p className="text-slate-500 dark:text-slate-400">Silakan lengkapi formulir di bawah ini. Kami akan merespons dalam 1x24 jam.</p>
-              </div>
               
-              <form className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Nama Lengkap</label>
-                    <input type="text" className="w-full px-4 py-3 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-cbp-navy dark:focus:ring-cbp-gold focus:border-transparent outline-none transition-all placeholder-slate-400" placeholder="Nama Anda" />
+              {submitted ? (
+                <div className="h-full flex flex-col items-center justify-center text-center py-12 animate-in fade-in zoom-in duration-500">
+                  <div className="w-20 h-20 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-6">
+                    <CheckCircle className="h-10 w-10 text-green-600 dark:text-green-400" />
                   </div>
-                  <div>
-                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Email</label>
-                    <input type="email" className="w-full px-4 py-3 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-cbp-navy dark:focus:ring-cbp-gold focus:border-transparent outline-none transition-all placeholder-slate-400" placeholder="email@contoh.com" />
+                  <h3 className="text-2xl font-serif font-bold text-cbp-navy dark:text-white mb-2">Permintaan Terkirim</h3>
+                  <p className="text-slate-600 dark:text-slate-400 mb-8 max-w-md">
+                    Terima kasih. Tim kami akan segera meninjau jadwal pengacara yang tersedia dan mengirimkan konfirmasi ke email Anda dalam waktu 1x24 jam.
+                  </p>
+                  <Button onClick={() => setSubmitted(false)} variant="outline">Buat Jadwal Baru</Button>
+                </div>
+              ) : (
+                <>
+                  <div className="mb-8">
+                    <h3 className="text-2xl font-serif font-bold text-cbp-navy dark:text-white mb-2">Buat Janji Temu</h3>
+                    <p className="text-slate-500 dark:text-slate-400">Isi formulir lengkap di bawah ini untuk menjadwalkan konsultasi dengan tim ahli kami.</p>
                   </div>
-                </div>
-                <div>
-                  <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Subjek</label>
-                  <select className="w-full px-4 py-3 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-cbp-navy dark:focus:ring-cbp-gold focus:border-transparent outline-none transition-all cursor-pointer">
-                    <option>Konsultasi Umum</option>
-                    <option>Sengketa Bisnis</option>
-                    <option>Hukum Keluarga</option>
-                    <option>Lainnya</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Pesan</label>
-                  <textarea rows={6} className="w-full px-4 py-3 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-cbp-navy dark:focus:ring-cbp-gold focus:border-transparent outline-none transition-all placeholder-slate-400" placeholder="Jelaskan kebutuhan hukum Anda secara singkat..."></textarea>
-                </div>
-                
-                <div className="flex items-center justify-between pt-4">
-                   <p className="text-xs text-slate-400 hidden sm:block">
-                     Data Anda dilindungi oleh Kebijakan Privasi kami.
-                   </p>
-                   <Button size="lg" className="w-full sm:w-auto px-8 bg-cbp-navy text-white hover:bg-slate-800 dark:bg-cbp-gold dark:text-cbp-navy dark:hover:bg-white shadow-lg shadow-cbp-navy/20">
-                     Kirim Pesan
-                   </Button>
-                </div>
-              </form>
+                  
+                  <form onSubmit={handleSubmit} className="space-y-8">
+                    {/* Bagian 1: Info Diri */}
+                    <div className="space-y-5">
+                      <h4 className="font-bold text-sm text-cbp-gold uppercase tracking-widest flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-2">
+                        <User className="h-4 w-4" /> Informasi Diri
+                      </h4>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                          <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Nama Lengkap</label>
+                          <input required type="text" className="w-full px-4 py-3 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-cbp-navy dark:focus:ring-cbp-gold outline-none transition-all placeholder-slate-400" placeholder="Cth: Budi Santoso" />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Email</label>
+                          <input required type="email" className="w-full px-4 py-3 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-cbp-navy dark:focus:ring-cbp-gold outline-none transition-all placeholder-slate-400" placeholder="nama@email.com" />
+                        </div>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Nomor Telepon / WhatsApp</label>
+                        <input required type="tel" className="w-full px-4 py-3 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-cbp-navy dark:focus:ring-cbp-gold outline-none transition-all placeholder-slate-400" placeholder="0812..." />
+                      </div>
+                    </div>
+
+                    {/* Bagian 2: Detail Konsultasi */}
+                    <div className="space-y-5">
+                      <h4 className="font-bold text-sm text-cbp-gold uppercase tracking-widest flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-2">
+                        <Calendar className="h-4 w-4" /> Detail Konsultasi
+                      </h4>
+                      <div>
+                        <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Layanan Hukum</label>
+                        <select className="w-full px-4 py-3 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-cbp-navy dark:focus:ring-cbp-gold outline-none transition-all cursor-pointer">
+                          {SERVICES.map(s => <option key={s.id} value={s.title}>{s.title}</option>)}
+                          <option value="Lainnya">Lainnya / Konsultasi Umum</option>
+                        </select>
+                      </div>
+                      <div className="grid grid-cols-2 gap-6">
+                        <div>
+                          <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Tanggal</label>
+                          <input required type="date" className="w-full px-4 py-3 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-cbp-navy dark:focus:ring-cbp-gold outline-none transition-all" />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Waktu</label>
+                          <select className="w-full px-4 py-3 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-cbp-navy dark:focus:ring-cbp-gold outline-none transition-all cursor-pointer">
+                            <option>09:00</option>
+                            <option>10:00</option>
+                            <option>11:00</option>
+                            <option>13:00</option>
+                            <option>14:00</option>
+                            <option>15:00</option>
+                            <option>16:00</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Bagian 3: Catatan */}
+                    <div className="space-y-5">
+                      <h4 className="font-bold text-sm text-cbp-gold uppercase tracking-widest flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-2">
+                        <FileText className="h-4 w-4" /> Catatan Tambahan
+                      </h4>
+                      <textarea rows={4} className="w-full px-4 py-3 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-cbp-navy dark:focus:ring-cbp-gold outline-none transition-all placeholder-slate-400" placeholder="Jelaskan secara singkat permasalahan hukum Anda..."></textarea>
+                    </div>
+                    
+                    <div className="flex items-center justify-end pt-4">
+                      <Button size="lg" className="w-full md:w-auto px-10 bg-cbp-navy text-white hover:bg-slate-800 dark:bg-cbp-gold dark:text-cbp-navy dark:hover:bg-white shadow-lg shadow-cbp-navy/20 font-bold">
+                        Ajukan Jadwal
+                      </Button>
+                    </div>
+                  </form>
+                </>
+              )}
             </Card>
           </div>
         </div>
