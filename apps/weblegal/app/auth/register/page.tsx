@@ -69,7 +69,7 @@ export default function ClientRegisterPage() {
 
         {/* RIGHT COLUMN: Form */}
         <div className="w-full md:w-1/2 p-8 md:p-12 lg:p-16 flex flex-col justify-center">
-          <Link href="/" className="flex items-center gap-2 text-sm font-bold text-cbp-navy dark:text-cbp-gold hover:underline mb-8 w-fit transition-colors">
+          <Link href="/" className="flex items-center gap-2 text-sm font-bold text-cbp-gold hover:text-cbp-navy dark:hover:text-white transition-colors mb-8 w-fit">
             <ArrowLeft className="h-4 w-4" /> Kembali ke Beranda
           </Link>
 

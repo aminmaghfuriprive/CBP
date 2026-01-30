@@ -52,12 +52,14 @@ export default function Home() {
               
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link href="/contact">
-                  <Button size="lg" className="bg-slate-800 hover:bg-cbp-gold hover:text-cbp-navy text-white border border-slate-700 hover:border-cbp-gold transition-all duration-300 px-8 py-4 h-auto text-base w-full sm:w-auto">
+                  {/* BUTTON FIX: Force Gold/Navy style regardless of theme */}
+                  <Button size="lg" className="bg-cbp-gold text-cbp-navy hover:bg-white hover:text-cbp-navy border-transparent transition-all duration-300 px-8 py-4 h-auto text-base w-full sm:w-auto shadow-lg shadow-cbp-gold/20 font-bold">
                     Jadwalkan Konsultasi
                   </Button>
                 </Link>
                 <Link href="/services">
-                  <Button variant="outline" size="lg" className="border-slate-600 text-slate-300 hover:border-white hover:text-white hover:bg-white/5 px-8 py-4 h-auto text-base w-full sm:w-auto">
+                  {/* BUTTON FIX: Force Light Outline style regardless of theme */}
+                  <Button variant="outline" size="lg" className="border-slate-500 text-slate-300 hover:border-white hover:text-white hover:bg-white/10 px-8 py-4 h-auto text-base w-full sm:w-auto">
                     Eksplorasi Layanan
                   </Button>
                 </Link>
@@ -84,7 +86,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 2. TRUST STRIP - Dark Mode Contrast Fix */}
+      {/* 2. TRUST STRIP */}
       <div className="bg-cbp-navy dark:bg-slate-900 border-y border-white/10 relative z-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-white/5">
@@ -103,7 +105,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* 3. FOUNDER SPOTLIGHT - Visual Separation */}
+      {/* 3. FOUNDER SPOTLIGHT */}
       <section className="py-24 bg-white dark:bg-slate-950 transition-colors duration-500">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
@@ -160,7 +162,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 4. SERVICES GRID - Contrast Background */}
+      {/* 4. SERVICES GRID */}
       <section className="py-24 bg-slate-50 dark:bg-slate-900 transition-colors duration-500">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-20">
@@ -196,7 +198,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 5. CTA SECTION - Footer Separation */}
+      {/* 5. CTA SECTION */}
       <section className="relative py-32 bg-cbp-navy dark:bg-slate-900 overflow-hidden">
         <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
         <div className="absolute inset-0 bg-gradient-to-r from-cbp-navy/50 to-transparent"></div>
@@ -210,11 +212,13 @@ export default function Home() {
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-6">
             <Link href="/contact">
-              <Button size="lg" variant="secondary" className="px-12 py-4 text-lg shadow-lg hover:shadow-cbp-gold/20 transform hover:-translate-y-1 transition-all">
+              {/* BUTTON FIX: Force Gold/Navy style regardless of theme */}
+              <Button size="lg" className="bg-cbp-gold text-cbp-navy hover:bg-white hover:text-cbp-navy px-12 py-4 text-lg shadow-lg hover:shadow-cbp-gold/20 transform hover:-translate-y-1 transition-all border-transparent font-bold">
                 Jadwalkan Konsultasi
               </Button>
             </Link>
             <Link href="/contact">
+              {/* BUTTON FIX: Force White Outline style regardless of theme */}
               <Button size="lg" variant="outline" className="px-12 py-4 text-lg border-white/20 text-white hover:bg-white/10 hover:border-white">
                 Hubungi Staf Kami
               </Button>
