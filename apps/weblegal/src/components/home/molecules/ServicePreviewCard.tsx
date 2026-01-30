@@ -27,7 +27,7 @@ export const ServicePreviewCard: React.FC<ServicePreviewCardProps> = ({ service 
         {service.description}
       </p>
       
-      <Link href="/services" className="inline-flex items-center text-sm font-bold text-slate-400 group-hover:text-cbp-navy dark:group-hover:text-white transition-colors mt-auto">
+      <Link href="/services" className="inline-flex items-center text-sm font-bold text-cbp-gold hover:text-cbp-goldlight transition-colors mt-auto">
         Lihat Detail <ArrowRight className="ml-2 h-4 w-4" />
       </Link>
     </div>
