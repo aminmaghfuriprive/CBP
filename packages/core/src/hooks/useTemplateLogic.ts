@@ -1,10 +1,12 @@
 
 "use client";
 
+import { useEffect } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../db';
 import { DocumentTemplate } from '../types';
 import { useNotifications } from '../context/NotificationContext';
+import { MOCK_TEMPLATES } from '../data/mock_templates';
 
 export const useTemplateLogic = () => {
   const { addNotification } = useNotifications();
@@ -14,6 +16,23 @@ export const useTemplateLogic = () => {
     if (!db.templates) return [];
     return db.templates.toArray();
   }) || [];
+
+  // Auto-seed if empty (handling DB upgrade scenario)
+  useEffect(() => {
+    const seedTemplates = async () => {
+      try {
+        if (!db.templates) return;
+        const count = await db.templates.count();
+        if (count === 0) {
+          await db.templates.bulkAdd(MOCK_TEMPLATES);
+          console.log('Templates seeded successfully');
+        }
+      } catch (error) {
+        console.error('Failed to seed templates:', error);
+      }
+    };
+    seedTemplates();
+  }, []);
 
   const updateTemplate = async (id: string, updates: Partial<DocumentTemplate>) => {
     try {

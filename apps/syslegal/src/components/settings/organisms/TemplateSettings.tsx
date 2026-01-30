@@ -1,10 +1,10 @@
 
 "use client";
 
-import React, { useState } from 'react';
-import { useTemplateLogic, DocumentTemplate, HeaderLayout } from '@cbp/core';
+import React, { useState, useEffect } from 'react';
+import { useTemplateLogic, DocumentTemplate, HeaderLayout, COMPANY_NAME } from '@cbp/core';
 import { Card, Button } from '@cbp/ui';
-import { Save, AlignLeft, AlignCenter, AlignRight, Columns } from 'lucide-react';
+import { Save, AlignLeft, AlignCenter, AlignRight, Columns, Loader2 } from 'lucide-react';
 import { LetterheadPreview } from '../molecules/LetterheadPreview';
 import { EnvelopePreview } from '../molecules/EnvelopePreview';
 
@@ -19,11 +19,25 @@ export const TemplateSettings: React.FC = () => {
   const [formData, setFormData] = useState<DocumentTemplate | null>(null);
 
   // Sync state when template changes
-  React.useEffect(() => {
+  useEffect(() => {
     if (currentTemplate) {
       setFormData(currentTemplate);
+    } else if (templates.length > 0 && !currentTemplate) {
+        // Fallback if specific type not found but templates exist
+        // This creates a temporary default state to avoid UI locking
+        setFormData({
+            id: `temp_${Date.now()}`,
+            type: activeTab,
+            name: 'New Template',
+            companyName: COMPANY_NAME,
+            addressLine1: '',
+            contactInfo: '',
+            website: '',
+            layout: 'center',
+            isActive: false
+        });
     }
-  }, [currentTemplate]);
+  }, [currentTemplate, templates, activeTab]);
 
   const handleChange = (field: keyof DocumentTemplate, value: any) => {
     if (formData) {
@@ -32,12 +46,20 @@ export const TemplateSettings: React.FC = () => {
   };
 
   const handleSave = () => {
-    if (formData) {
+    if (formData && currentTemplate) {
       updateTemplate(formData.id, formData);
     }
   };
 
-  if (!formData) return <div>Loading template...</div>;
+  // Loading State
+  if (!formData) {
+      return (
+          <div className="flex flex-col items-center justify-center h-64 text-slate-500">
+              <Loader2 className="h-8 w-8 animate-spin mb-4 text-cbp-gold" />
+              <p>Memuat konfigurasi template...</p>
+          </div>
+      );
+  }
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 h-full">
@@ -65,7 +87,7 @@ export const TemplateSettings: React.FC = () => {
               <input 
                 type="text" 
                 className="w-full px-3 py-2 text-sm border border-slate-300 dark:border-slate-700 rounded-md bg-white dark:bg-slate-800 dark:text-white"
-                value={formData.companyName}
+                value={formData.companyName || ''}
                 onChange={(e) => handleChange('companyName', e.target.value)}
               />
             </div>
@@ -75,7 +97,7 @@ export const TemplateSettings: React.FC = () => {
               <input 
                 type="text" 
                 className="w-full px-3 py-2 text-sm border border-slate-300 dark:border-slate-700 rounded-md bg-white dark:bg-slate-800 dark:text-white"
-                value={formData.addressLine1}
+                value={formData.addressLine1 || ''}
                 onChange={(e) => handleChange('addressLine1', e.target.value)}
               />
             </div>
@@ -118,7 +140,7 @@ export const TemplateSettings: React.FC = () => {
               <input 
                 type="text" 
                 className="w-full px-3 py-2 text-sm border border-slate-300 dark:border-slate-700 rounded-md bg-white dark:bg-slate-800 dark:text-white"
-                value={formData.contactInfo}
+                value={formData.contactInfo || ''}
                 onChange={(e) => handleChange('contactInfo', e.target.value)}
               />
             </div>
