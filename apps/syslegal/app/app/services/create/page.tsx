@@ -44,7 +44,7 @@ export default function CreateServicePage() {
       division: formData.division as any,
       basePrice: Number(formData.basePrice) || 0,
       iconName: formData.iconName || 'Scale',
-      isActive: formData.isActive,
+      isActive: formData.isActive ?? true, // Fix: Ensure boolean value
       sop: sopSteps
     };
 
