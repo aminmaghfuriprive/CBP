@@ -26,8 +26,8 @@ export default function ClientRegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 dark:bg-slate-950 flex items-center justify-center p-4">
-      <div className="w-full max-w-5xl bg-white dark:bg-slate-900 rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row min-h-[600px]">
+    <div className="min-h-screen bg-slate-100 dark:bg-slate-950 flex items-center justify-center p-4 transition-colors duration-500">
+      <div className="w-full max-w-5xl bg-white dark:bg-slate-900 rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row min-h-[600px] border border-slate-200 dark:border-slate-800">
         
         {/* LEFT COLUMN: Visual & Branding */}
         <div className="hidden md:flex flex-col justify-between w-1/2 bg-slate-900 relative p-12 text-white overflow-hidden">
@@ -69,7 +69,7 @@ export default function ClientRegisterPage() {
 
         {/* RIGHT COLUMN: Form */}
         <div className="w-full md:w-1/2 p-8 md:p-12 lg:p-16 flex flex-col justify-center">
-          <Link href="/" className="flex items-center gap-2 text-sm text-slate-400 hover:text-cbp-navy dark:hover:text-white mb-8 w-fit transition-colors">
+          <Link href="/" className="flex items-center gap-2 text-sm font-bold text-cbp-navy dark:text-cbp-gold hover:underline mb-8 w-fit transition-colors">
             <ArrowLeft className="h-4 w-4" /> Kembali ke Beranda
           </Link>
 
@@ -85,7 +85,7 @@ export default function ClientRegisterPage() {
                   <User className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
                   <input 
                     type="text" required 
-                    className="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-cbp-gold outline-none transition-all placeholder:text-slate-400" 
+                    className="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-cbp-gold outline-none transition-all placeholder:text-slate-400" 
                     placeholder="Sesuai KTP" 
                   />
                 </div>
@@ -98,7 +98,7 @@ export default function ClientRegisterPage() {
                   <input 
                     type="tel" required 
                     value={phone} onChange={(e) => setPhone(e.target.value)} 
-                    className="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-cbp-gold outline-none transition-all placeholder:text-slate-400" 
+                    className="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-cbp-gold outline-none transition-all placeholder:text-slate-400" 
                     placeholder="0812xxxx" 
                   />
                 </div>
@@ -110,7 +110,7 @@ export default function ClientRegisterPage() {
                   <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
                   <input 
                     type="password" required 
-                    className="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-cbp-gold outline-none transition-all placeholder:text-slate-400" 
+                    className="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-cbp-gold outline-none transition-all placeholder:text-slate-400" 
                     placeholder="Minimal 8 karakter" 
                   />
                 </div>

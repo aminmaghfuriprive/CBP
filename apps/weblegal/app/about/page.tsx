@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Card, SectionHeader } from '@cbp/ui';
 import { TEAM } from '@cbp/core';
@@ -95,7 +96,7 @@ export default function About() {
       </section>
 
       {/* 3. SUPPORT TEAM */}
-      <section className="py-24 bg-white dark:bg-slate-900">
+      <section className="py-24 bg-white dark:bg-slate-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeader 
             title="Tim Pendukung & Staf Ahli"
@@ -104,7 +105,7 @@ export default function About() {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {staff.map((member) => (
-              <Card key={member.id} className="text-center group hover:-translate-y-1 transition-transform duration-300" padding={false}>
+              <Card key={member.id} className="text-center group hover:-translate-y-1 transition-transform duration-300 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800" padding={false}>
                 <div className="h-64 overflow-hidden relative border-b border-slate-100 dark:border-slate-800">
                   <div className="absolute inset-0 bg-slate-900/10 group-hover:bg-transparent transition-colors z-10"></div>
                   <Image 

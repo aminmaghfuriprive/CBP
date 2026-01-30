@@ -84,8 +84,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 2. TRUST STRIP */}
-      <div className="bg-cbp-navy dark:bg-slate-950 border-y border-white/10 relative z-20">
+      {/* 2. TRUST STRIP - Dark Mode Contrast Fix */}
+      <div className="bg-cbp-navy dark:bg-slate-900 border-y border-white/10 relative z-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-white/5">
             {[
@@ -103,8 +103,8 @@ export default function Home() {
         </div>
       </div>
 
-      {/* 3. FOUNDER SPOTLIGHT */}
-      <section className="py-24 bg-white dark:bg-slate-900 transition-colors duration-500">
+      {/* 3. FOUNDER SPOTLIGHT - Visual Separation */}
+      <section className="py-24 bg-white dark:bg-slate-950 transition-colors duration-500">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="relative order-1">
@@ -160,8 +160,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 4. SERVICES GRID */}
-      <section className="py-24 bg-slate-50 dark:bg-slate-950 transition-colors duration-500">
+      {/* 4. SERVICES GRID - Contrast Background */}
+      <section className="py-24 bg-slate-50 dark:bg-slate-900 transition-colors duration-500">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-20">
             <h2 className="text-3xl md:text-5xl font-serif font-bold text-cbp-navy dark:text-white mb-6">Area Keahlian</h2>
@@ -174,10 +174,10 @@ export default function Home() {
             {SERVICES.slice(0, 3).map((service) => {
               const IconComponent = (Icons as any)[service.iconName] || Icons.HelpCircle;
               return (
-                <div key={service.id} className="group relative bg-white dark:bg-slate-900 rounded-2xl p-10 shadow-sm hover:shadow-2xl transition-all duration-500 border border-slate-100 dark:border-slate-800 overflow-hidden">
+                <div key={service.id} className="group relative bg-white dark:bg-slate-950 rounded-2xl p-10 shadow-sm hover:shadow-2xl transition-all duration-500 border border-slate-100 dark:border-slate-800 overflow-hidden">
                   <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cbp-gold to-cbp-goldlight transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
                   
-                  <div className="w-16 h-16 bg-slate-50 dark:bg-slate-800 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-cbp-navy dark:group-hover:bg-cbp-gold transition-colors duration-500">
+                  <div className="w-16 h-16 bg-slate-50 dark:bg-slate-900 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-cbp-navy dark:group-hover:bg-cbp-gold transition-colors duration-500">
                     <IconComponent className="h-8 w-8 text-cbp-navy dark:text-cbp-gold group-hover:text-white dark:group-hover:text-slate-900 transition-colors" />
                   </div>
                   
@@ -196,8 +196,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 5. CTA SECTION */}
-      <section className="relative py-32 bg-cbp-navy dark:bg-slate-950 overflow-hidden">
+      {/* 5. CTA SECTION - Footer Separation */}
+      <section className="relative py-32 bg-cbp-navy dark:bg-slate-900 overflow-hidden">
         <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
         <div className="absolute inset-0 bg-gradient-to-r from-cbp-navy/50 to-transparent"></div>
         

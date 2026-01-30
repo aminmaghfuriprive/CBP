@@ -31,8 +31,8 @@ export default function ClientLoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 dark:bg-slate-950 flex items-center justify-center p-4">
-      <div className="w-full max-w-5xl bg-white dark:bg-slate-900 rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row min-h-[600px]">
+    <div className="min-h-screen bg-slate-100 dark:bg-slate-950 flex items-center justify-center p-4 transition-colors duration-500">
+      <div className="w-full max-w-5xl bg-white dark:bg-slate-900 rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row min-h-[600px] border border-slate-200 dark:border-slate-800">
         
         {/* LEFT COLUMN: Visual & Branding */}
         <div className="hidden md:flex flex-col justify-between w-1/2 bg-cbp-navy relative p-12 text-white overflow-hidden">
@@ -65,7 +65,7 @@ export default function ClientLoginPage() {
 
         {/* RIGHT COLUMN: Form */}
         <div className="w-full md:w-1/2 p-8 md:p-12 lg:p-16 flex flex-col justify-center">
-          <Link href="/" className="flex items-center gap-2 text-sm text-slate-400 hover:text-cbp-navy dark:hover:text-white mb-8 w-fit transition-colors">
+          <Link href="/" className="flex items-center gap-2 text-sm font-bold text-cbp-navy dark:text-cbp-gold hover:underline mb-8 w-fit transition-colors">
             <ArrowLeft className="h-4 w-4" /> Kembali ke Beranda
           </Link>
 
@@ -82,7 +82,7 @@ export default function ClientLoginPage() {
                   <input 
                     type="tel" 
                     value={phone} onChange={(e) => setPhone(e.target.value)} 
-                    className="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-cbp-gold outline-none transition-all placeholder:text-slate-400" 
+                    className="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-cbp-gold outline-none transition-all placeholder:text-slate-400" 
                     placeholder="0812xxxx" 
                   />
                 </div>
@@ -98,7 +98,7 @@ export default function ClientLoginPage() {
                   <input 
                     type="password" 
                     value={password} onChange={(e) => setPassword(e.target.value)} 
-                    className="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-cbp-gold outline-none transition-all placeholder:text-slate-400" 
+                    className="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-cbp-gold outline-none transition-all placeholder:text-slate-400" 
                     placeholder="••••••••" 
                   />
                 </div>
