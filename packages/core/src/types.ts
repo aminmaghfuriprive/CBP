@@ -209,3 +209,23 @@ export interface PayrollSlip {
   status: 'Draft' | 'Paid';
   paymentDate?: string;
 }
+
+// Role & Permission Types
+export interface RoleConfig {
+  id: string;
+  roleCode: UserRole;
+  label: string;
+  description: string;
+  permissions: string[]; // e.g., 'case.view', 'finance.edit'
+  memberCount?: number;
+}
+
+export interface PermissionNode {
+  key: string;
+  label: string;
+}
+
+export interface PermissionGroup {
+  category: string;
+  items: PermissionNode[];
+}

@@ -1,6 +1,6 @@
 
 import Dexie, { type Table } from 'dexie';
-import { CaseData, Booking, CalendarEvent, DocumentFile, Invoice, ServiceItem, Article, ClientData, User, Conversation, Message, AttendanceRecord, PayrollSlip } from '../types';
+import { CaseData, Booking, CalendarEvent, DocumentFile, Invoice, ServiceItem, Article, ClientData, User, Conversation, Message, AttendanceRecord, PayrollSlip, RoleConfig } from '../types';
 import { MOCK_CASES } from '../data/mock_cases';
 import { MOCK_BOOKINGS, EVENTS } from '../data/mock_calendar';
 import { DOCUMENTS, ARTICLES } from '../data/mock_content';
@@ -9,6 +9,7 @@ import { SERVICES } from '../data/services';
 import { CLIENTS, MOCK_USERS_DB } from '../data/mock_users';
 import { MOCK_CONVERSATIONS, MOCK_MESSAGES } from '../data/mock_omnichannel';
 import { MOCK_PAYROLL } from '../data/mock_payroll';
+import { MOCK_ROLES } from '../data/mock_roles';
 
 export class CBPDatabase extends Dexie {
   cases!: Table<CaseData, string>;
@@ -24,6 +25,7 @@ export class CBPDatabase extends Dexie {
   messages!: Table<Message, string>;
   attendance!: Table<AttendanceRecord, string>;
   payroll!: Table<PayrollSlip, string>;
+  roles!: Table<RoleConfig, string>;
 
   constructor() {
     super('CBPDatabase');
@@ -67,9 +69,6 @@ export class CBPDatabase extends Dexie {
       messages: 'id, conversationId, timestamp',
       attendance: 'id, userId, date, status',
       payroll: 'id, employeeId, period, status'
-    }).upgrade(async (trans: any) => {
-       await trans.table('payroll').clear();
-       await trans.table('payroll').bulkAdd(MOCK_PAYROLL);
     });
 
     // Version 11: Fix missing timestamp index on conversations
@@ -83,10 +82,31 @@ export class CBPDatabase extends Dexie {
       articles: 'id, category, date',
       clients: 'id, name, industry',
       users: 'id, name, email, role, division',
-      conversations: 'id, channel, lastMessage, timestamp', // Added timestamp index here
+      conversations: 'id, channel, lastMessage, timestamp', 
       messages: 'id, conversationId, timestamp',
       attendance: 'id, userId, date, status',
       payroll: 'id, employeeId, period, status'
+    });
+
+    // Version 12: Roles Management
+    (this as any).version(12).stores({
+      cases: 'id, status, clientName, division',
+      bookings: 'id, status, date',
+      events: 'id, date, type, client',
+      documents: 'id, category, type',
+      invoices: 'id, status, clientName',
+      services: 'id, division, title', 
+      articles: 'id, category, date',
+      clients: 'id, name, industry',
+      users: 'id, name, email, role, division',
+      conversations: 'id, channel, lastMessage, timestamp', 
+      messages: 'id, conversationId, timestamp',
+      attendance: 'id, userId, date, status',
+      payroll: 'id, employeeId, period, status',
+      roles: 'id, roleCode, label'
+    }).upgrade(async (trans: any) => {
+       await trans.table('roles').clear();
+       await trans.table('roles').bulkAdd(MOCK_ROLES);
     });
 
     // Populate data
@@ -103,6 +123,7 @@ export class CBPDatabase extends Dexie {
       this.conversations.bulkAdd(MOCK_CONVERSATIONS);
       this.messages.bulkAdd(MOCK_MESSAGES);
       this.payroll.bulkAdd(MOCK_PAYROLL);
+      this.roles.bulkAdd(MOCK_ROLES);
     });
   }
 }
