@@ -8,28 +8,58 @@ export const TEAM: Lawyer[] = [
     name: 'Dr. Christian Bagoes Prasetyo, S.H., M.Kn, CLA, CCD',
     role: 'Founder / Pimpinan',
     specialty: 'Master of Notary & Corporate Law',
-    imageUrl: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=400'
+    imageUrl: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=600'
   },
+  // --- STAF AHLI (PRODUKSI) ---
   {
-    id: 'team_fin',
-    name: 'Clara Septia Maharani',
-    role: 'Staff Keuangan',
-    specialty: 'Finance & Tax',
+    id: 'prod_1',
+    name: 'Saumita Ngesti Ramadanti, S.H.',
+    role: 'Staff Produksi 1',
+    specialty: 'Divisi Law Firm',
     imageUrl: 'https://images.unsplash.com/photo-1573496359-136d475583dc?auto=format&fit=crop&q=80&w=400'
   },
   {
-    id: 'team_prod1',
-    name: 'Saumita Ngesti Ramadanti, S.H.',
-    role: 'Staff Produksi',
-    specialty: 'Divisi Law Firm',
+    id: 'prod_2',
+    name: 'Yevita Nur Sholihah, S.H.',
+    role: 'Staff Produksi 2',
+    specialty: 'Divisi Sahabat Ijinku',
     imageUrl: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=400'
   },
   {
-    id: 'team_prod2',
-    name: 'Yevita Nur Sholihah, S.H.',
-    role: 'Staff Produksi',
-    specialty: 'Divisi Sahabat Ijinku',
-    imageUrl: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=400'
+    id: 'prod_3',
+    name: 'Izatil Khoiriyah, S.H.',
+    role: 'Staff Produksi 3',
+    specialty: 'Divisi Legal',
+    imageUrl: 'https://images.unsplash.com/photo-1598550874175-4d7112ee7f64?auto=format&fit=crop&q=80&w=400'
+  },
+  {
+    id: 'prod_4',
+    name: 'Khrisna Wijayanti, S.H.',
+    role: 'Staff Produksi 4',
+    specialty: 'Divisi Law Firm Tanah',
+    imageUrl: 'https://images.unsplash.com/photo-1507537297725-24a1c029d3ca?auto=format&fit=crop&q=80&w=400'
+  },
+  // --- TIM PENDUKUNG ---
+  {
+    id: 'supp_fin',
+    name: 'Clara Septia Maharani',
+    role: 'Staff Keuangan',
+    specialty: 'Finance',
+    imageUrl: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=400'
+  },
+  {
+    id: 'supp_it',
+    name: 'Jamiun Mukromin, S.Kom',
+    role: 'Staff IT',
+    specialty: 'Technology & System',
+    imageUrl: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=400'
+  },
+  {
+    id: 'supp_field',
+    name: 'Imam Nurrohman',
+    role: 'Staff Lapangan',
+    specialty: 'General Affair',
+    imageUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=400'
   }
 ];
 
@@ -52,7 +82,7 @@ export const MOCK_USERS_DB: User[] = [
   },
   {
     id: 'u_field',
-    name: 'Bima Lapangan',
+    name: 'Imam Nurrohman',
     email: 'lapangan@cbp.id',
     role: 'FIELD_OPS',
     division: 'FIELD',
@@ -64,7 +94,7 @@ export const MOCK_USERS_DB: User[] = [
     email: 'finance@cbp.id',
     role: 'FINANCE',
     division: 'FINANCE',
-    avatarUrl: 'https://images.unsplash.com/photo-1573496359-136d475583dc?auto=format&fit=crop&q=80&w=400'
+    avatarUrl: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=400'
   },
   {
     id: 'u_it',

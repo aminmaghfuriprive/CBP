@@ -52,14 +52,14 @@ export default function Home() {
               
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link href="/contact">
-                  {/* BUTTON FIX: Force Gold/Navy style regardless of theme */}
+                  {/* BUTTON 1 & 2: Force Gold/Navy style regardless of theme */}
                   <Button size="lg" className="bg-cbp-gold text-cbp-navy hover:bg-white hover:text-cbp-navy border-transparent transition-all duration-300 px-8 py-4 h-auto text-base w-full sm:w-auto shadow-lg shadow-cbp-gold/20 font-bold">
                     Jadwalkan Konsultasi
                   </Button>
                 </Link>
                 <Link href="/services">
-                  {/* BUTTON FIX: Force Light Outline style regardless of theme */}
-                  <Button variant="outline" size="lg" className="border-slate-500 text-slate-300 hover:border-white hover:text-white hover:bg-white/10 px-8 py-4 h-auto text-base w-full sm:w-auto">
+                  {/* BUTTON 2: High contrast outline for dark bg */}
+                  <Button variant="outline" size="lg" className="border-slate-400 text-slate-100 hover:border-white hover:text-white hover:bg-white/10 px-8 py-4 h-auto text-base w-full sm:w-auto">
                     Eksplorasi Layanan
                   </Button>
                 </Link>
@@ -153,9 +153,10 @@ export default function Home() {
               </div>
 
               <Link href="/about">
-                <div className="inline-flex items-center text-cbp-navy dark:text-white font-bold border-b-2 border-cbp-gold pb-1 hover:text-cbp-gold transition-colors cursor-pointer group">
-                  Lihat Profil Lengkap <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                </div>
+                {/* BUTTON 4: Changed from text link to Button, Gold/Navy style consistent */}
+                <Button size="lg" className="bg-cbp-gold text-cbp-navy hover:bg-cbp-navy hover:text-cbp-gold border-transparent transition-all duration-300 px-8 py-4 h-auto text-base shadow-lg shadow-cbp-gold/20 font-bold">
+                   Lihat Profil Lengkap <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
               </Link>
             </div>
           </div>
@@ -212,14 +213,14 @@ export default function Home() {
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-6">
             <Link href="/contact">
-              {/* BUTTON FIX: Force Gold/Navy style regardless of theme */}
+              {/* BUTTON 3: Force Gold/Navy style regardless of theme */}
               <Button size="lg" className="bg-cbp-gold text-cbp-navy hover:bg-white hover:text-cbp-navy px-12 py-4 text-lg shadow-lg hover:shadow-cbp-gold/20 transform hover:-translate-y-1 transition-all border-transparent font-bold">
                 Jadwalkan Konsultasi
               </Button>
             </Link>
             <Link href="/contact">
-              {/* BUTTON FIX: Force White Outline style regardless of theme */}
-              <Button size="lg" variant="outline" className="px-12 py-4 text-lg border-white/20 text-white hover:bg-white/10 hover:border-white">
+              {/* BUTTON 3: Force White Outline style regardless of theme */}
+              <Button size="lg" variant="outline" className="px-12 py-4 text-lg border-slate-400 text-slate-100 hover:bg-white hover:text-cbp-navy hover:border-white">
                 Hubungi Staf Kami
               </Button>
             </Link>

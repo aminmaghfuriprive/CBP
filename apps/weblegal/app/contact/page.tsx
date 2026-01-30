@@ -3,17 +3,67 @@
 
 import React, { useState } from 'react';
 import { Card, Button } from '@cbp/ui';
-import { Mail, Phone, MapPin, Clock, ExternalLink, Calendar, User, FileText, CheckCircle } from 'lucide-react';
+import { Mail, Phone, MapPin, Clock, ExternalLink, Calendar, User, FileText, CheckCircle, ArrowRight, ArrowLeft, Home, Map } from 'lucide-react';
 import { SERVICES } from '@cbp/core';
 import Link from 'next/link';
 
 export default function Contact() {
+  const [step, setStep] = useState(1);
   const [submitted, setSubmitted] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    whatsapp: '',
+    address: '',
+    district: '',
+    city: '',
+    province: '',
+    country: 'Indonesia',
+    service: SERVICES[0]?.title || 'Konsultasi Umum',
+    date: '',
+    time: '09:00',
+    notes: ''
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const nextStep = () => {
+    // Simple validation
+    if (step === 1 && (!formData.name || !formData.whatsapp)) {
+      alert("Mohon lengkapi Nama dan Nomor WhatsApp.");
+      return;
+    }
+    setStep(s => s + 1);
+  };
+  
+  const prevStep = () => setStep(s => s - 1);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitted(true);
   };
+
+  const renderStepIndicator = () => (
+    <div className="flex justify-between mb-8 relative px-4">
+      <div className="absolute top-1/2 left-0 w-full h-0.5 bg-slate-100 dark:bg-slate-800 -z-10 rounded-full"></div>
+      <div className="absolute top-1/2 left-0 h-0.5 bg-cbp-gold -z-10 rounded-full transition-all duration-500" style={{ width: `${((step - 1) / 2) * 100}%` }}></div>
+      {[1, 2, 3].map((s) => (
+        <div key={s} className="flex flex-col items-center gap-2 bg-white dark:bg-slate-900 px-2">
+          <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-300 border-2 ${
+            step >= s 
+              ? 'bg-cbp-navy dark:bg-cbp-gold text-white dark:text-cbp-navy border-cbp-navy dark:border-cbp-gold' 
+              : 'bg-white dark:bg-slate-900 text-slate-300 dark:text-slate-600 border-slate-200 dark:border-slate-700'
+          }`}>
+            {step > s ? <CheckCircle className="h-5 w-5" /> : s}
+          </div>
+          <span className={`text-[10px] font-bold uppercase tracking-widest ${step >= s ? 'text-cbp-navy dark:text-cbp-gold' : 'text-slate-400 dark:text-slate-600'}`}>
+            {s === 1 ? 'Data Diri' : s === 2 ? 'Jadwal' : 'Konfirmasi'}
+          </span>
+        </div>
+      ))}
+    </div>
+  );
 
   return (
     <div className="bg-white dark:bg-slate-950 transition-colors duration-300 pt-20">
@@ -31,8 +81,8 @@ export default function Contact() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 -mt-10 relative z-20">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           
-          {/* KOLOM KIRI: INFORMASI KANTOR (DIPERTAHANKAN) */}
-          <div className="lg:col-span-1 h-full">
+          {/* KOLOM KIRI: INFORMASI KANTOR */}
+          <div className="lg:col-span-1 h-full hidden lg:block">
             <div className="bg-slate-900 dark:bg-slate-800 text-white rounded-2xl shadow-2xl overflow-hidden h-full relative border border-slate-700">
               <div className="absolute inset-0 bg-gradient-to-br from-cbp-navy to-slate-900 opacity-90 z-0"></div>
               
@@ -114,9 +164,9 @@ export default function Contact() {
             </div>
           </div>
 
-          {/* KOLOM KANAN: FORMULIR BOOKING (MENGGANTIKAN FORM KONTAK BIASA) */}
+          {/* KOLOM KANAN: FORMULIR WIZARD */}
           <div className="lg:col-span-2">
-            <Card className="h-full bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 p-8 md:p-12 shadow-xl">
+            <Card className="h-full bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 p-8 md:p-12 shadow-xl flex flex-col justify-between">
               
               {submitted ? (
                 <div className="h-full flex flex-col items-center justify-center text-center py-12 animate-in fade-in zoom-in duration-500">
@@ -125,83 +175,231 @@ export default function Contact() {
                   </div>
                   <h3 className="text-2xl font-serif font-bold text-cbp-navy dark:text-white mb-2">Permintaan Terkirim</h3>
                   <p className="text-slate-600 dark:text-slate-400 mb-8 max-w-md">
-                    Terima kasih. Tim kami akan segera meninjau jadwal pengacara yang tersedia dan mengirimkan konfirmasi ke email Anda dalam waktu 1x24 jam.
+                    Terima kasih. Tim kami akan menghubungi Anda melalui WhatsApp untuk konfirmasi jadwal dalam waktu 1x24 jam.
                   </p>
-                  <Button onClick={() => setSubmitted(false)} variant="outline">Buat Jadwal Baru</Button>
+                  <Button onClick={() => { setSubmitted(false); setStep(1); }} variant="outline">Buat Jadwal Baru</Button>
                 </div>
               ) : (
                 <>
-                  <div className="mb-8">
+                  <div>
                     <h3 className="text-2xl font-serif font-bold text-cbp-navy dark:text-white mb-2">Buat Janji Temu</h3>
-                    <p className="text-slate-500 dark:text-slate-400">Isi formulir lengkap di bawah ini untuk menjadwalkan konsultasi dengan tim ahli kami.</p>
+                    <p className="text-slate-500 dark:text-slate-400 mb-8">Lengkapi data diri dan preferensi jadwal konsultasi Anda.</p>
+                    
+                    {renderStepIndicator()}
                   </div>
                   
-                  <form onSubmit={handleSubmit} className="space-y-8">
-                    {/* Bagian 1: Info Diri */}
-                    <div className="space-y-5">
-                      <h4 className="font-bold text-sm text-cbp-gold uppercase tracking-widest flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-2">
-                        <User className="h-4 w-4" /> Informasi Diri
-                      </h4>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                          <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Nama Lengkap</label>
-                          <input required type="text" className="w-full px-4 py-3 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-cbp-navy dark:focus:ring-cbp-gold outline-none transition-all placeholder-slate-400" placeholder="Cth: Budi Santoso" />
+                  <form onSubmit={handleSubmit} className="flex-1">
+                    {/* STEP 1: IDENTITAS & ALAMAT */}
+                    {step === 1 && (
+                      <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          <div>
+                            <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Nama Lengkap</label>
+                            <div className="relative">
+                               <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                               <input 
+                                 required 
+                                 name="name"
+                                 value={formData.name}
+                                 onChange={handleChange}
+                                 type="text" 
+                                 className="w-full pl-10 pr-4 py-3 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-cbp-navy dark:focus:ring-cbp-gold outline-none transition-all placeholder-slate-400" 
+                                 placeholder="Cth: Budi Santoso" 
+                               />
+                            </div>
+                          </div>
+                          <div>
+                            <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Nomor WhatsApp</label>
+                            <div className="relative">
+                               <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                               <input 
+                                 required 
+                                 name="whatsapp"
+                                 value={formData.whatsapp}
+                                 onChange={handleChange}
+                                 type="tel" 
+                                 className="w-full pl-10 pr-4 py-3 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-cbp-navy dark:focus:ring-cbp-gold outline-none transition-all placeholder-slate-400" 
+                                 placeholder="0812..." 
+                               />
+                            </div>
+                          </div>
                         </div>
-                        <div>
-                          <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Email</label>
-                          <input required type="email" className="w-full px-4 py-3 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-cbp-navy dark:focus:ring-cbp-gold outline-none transition-all placeholder-slate-400" placeholder="nama@email.com" />
-                        </div>
-                      </div>
-                      <div>
-                        <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Nomor Telepon / WhatsApp</label>
-                        <input required type="tel" className="w-full px-4 py-3 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-cbp-navy dark:focus:ring-cbp-gold outline-none transition-all placeholder-slate-400" placeholder="0812..." />
-                      </div>
-                    </div>
 
-                    {/* Bagian 2: Detail Konsultasi */}
-                    <div className="space-y-5">
-                      <h4 className="font-bold text-sm text-cbp-gold uppercase tracking-widest flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-2">
-                        <Calendar className="h-4 w-4" /> Detail Konsultasi
-                      </h4>
-                      <div>
-                        <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Layanan Hukum</label>
-                        <select className="w-full px-4 py-3 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-cbp-navy dark:focus:ring-cbp-gold outline-none transition-all cursor-pointer">
-                          {SERVICES.map(s => <option key={s.id} value={s.title}>{s.title}</option>)}
-                          <option value="Lainnya">Lainnya / Konsultasi Umum</option>
-                        </select>
-                      </div>
-                      <div className="grid grid-cols-2 gap-6">
                         <div>
-                          <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Tanggal</label>
-                          <input required type="date" className="w-full px-4 py-3 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-cbp-navy dark:focus:ring-cbp-gold outline-none transition-all" />
+                           <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Alamat Lengkap</label>
+                           <div className="relative">
+                              <MapPin className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
+                              <textarea 
+                                name="address"
+                                value={formData.address}
+                                onChange={handleChange}
+                                rows={3}
+                                className="w-full pl-10 pr-4 py-3 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-cbp-navy dark:focus:ring-cbp-gold outline-none transition-all placeholder-slate-400" 
+                                placeholder="Jalan, Nomor Rumah, RT/RW..." 
+                              />
+                           </div>
                         </div>
+
+                        <div className="grid grid-cols-2 gap-4">
+                           <div>
+                              <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1">Kecamatan</label>
+                              <input 
+                                name="district"
+                                value={formData.district}
+                                onChange={handleChange}
+                                type="text"
+                                className="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-cbp-navy dark:focus:ring-cbp-gold outline-none"
+                              />
+                           </div>
+                           <div>
+                              <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1">Kabupaten/Kota</label>
+                              <input 
+                                name="city"
+                                value={formData.city}
+                                onChange={handleChange}
+                                type="text"
+                                className="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-cbp-navy dark:focus:ring-cbp-gold outline-none"
+                              />
+                           </div>
+                           <div>
+                              <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1">Provinsi</label>
+                              <input 
+                                name="province"
+                                value={formData.province}
+                                onChange={handleChange}
+                                type="text"
+                                className="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-cbp-navy dark:focus:ring-cbp-gold outline-none"
+                              />
+                           </div>
+                           <div>
+                              <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1">Negara</label>
+                              <input 
+                                name="country"
+                                value={formData.country}
+                                onChange={handleChange}
+                                type="text"
+                                className="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-cbp-navy dark:focus:ring-cbp-gold outline-none"
+                              />
+                           </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* STEP 2: JADWAL & LAYANAN */}
+                    {step === 2 && (
+                      <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
                         <div>
-                          <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Waktu</label>
-                          <select className="w-full px-4 py-3 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-cbp-navy dark:focus:ring-cbp-gold outline-none transition-all cursor-pointer">
-                            <option>09:00</option>
-                            <option>10:00</option>
-                            <option>11:00</option>
-                            <option>13:00</option>
-                            <option>14:00</option>
-                            <option>15:00</option>
-                            <option>16:00</option>
+                          <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Layanan Hukum</label>
+                          <select 
+                            name="service"
+                            value={formData.service}
+                            onChange={handleChange}
+                            className="w-full px-4 py-3 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-cbp-navy dark:focus:ring-cbp-gold outline-none transition-all cursor-pointer"
+                          >
+                            {SERVICES.map(s => <option key={s.id} value={s.title}>{s.title}</option>)}
+                            <option value="Lainnya">Lainnya / Konsultasi Umum</option>
                           </select>
                         </div>
+                        <div className="grid grid-cols-2 gap-6">
+                          <div>
+                            <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Tanggal</label>
+                            <input 
+                              required 
+                              name="date"
+                              value={formData.date}
+                              onChange={handleChange}
+                              type="date" 
+                              className="w-full px-4 py-3 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-cbp-navy dark:focus:ring-cbp-gold outline-none transition-all" 
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Waktu</label>
+                            <select 
+                              name="time"
+                              value={formData.time}
+                              onChange={handleChange}
+                              className="w-full px-4 py-3 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-cbp-navy dark:focus:ring-cbp-gold outline-none transition-all cursor-pointer"
+                            >
+                              <option>09:00</option>
+                              <option>10:00</option>
+                              <option>11:00</option>
+                              <option>13:00</option>
+                              <option>14:00</option>
+                              <option>15:00</option>
+                              <option>16:00</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div>
+                           <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Catatan Awal</label>
+                           <textarea 
+                             name="notes"
+                             value={formData.notes}
+                             onChange={handleChange}
+                             rows={4} 
+                             className="w-full px-4 py-3 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-cbp-navy dark:focus:ring-cbp-gold outline-none transition-all placeholder-slate-400" 
+                             placeholder="Jelaskan secara singkat permasalahan hukum Anda..." 
+                           />
+                        </div>
                       </div>
-                    </div>
+                    )}
 
-                    {/* Bagian 3: Catatan */}
-                    <div className="space-y-5">
-                      <h4 className="font-bold text-sm text-cbp-gold uppercase tracking-widest flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-2">
-                        <FileText className="h-4 w-4" /> Catatan Tambahan
-                      </h4>
-                      <textarea rows={4} className="w-full px-4 py-3 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-cbp-navy dark:focus:ring-cbp-gold outline-none transition-all placeholder-slate-400" placeholder="Jelaskan secara singkat permasalahan hukum Anda..."></textarea>
-                    </div>
+                    {/* STEP 3: KONFIRMASI */}
+                    {step === 3 && (
+                      <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
+                         <div className="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-xl border border-slate-200 dark:border-slate-800">
+                            <h4 className="font-bold text-cbp-navy dark:text-white mb-4 border-b border-slate-200 dark:border-slate-700 pb-2">Ringkasan Data</h4>
+                            <div className="space-y-3 text-sm">
+                               <div className="flex justify-between">
+                                  <span className="text-slate-500">Nama:</span>
+                                  <span className="font-medium text-slate-900 dark:text-white">{formData.name}</span>
+                               </div>
+                               <div className="flex justify-between">
+                                  <span className="text-slate-500">WhatsApp:</span>
+                                  <span className="font-medium text-slate-900 dark:text-white">{formData.whatsapp}</span>
+                               </div>
+                               <div className="flex justify-between">
+                                  <span className="text-slate-500">Layanan:</span>
+                                  <span className="font-medium text-slate-900 dark:text-white text-right max-w-[200px]">{formData.service}</span>
+                               </div>
+                               <div className="flex justify-between">
+                                  <span className="text-slate-500">Jadwal:</span>
+                                  <span className="font-medium text-slate-900 dark:text-white">{formData.date} - {formData.time}</span>
+                               </div>
+                               <div className="pt-2">
+                                  <span className="text-slate-500 block mb-1">Alamat:</span>
+                                  <p className="font-medium text-slate-900 dark:text-white bg-white dark:bg-slate-800 p-2 rounded border border-slate-200 dark:border-slate-700">
+                                    {formData.address}, {formData.district}, {formData.city}, {formData.province}
+                                  </p>
+                               </div>
+                            </div>
+                         </div>
+                         <div className="flex items-start gap-3 p-4 bg-blue-50 dark:bg-blue-900/10 rounded-lg text-sm text-blue-700 dark:text-blue-300">
+                            <Clock className="h-5 w-5 flex-shrink-0 mt-0.5" />
+                            <p>Pastikan data sudah benar. Tim admin kami akan menghubungi nomor WhatsApp yang tertera untuk konfirmasi akhir.</p>
+                         </div>
+                      </div>
+                    )}
                     
-                    <div className="flex items-center justify-end pt-4">
-                      <Button size="lg" className="w-full md:w-auto px-10 bg-cbp-navy text-white hover:bg-slate-800 dark:bg-cbp-gold dark:text-cbp-navy dark:hover:bg-white shadow-lg shadow-cbp-navy/20 font-bold">
-                        Ajukan Jadwal
-                      </Button>
+                    {/* BUTTONS */}
+                    <div className="flex items-center justify-between pt-8 mt-4 border-t border-slate-100 dark:border-slate-800">
+                      {step > 1 ? (
+                        <Button type="button" variant="outline" onClick={prevStep} className="flex items-center gap-2">
+                          <ArrowLeft className="h-4 w-4" /> Kembali
+                        </Button>
+                      ) : (
+                        <div></div> // Spacer
+                      )}
+                      
+                      {step < 3 ? (
+                        <Button type="button" onClick={nextStep} className="bg-cbp-navy dark:bg-cbp-gold dark:text-cbp-navy flex items-center gap-2">
+                          Lanjut <ArrowRight className="h-4 w-4" />
+                        </Button>
+                      ) : (
+                        <Button type="submit" className="bg-cbp-navy text-white hover:bg-slate-800 dark:bg-cbp-gold dark:text-cbp-navy dark:hover:bg-white shadow-lg shadow-cbp-navy/20 font-bold px-8">
+                          Konfirmasi Booking
+                        </Button>
+                      )}
                     </div>
                   </form>
                 </>
@@ -210,6 +408,7 @@ export default function Contact() {
           </div>
         </div>
 
+        {/* FAQ Section Remains Same */}
         <div className="mt-20">
            <h3 className="text-xl font-serif font-bold text-center mb-8 text-cbp-navy dark:text-white">Pertanyaan Umum</h3>
            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">

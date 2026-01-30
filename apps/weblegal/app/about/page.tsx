@@ -7,8 +7,10 @@ import Image from 'next/image';
 
 export default function About() {
   const founder = TEAM.find(m => m.id === 'team_founder');
-  // Mengurutkan staff agar Finance tampil, lalu Produksi
-  const staff = TEAM.filter(m => m.id !== 'team_founder');
+  
+  // Filter Tim berdasarkan Role/ID
+  const expertStaff = TEAM.filter(m => m.role.toLowerCase().includes('produksi'));
+  const supportStaff = TEAM.filter(m => !m.role.toLowerCase().includes('produksi') && m.id !== 'team_founder');
 
   return (
     <div className="bg-white dark:bg-slate-950 transition-colors duration-300 pt-20">
@@ -120,36 +122,78 @@ export default function About() {
         </div>
       </section>
 
-      {/* 3. SUPPORT TEAM */}
+      {/* 3. ORGANIZATION SECTION */}
       <section className="py-24 bg-slate-50 dark:bg-slate-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeader 
-            title="Tim Operasional"
-            subtitle="Untuk memastikan layanan berjalan efisien, saya didukung oleh staf profesional yang menangani aspek administratif dan teknis."
+            title="Staf Ahli & Tim Pendukung"
+            subtitle="Struktur organisasi yang solid untuk memastikan setiap aspek layanan hukum berjalan presisi dan efisien."
           />
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {staff.map((member) => (
-              <Card key={member.id} className="text-center group bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-2xl transition-all duration-500" padding={false}>
-                <div className="aspect-square overflow-hidden relative border-b border-slate-100 dark:border-slate-800">
-                  <div className="absolute inset-0 bg-cbp-navy/20 group-hover:bg-transparent transition-colors z-10"></div>
-                  <Image 
-                    src={member.imageUrl} 
-                    alt={member.name} 
-                    fill
-                    className="object-cover group-hover:scale-110 transition-transform duration-700 filter grayscale group-hover:grayscale-0"
-                  />
-                </div>
-                <div className="p-8 bg-white dark:bg-slate-900 relative">
-                  <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-cbp-gold text-cbp-navy text-[10px] font-bold uppercase tracking-widest px-4 py-1 rounded-full shadow-sm">
-                    {member.role}
+          {/* LEVEL 1: STAF AHLI / PRODUKSI (RECTANGULAR CARDS) */}
+          <div className="mb-20">
+            <div className="text-center mb-10">
+               <h3 className="text-xl font-bold text-cbp-navy dark:text-white inline-block border-b-2 border-cbp-gold pb-2 uppercase tracking-widest text-sm">
+                 Tim Staf Ahli (S.H.)
+               </h3>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {expertStaff.map((member) => (
+                <Card key={member.id} className="text-center group bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-xl transition-all duration-500" padding={false}>
+                  <div className="aspect-[4/3] overflow-hidden relative border-b border-slate-100 dark:border-slate-800">
+                    <div className="absolute inset-0 bg-cbp-navy/10 group-hover:bg-transparent transition-colors z-10"></div>
+                    <Image 
+                      src={member.imageUrl} 
+                      alt={member.name} 
+                      fill
+                      className="object-cover group-hover:scale-110 transition-transform duration-700"
+                    />
                   </div>
-                  <h3 className="text-xl font-bold text-cbp-navy dark:text-white mb-2 pt-2">{member.name}</h3>
-                  <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">{member.specialty}</p>
-                </div>
-              </Card>
-            ))}
+                  <div className="p-6 bg-white dark:bg-slate-900 relative">
+                    <h3 className="text-md font-bold text-cbp-navy dark:text-white mb-1 leading-snug">{member.name}</h3>
+                    <div className="h-0.5 w-8 bg-cbp-gold mx-auto mb-3 mt-2"></div>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider mb-1">{member.role}</p>
+                    <p className="text-xs text-slate-400 dark:text-slate-500 italic">{member.specialty}</p>
+                  </div>
+                </Card>
+              ))}
+            </div>
           </div>
+
+          {/* LEVEL 2: TIM PENDUKUNG (ROUND PHOTOS) */}
+          <div className="max-w-5xl mx-auto">
+             <div className="text-center mb-12">
+               <h3 className="text-xl font-bold text-cbp-navy dark:text-white inline-block border-b-2 border-slate-300 dark:border-slate-700 pb-2 uppercase tracking-widest text-sm">
+                 Tim Pendukung Operasional
+               </h3>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8 justify-items-center">
+               {supportStaff.map((member) => (
+                 <div key={member.id} className="flex flex-col items-center text-center group">
+                    <div className="relative w-32 h-32 md:w-40 md:h-40 mb-5">
+                       <div className="absolute inset-0 rounded-full border-2 border-cbp-gold/50 transform scale-105 opacity-0 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500"></div>
+                       <div className="w-full h-full rounded-full overflow-hidden relative shadow-lg group-hover:shadow-2xl transition-all duration-500 border-4 border-white dark:border-slate-800">
+                          <Image 
+                            src={member.imageUrl}
+                            alt={member.name}
+                            fill
+                            className="object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500"
+                          />
+                       </div>
+                       <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-cbp-navy text-white text-[10px] font-bold px-3 py-1 rounded-full whitespace-nowrap shadow-md z-10 border border-slate-700">
+                          {member.role}
+                       </div>
+                    </div>
+                    <div>
+                       <h4 className="text-lg font-bold text-slate-900 dark:text-slate-200 group-hover:text-cbp-gold transition-colors">{member.name}</h4>
+                       <p className="text-sm text-slate-500 dark:text-slate-500 mt-1">{member.specialty}</p>
+                    </div>
+                 </div>
+               ))}
+            </div>
+          </div>
+
         </div>
       </section>
     </div>
