@@ -95,10 +95,9 @@ export default function Contact() {
     <div className="bg-white dark:bg-slate-950 transition-colors duration-300">
       
       {/* HERO SECTION 
-          - pt-48: Padding atas besar agar judul turun
-          - pb-48: Padding bawah besar agar area gelap memanjang ke bawah
+          - pt-32 pb-24: Konsisten dengan halaman Insights/Articles & Services
       */}
-      <div className="bg-cbp-navy dark:bg-slate-900 pt-48 pb-48 text-center text-white relative overflow-hidden">
+      <div className="bg-cbp-navy dark:bg-slate-900 pt-32 pb-24 text-center text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
         <div className="absolute top-0 right-0 w-64 h-64 bg-cbp-gold/20 rounded-full blur-[100px] pointer-events-none"></div>
         <div className="relative z-10 max-w-4xl mx-auto px-4">
@@ -110,10 +109,10 @@ export default function Contact() {
       </div>
 
       {/* CONTENT CONTAINER
-          - -mt-20: Negative margin dikurangi (sebelumnya -mt-24) agar konten turun sedikit
-          - Combined with pb-48 above, this positions the cards lower visually
+          - -mt-12: Negative margin disesuaikan (dikurangi dari 20/24) agar overlap proporsional dengan hero yang lebih pendek
+          - py-12: Padding vertikal
       */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 -mt-20 relative z-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 -mt-12 relative z-20">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           
           {/* KOLOM KIRI: INFORMASI KANTOR */}
