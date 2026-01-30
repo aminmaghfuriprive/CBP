@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Button } from '@cbp/ui';
 import { SERVICES } from '@cbp/core';
@@ -50,7 +51,7 @@ export default function Home() {
               </div>
               
               <div className="flex flex-col sm:flex-row gap-4">
-                <Link href="/book">
+                <Link href="/contact">
                   <Button size="lg" className="bg-slate-800 hover:bg-cbp-gold hover:text-cbp-navy text-white border border-slate-700 hover:border-cbp-gold transition-all duration-300 px-8 py-4 h-auto text-base w-full sm:w-auto">
                     Jadwalkan Konsultasi
                   </Button>
@@ -208,7 +209,7 @@ export default function Home() {
             Jangan biarkan masalah hukum Anda ditangani secara generik. Dapatkan analisis dan strategi langsung dari saya.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-6">
-            <Link href="/book">
+            <Link href="/contact">
               <Button size="lg" variant="secondary" className="px-12 py-4 text-lg shadow-lg hover:shadow-cbp-gold/20 transform hover:-translate-y-1 transition-all">
                 Jadwalkan Konsultasi
               </Button>
