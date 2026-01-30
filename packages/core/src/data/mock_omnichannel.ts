@@ -6,32 +6,36 @@ export const MOCK_CONVERSATIONS: Conversation[] = [
     id: 'conv_1',
     contactName: 'Bpk. Hartono',
     lastMessage: 'Baik pak, saya tunggu draft somasinya.',
-    timestamp: new Date(Date.now() - 1000 * 60 * 5).toISOString(), // 5 min ago
-    unreadCount: 2,
+    timestamp: new Date(Date.now() - 1000 * 60 * 5).toISOString(), 
+    unreadCount: 0,
     channel: 'WHATSAPP',
-    tags: ['Klien', 'Urgent']
+    tags: ['Klien', 'Urgent', 'Litigasi'],
+    relatedClientId: 'cl_02' // Links to Bpk Hartono in Client DB
   },
   {
     id: 'conv_2',
     contactName: 'PT. Maju Sejahtera (Ibu Ani)',
     lastMessage: 'Terlampir dokumen NIB perusahaan kami.',
-    timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString(), // 2 hours ago
-    unreadCount: 0,
+    timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString(),
+    unreadCount: 1,
     channel: 'EMAIL',
-    tags: ['Klien', 'Legalitas']
+    tags: ['Klien', 'Legalitas'],
+    relatedClientId: 'cl_01'
   },
   {
     id: 'conv_3',
-    contactName: '0812-3344-5566',
-    lastMessage: 'Selamat siang, apakah bisa konsultasi tanah?',
-    timestamp: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(), // 1 day ago
-    unreadCount: 1,
-    channel: 'WHATSAPP',
-    tags: ['Prospek']
+    contactName: 'dian_kuliner',
+    lastMessage: 'Min, biaya daftar merek berapa ya?',
+    timestamp: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(), 
+    unreadCount: 3,
+    channel: 'INSTAGRAM',
+    tags: ['Lead', 'HAKI'],
+    relatedClientId: 'cl_03'
   }
 ];
 
 export const MOCK_MESSAGES: Message[] = [
+  // Conversation 1
   {
     id: 'msg_1_1',
     conversationId: 'conv_1',
@@ -39,6 +43,15 @@ export const MOCK_MESSAGES: Message[] = [
     sender: 'agent',
     timestamp: new Date(Date.now() - 1000 * 60 * 30).toISOString(),
     isRead: true
+  },
+  {
+    id: 'msg_1_note',
+    conversationId: 'conv_1',
+    text: 'Note: Pak Hartono agak sensitif soal waktu, pastikan draft dikirim sebelum jam 5 sore. @Christian tolong review final.',
+    sender: 'agent',
+    timestamp: new Date(Date.now() - 1000 * 60 * 28).toISOString(),
+    isRead: true,
+    isInternal: true // INTERNAL NOTE
   },
   {
     id: 'msg_1_2',
@@ -62,23 +75,15 @@ export const MOCK_MESSAGES: Message[] = [
     text: 'Baik pak, saya tunggu draft somasinya.',
     sender: 'user',
     timestamp: new Date(Date.now() - 1000 * 60 * 5).toISOString(),
-    isRead: false
-  },
-  // Conversation 2
-  {
-    id: 'msg_2_1',
-    conversationId: 'conv_2',
-    text: 'Mohon info kelengkapan berkas untuk OSS RBA.',
-    sender: 'agent',
-    timestamp: new Date(Date.now() - 1000 * 60 * 60 * 3).toISOString(),
     isRead: true
   },
+  // Conversation 3 (IG)
   {
-    id: 'msg_2_2',
-    conversationId: 'conv_2',
-    text: 'Terlampir dokumen NIB perusahaan kami.',
+    id: 'msg_3_1',
+    conversationId: 'conv_3',
+    text: 'Min, biaya daftar merek berapa ya?',
     sender: 'user',
-    timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString(),
-    isRead: true
+    timestamp: new Date(Date.now() - 1000 * 60 * 60).toISOString(),
+    isRead: false
   }
 ];

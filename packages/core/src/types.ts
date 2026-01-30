@@ -116,7 +116,7 @@ export interface Invoice {
   description: string;
 }
 
-export type ChannelType = 'WHATSAPP' | 'EMAIL';
+export type ChannelType = 'WHATSAPP' | 'EMAIL' | 'INSTAGRAM' | 'LINKEDIN';
 
 export interface Conversation {
   id: string;
@@ -126,6 +126,7 @@ export interface Conversation {
   unreadCount: number;
   channel: ChannelType;
   tags: string[];
+  relatedClientId?: string; // Link ke data Client
 }
 
 export interface Message {
@@ -135,6 +136,8 @@ export interface Message {
   sender: 'agent' | 'user';
   timestamp: string;
   isRead: boolean;
+  isInternal?: boolean; // New: Internal Note Flag
+  attachments?: { name: string; url: string; type: 'image' | 'file' }[];
 }
 
 export interface AttendanceRecord {
