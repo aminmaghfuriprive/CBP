@@ -4,7 +4,7 @@ import { Lawyer } from '@cbp/core';
 import { SectionHeader } from '@cbp/ui';
 import { TEAM_SECTION_TITLES } from '@/data/about-content';
 import { ExpertTeamCard } from '../molecules/ExpertTeamCard';
-import { SupportStaffRow } from '../molecules/SupportStaffRow';
+import { SupportTeamCard } from '../molecules/SupportTeamCard';
 
 interface TeamSectionProps {
   expertStaff: Lawyer[];
@@ -15,46 +15,49 @@ export const TeamSection: React.FC<TeamSectionProps> = ({ expertStaff, supportSt
   return (
     <section className="py-24 bg-white dark:bg-slate-950">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        {/* --- EXPERT STAFF (DIVISIONS) --- */}
         <SectionHeader 
           title={TEAM_SECTION_TITLES.mainTitle} 
           subtitle={TEAM_SECTION_TITLES.mainSubtitle}
         />
         
-        {/* Expert Staff Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 mb-24">
             {expertStaff.map((member) => (
               <ExpertTeamCard 
                 key={member.id}
                 name={member.name}
-                role={member.role}
-                specialty={member.specialty}
+                role={member.role} // "Staff Produksi & Litigasi"
+                specialty={member.specialty} // "Hukum Umum & Litigasi"
                 imageUrl={member.imageUrl}
               />
             ))}
         </div>
 
-        {/* Support Staff List */}
+        {/* --- SUPPORT STAFF (ROUND PHOTOS) --- */}
         {supportStaff.length > 0 && (
-          <>
-            <div className="flex items-center gap-4 mb-12">
-               <div className="h-px bg-slate-200 dark:bg-slate-800 flex-1"></div>
-               <h3 className="text-xl font-serif font-bold text-slate-400 uppercase tracking-widest">
+          <div className="relative">
+            {/* Visual Divider */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-1 bg-cbp-gold rounded-full mb-12"></div>
+            
+            <div className="text-center mb-16 pt-12">
+               <h3 className="text-2xl font-serif font-bold text-cbp-navy dark:text-white tracking-wide uppercase">
                  {TEAM_SECTION_TITLES.supportTitle}
                </h3>
-               <div className="h-px bg-slate-200 dark:bg-slate-800 flex-1"></div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-4xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-10 max-w-5xl mx-auto">
                 {supportStaff.map((member) => (
-                  <SupportStaffRow 
+                  <SupportTeamCard 
                     key={member.id}
                     name={member.name}
+                    role={member.role}
                     specialty={member.specialty}
                     imageUrl={member.imageUrl}
                   />
                 ))}
             </div>
-          </>
+          </div>
         )}
       </div>
     </section>

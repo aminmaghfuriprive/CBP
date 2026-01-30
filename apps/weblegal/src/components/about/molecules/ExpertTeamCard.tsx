@@ -5,37 +5,35 @@ import { Card } from '@cbp/ui';
 
 interface ExpertTeamCardProps {
   name: string;
-  role: string;
-  specialty: string;
+  role: string; // Jabatan (e.g. Staff Produksi)
+  specialty: string; // Nama Divisi (e.g. Hukum Umum & Litigasi)
   imageUrl: string;
 }
 
 export const ExpertTeamCard: React.FC<ExpertTeamCardProps> = ({ name, role, specialty, imageUrl }) => {
   return (
-    <Card className="text-center group bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800 hover:shadow-xl hover:-translate-y-2 transition-all duration-500 pt-10 pb-8 px-6" padding={false}>
-      {/* Round Image Container */}
-      <div className="w-40 h-40 mx-auto rounded-full overflow-hidden relative border-4 border-slate-50 dark:border-slate-800 shadow-lg mb-6 group-hover:border-cbp-gold transition-colors duration-300">
+    <Card className="flex flex-col h-full bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group overflow-hidden" padding={false}>
+      {/* Header Divisi */}
+      <div className="bg-cbp-navy dark:bg-slate-800 p-4 text-center border-b border-cbp-gold/20 relative overflow-hidden">
+         <div className="absolute top-0 left-0 w-full h-1 bg-cbp-gold transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
+         <h4 className="text-white dark:text-cbp-gold text-sm font-bold uppercase tracking-widest">{specialty}</h4>
+      </div>
+
+      {/* Image Area */}
+      <div className="relative aspect-[4/5] w-full overflow-hidden bg-slate-100 dark:bg-slate-950">
         <Image 
           src={imageUrl} 
           alt={name} 
           fill 
-          className="object-cover group-hover:scale-110 transition-transform duration-700 grayscale group-hover:grayscale-0" 
+          className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 transform group-hover:scale-105" 
         />
-      </div>
-      
-      <div className="space-y-2">
-        <h3 className="text-lg font-bold text-cbp-navy dark:text-white leading-tight group-hover:text-cbp-gold transition-colors">
-          {name}
-        </h3>
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-transparent to-transparent opacity-80"></div>
         
-        <div className="h-px w-12 bg-slate-200 dark:bg-slate-700 mx-auto my-3"></div>
-        
-        <p className="text-xs text-cbp-gold font-bold uppercase tracking-wider">
-          {specialty}
-        </p>
-        <p className="text-xs text-slate-500 dark:text-slate-400">
-          {role}
-        </p>
+        {/* Name Overlay */}
+        <div className="absolute bottom-0 left-0 w-full p-6 text-center">
+           <h3 className="text-lg font-bold text-white font-serif mb-1">{name}</h3>
+           <p className="text-xs text-cbp-gold uppercase tracking-wider font-medium">{role}</p>
+        </div>
       </div>
     </Card>
   );

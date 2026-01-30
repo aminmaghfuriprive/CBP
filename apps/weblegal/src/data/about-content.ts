@@ -8,7 +8,9 @@ export const ABOUT_HERO_CONTENT = {
   ],
   credentials: [
     { iconName: "GraduationCap", label: "Doktor Ilmu Hukum" },
-    { iconName: "Award", label: "Certified Legal Auditor" }
+    { iconName: "Scroll", label: "Magister Kenotariatan" },
+    { iconName: "Award", label: "Certified Legal Auditor (CLA)" },
+    { iconName: "FileCheck", label: "Certified Contract Drafter (CCD)" }
   ]
 };
 
@@ -30,7 +32,7 @@ export const PHILOSOPHY_CONTENT = {
     },
     {
       title: "Keahlian Spesifik",
-      description: "Kami tidak menjadi \"palugada\". Fokus kami adalah Hukum Korporasi, Litigasi Bisnis, dan Pertanahan. Kami ahli di bidang yang kami pilih.",
+      description: "Kami fokus pada 4 pilar utama: <strong>Hukum Korporasi, Litigasi & Sengketa, Perizinan Bisnis, dan Pertanahan (Agraria)</strong>. Kami tidak menangani semua hal, tapi kami ahli di bidang yang kami pilih.",
       iconName: "Scale",
       colorTheme: "amber"
     },
@@ -44,7 +46,7 @@ export const PHILOSOPHY_CONTENT = {
 };
 
 export const TEAM_SECTION_TITLES = {
-  mainTitle: "Tim Ahli & Produksi",
-  mainSubtitle: "Para sarjana hukum berdedikasi yang mendukung setiap langkah operasional firma.",
-  supportTitle: "Manajemen & Pendukung"
+  mainTitle: "Kepala Divisi & Staf Ahli",
+  mainSubtitle: "Dipimpin oleh para spesialis yang berdedikasi pada bidang hukum masing-masing.",
+  supportTitle: "Manajemen Operasional & Pendukung"
 };

@@ -7,50 +7,51 @@ export const TEAM: Lawyer[] = [
     id: 'team_founder',
     name: 'Dr. Christian Bagoes Prasetyo',
     role: 'Founder & Managing Partner',
-    specialty: 'S.H., M.Kn., CLA, CCD', // Gelar dipisah ke sini
+    specialty: 'S.H., M.Kn., CLA, CCD',
     imageUrl: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=600'
   },
-  // --- STAF AHLI (PRODUKSI) ---
+  // --- STAF AHLI (KEPALA DIVISI) ---
+  // Urutan disesuaikan dengan landing page: Litigasi, Perizinan, Agraria, Korporasi (opsional)
   {
     id: 'prod_1',
     name: 'Saumita Ngesti Ramadanti, S.H.',
-    role: 'Staff Produksi & Litigasi',
-    specialty: 'Hukum Umum & Litigasi',
+    role: 'Staff Produksi',
+    specialty: 'Divisi Hukum Umum & Litigasi', // Match Landing Page
     imageUrl: 'https://images.unsplash.com/photo-1573496359-136d475583dc?auto=format&fit=crop&q=80&w=400'
   },
   {
     id: 'prod_2',
     name: 'Yevita Nur Sholihah, S.H.',
     role: 'Staff Perizinan',
-    specialty: 'Perizinan & Bisnis',
+    specialty: 'Divisi Perizinan & Bisnis', // Match Landing Page
     imageUrl: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=400'
-  },
-  {
-    id: 'prod_3',
-    name: 'Izatil Khoiriyah, S.H.',
-    role: 'Staff Korporasi',
-    specialty: 'Legal Administratif & Korporasi',
-    imageUrl: 'https://images.unsplash.com/photo-1598550874175-4d7112ee7f64?auto=format&fit=crop&q=80&w=400'
   },
   {
     id: 'prod_4',
     name: 'Khrisna Wijayanti, S.H.',
     role: 'Staff Agraria',
-    specialty: 'Pertanahan & Agraria',
+    specialty: 'Divisi Pertanahan & Agraria', // Match Landing Page
     imageUrl: 'https://images.unsplash.com/photo-1507537297725-24a1c029d3ca?auto=format&fit=crop&q=80&w=400'
+  },
+  {
+    id: 'prod_3',
+    name: 'Izatil Khoiriyah, S.H.',
+    role: 'Staff Korporasi',
+    specialty: 'Divisi Legal Administratif & Korporasi', // Match Landing Page
+    imageUrl: 'https://images.unsplash.com/photo-1598550874175-4d7112ee7f64?auto=format&fit=crop&q=80&w=400'
   },
   // --- TIM PENDUKUNG ---
   {
     id: 'supp_fin',
     name: 'Clara Septia Maharani',
     role: 'Staff Keuangan',
-    specialty: 'Finance',
+    specialty: 'Finance & Accounting',
     imageUrl: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=400'
   },
   {
     id: 'supp_it',
     name: 'Jamiun Mukromin, S.Kom',
-    role: 'Staff IT',
+    role: 'Staff IT & Developer',
     specialty: 'Technology & System',
     imageUrl: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=400'
   },
@@ -58,7 +59,7 @@ export const TEAM: Lawyer[] = [
     id: 'supp_field',
     name: 'Imam Nurrohman',
     role: 'Staff Lapangan',
-    specialty: 'General Affair',
+    specialty: 'General Affair & Operasional',
     imageUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=400'
   }
 ];

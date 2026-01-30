@@ -70,9 +70,6 @@ export const AboutHeroSection: React.FC<AboutHeroSectionProps> = ({ founder }) =
                 {ABOUT_HERO_CONTENT.credentials.map((cred, idx) => (
                   <CredentialBadge key={idx} iconName={cred.iconName} label={cred.label} />
                 ))}
-                {/* Tambahan manual jika perlu */}
-                <CredentialBadge iconName="Award" label="Certified Legal Auditor" />
-                <CredentialBadge iconName="FileCheck" label="Certified Contract Drafter" />
               </div>
             </div>
           </div>
