@@ -1,12 +1,12 @@
 
 import Dexie, { type Table } from 'dexie';
-import { CaseData, Booking, CalendarEvent, DocumentFile, Invoice, ServiceItem, Article, ClientData } from '../types';
+import { CaseData, Booking, CalendarEvent, DocumentFile, Invoice, ServiceItem, Article, ClientData, User } from '../types';
 import { MOCK_CASES } from '../data/mock_cases';
 import { MOCK_BOOKINGS, EVENTS } from '../data/mock_calendar';
 import { DOCUMENTS, ARTICLES } from '../data/mock_content';
 import { MOCK_INVOICES } from '../data/mock_finance';
 import { SERVICES } from '../data/services';
-import { CLIENTS } from '../data/mock_users';
+import { CLIENTS, MOCK_USERS_DB } from '../data/mock_users';
 
 export class CBPDatabase extends Dexie {
   cases!: Table<CaseData, string>;
@@ -17,6 +17,7 @@ export class CBPDatabase extends Dexie {
   services!: Table<ServiceItem, string>;
   articles!: Table<Article, string>;
   clients!: Table<ClientData, string>;
+  users!: Table<User, string>;
 
   constructor() {
     super('CBPDatabase');
@@ -40,18 +41,6 @@ export class CBPDatabase extends Dexie {
       articles: 'id, category, date'
     });
 
-    // Version 5: Services update
-    (this as any).version(5).stores({
-      cases: 'id, status, clientName, division',
-      bookings: 'id, status, date',
-      events: 'id, date, type, client',
-      documents: 'id, category, type',
-      invoices: 'id, status, clientName',
-      services: 'id, division, title', 
-      articles: 'id, category, date'
-    });
-
-    // Version 6: Add Clients
     (this as any).version(6).stores({
       cases: 'id, status, clientName, division',
       bookings: 'id, status, date',
@@ -61,9 +50,22 @@ export class CBPDatabase extends Dexie {
       services: 'id, division, title', 
       articles: 'id, category, date',
       clients: 'id, name, industry'
+    });
+
+    // Version 7: Add Users (Employees)
+    (this as any).version(7).stores({
+      cases: 'id, status, clientName, division',
+      bookings: 'id, status, date',
+      events: 'id, date, type, client',
+      documents: 'id, category, type',
+      invoices: 'id, status, clientName',
+      services: 'id, division, title', 
+      articles: 'id, category, date',
+      clients: 'id, name, industry',
+      users: 'id, name, email, role, division'
     }).upgrade(async (trans: any) => {
-       await trans.table('clients').clear();
-       await trans.table('clients').bulkAdd(CLIENTS);
+       await trans.table('users').clear();
+       await trans.table('users').bulkAdd(MOCK_USERS_DB);
     });
 
     // Populate data
@@ -76,6 +78,7 @@ export class CBPDatabase extends Dexie {
       this.articles.bulkAdd(ARTICLES);
       this.services.bulkAdd(SERVICES);
       this.clients.bulkAdd(CLIENTS);
+      this.users.bulkAdd(MOCK_USERS_DB);
     });
   }
 }

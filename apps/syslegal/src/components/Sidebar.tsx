@@ -5,7 +5,7 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth, UserRole } from '@cbp/core';
-import { LayoutDashboard, Users, MessageSquare, LogOut, DollarSign, Settings, Calendar, Sliders, Briefcase } from 'lucide-react';
+import { LayoutDashboard, Users, MessageSquare, LogOut, DollarSign, Settings, Calendar, Sliders, Briefcase, UserCog } from 'lucide-react';
 
 interface MenuItem {
   label: string;
@@ -56,6 +56,12 @@ export const Sidebar: React.FC = () => {
       path: '/app/finance', 
       icon: DollarSign, 
       roles: ['ADMIN', 'FINANCE'] 
+    },
+    { 
+      label: 'Pegawai', 
+      path: '/app/employees', 
+      icon: UserCog, 
+      roles: ['ADMIN', 'IT'] 
     },
     { 
       label: 'Konten Website', 

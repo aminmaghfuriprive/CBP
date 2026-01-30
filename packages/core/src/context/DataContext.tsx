@@ -2,7 +2,7 @@
 "use client";
 
 import React, { createContext, useContext } from 'react';
-import { CaseData, Booking, CalendarEvent, DocumentFile, Invoice, ClientData } from '../types';
+import { CaseData, Booking, CalendarEvent, DocumentFile, Invoice, ClientData, User } from '../types';
 import { SERVICES } from '../data/services';
 import { useNotifications } from './NotificationContext';
 import { useCaseLogic } from '../hooks/useCaseLogic';
@@ -11,6 +11,7 @@ import { useScheduleLogic } from '../hooks/useScheduleLogic';
 import { useDocumentLogic } from '../hooks/useDocumentLogic';
 import { useFinanceLogic } from '../hooks/useFinanceLogic';
 import { useClientLogic } from '../hooks/useClientLogic';
+import { useEmployeeLogic } from '../hooks/useEmployeeLogic';
 
 interface DataContextType {
   cases: CaseData[];
@@ -19,6 +20,7 @@ interface DataContextType {
   documents: DocumentFile[];
   invoices: Invoice[];
   clients: ClientData[];
+  employees: User[];
   addCase: (newCase: CaseData) => void;
   addBooking: (booking: Booking) => void;
   updateBookingStatus: (id: string, status: Booking['status']) => void;
@@ -28,6 +30,9 @@ interface DataContextType {
   addInvoice: (invoice: Invoice) => void;
   updateInvoiceStatus: (id: string, status: Invoice['status']) => void;
   addClient: (client: ClientData) => void;
+  addEmployee: (employee: User) => void;
+  updateEmployee: (id: string, updates: Partial<User>) => void;
+  deleteEmployee: (id: string) => void;
 }
 
 const DataContext = createContext<DataContextType | undefined>(undefined);
@@ -39,6 +44,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   const { documents, addDocument, deleteDocument } = useDocumentLogic();
   const { invoices, addInvoice, updateInvoiceStatus } = useFinanceLogic();
   const { clients, addClient } = useClientLogic();
+  const { employees, addEmployee, updateEmployee, deleteEmployee } = useEmployeeLogic();
   const { addNotification } = useNotifications();
 
   const handleUpdateBooking = (id: string, status: Booking['status']) => {
@@ -48,7 +54,6 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
       const booking = bookings.find(b => b.id === id);
       if (booking) {
         const service = SERVICES.find(s => s.title === booking.serviceType);
-        // Fallback ke divisi umum jika service tidak ditemukan
         const division = service?.division || 'Legal Administratif & Korporasi';
 
         const newCase: CaseData = {
@@ -79,9 +84,10 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <DataContext.Provider value={{ 
-      cases, bookings, events, documents, invoices, clients,
+      cases, bookings, events, documents, invoices, clients, employees,
       addCase, addBooking, updateBookingStatus: handleUpdateBooking, addEvent, 
-      addDocument, deleteDocument, addInvoice, updateInvoiceStatus, addClient
+      addDocument, deleteDocument, addInvoice, updateInvoiceStatus, addClient,
+      addEmployee, updateEmployee, deleteEmployee
     }}>
       {children}
     </DataContext.Provider>
