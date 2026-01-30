@@ -1,6 +1,6 @@
 
 import Dexie, { type Table } from 'dexie';
-import { CaseData, Booking, CalendarEvent, DocumentFile, Invoice, ServiceItem, Article, ClientData, User, Conversation, Message, AttendanceRecord, PayrollSlip, RoleConfig, SocialAccount, SocialPost } from '../types';
+import { CaseData, Booking, CalendarEvent, DocumentFile, Invoice, ServiceItem, Article, ClientData, User, Conversation, Message, AttendanceRecord, PayrollSlip, RoleConfig, SocialAccount, SocialPost, DocumentTemplate } from '../types';
 import { MOCK_CASES } from '../data/mock_cases';
 import { MOCK_BOOKINGS, EVENTS } from '../data/mock_calendar';
 import { DOCUMENTS, ARTICLES } from '../data/mock_content';
@@ -11,6 +11,7 @@ import { MOCK_CONVERSATIONS, MOCK_MESSAGES } from '../data/mock_omnichannel';
 import { MOCK_PAYROLL } from '../data/mock_payroll';
 import { MOCK_ROLES } from '../data/mock_roles';
 import { MOCK_SOCIAL_ACCOUNTS, MOCK_SOCIAL_POSTS } from '../data/mock_social';
+import { MOCK_TEMPLATES } from '../data/mock_templates';
 
 export class CBPDatabase extends Dexie {
   cases!: Table<CaseData, string>;
@@ -29,14 +30,15 @@ export class CBPDatabase extends Dexie {
   roles!: Table<RoleConfig, string>;
   socialAccounts!: Table<SocialAccount, string>;
   socialPosts!: Table<SocialPost, string>;
+  templates!: Table<DocumentTemplate, string>;
 
   constructor() {
     super('CBPDatabase');
     
     // Previous versions omitted for brevity...
     
-    // Version 13: Social Media Module
-    (this as any).version(13).stores({
+    // Version 14: Document Templates Module
+    (this as any).version(14).stores({
       cases: 'id, status, clientName, division',
       bookings: 'id, status, date',
       events: 'id, date, type, client',
@@ -52,7 +54,8 @@ export class CBPDatabase extends Dexie {
       payroll: 'id, employeeId, period, status',
       roles: 'id, roleCode, label',
       socialAccounts: 'id, platform, isConnected',
-      socialPosts: 'id, date, status'
+      socialPosts: 'id, date, status',
+      templates: 'id, type, isActive'
     }).upgrade(async (trans: any) => {
        // Optional: Data migration logic if needed
     });
@@ -74,6 +77,7 @@ export class CBPDatabase extends Dexie {
       this.roles.bulkAdd(MOCK_ROLES);
       this.socialAccounts.bulkAdd(MOCK_SOCIAL_ACCOUNTS);
       this.socialPosts.bulkAdd(MOCK_SOCIAL_POSTS);
+      this.templates.bulkAdd(MOCK_TEMPLATES);
     });
   }
 }

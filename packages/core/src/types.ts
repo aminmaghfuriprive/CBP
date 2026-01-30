@@ -251,3 +251,23 @@ export interface PermissionGroup {
   category: string;
   items: PermissionNode[];
 }
+
+// Document Template Types (Kop Surat/Amplop)
+export type TemplateType = 'LETTERHEAD' | 'ENVELOPE';
+export type HeaderLayout = 'left' | 'center' | 'right' | 'split';
+
+export interface DocumentTemplate {
+  id: string;
+  type: TemplateType;
+  name: string; // e.g., "Kop Surat Resmi 2023"
+  companyName: string;
+  addressLine1: string;
+  addressLine2?: string;
+  contactInfo: string;
+  website?: string;
+  logoUrl?: string; // Base64 or URL
+  layout: HeaderLayout;
+  isActive: boolean;
+  accentColor?: string; // Hex code
+  fontFamily?: string;
+}
