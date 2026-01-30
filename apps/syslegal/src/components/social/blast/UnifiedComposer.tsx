@@ -31,7 +31,6 @@ export const UnifiedComposer: React.FC<UnifiedComposerProps> = ({
   return (
     <Card className="h-full flex flex-col bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800">
       <div className="flex-1 space-y-4">
-        {/* Toolbar */}
         <div className="flex justify-between items-center pb-2 border-b border-slate-100 dark:border-slate-800">
            <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Composer</span>
            <div className="flex gap-2">
@@ -44,7 +43,6 @@ export const UnifiedComposer: React.FC<UnifiedComposerProps> = ({
            </div>
         </div>
 
-        {/* Text Area */}
         <textarea
           className="w-full h-40 bg-transparent border-none outline-none text-slate-900 dark:text-white placeholder:text-slate-400 resize-none text-base leading-relaxed"
           placeholder="Tulis update terbaru firma di sini... Gunakan #hashtag yang relevan."
@@ -52,7 +50,6 @@ export const UnifiedComposer: React.FC<UnifiedComposerProps> = ({
           onChange={(e) => setContent(e.target.value)}
         />
 
-        {/* Media Preview Area */}
         {mediaPreview ? (
           <div className="relative w-full h-48 bg-slate-100 dark:bg-slate-950 rounded-lg overflow-hidden group">
             <img src={mediaPreview} alt="Preview" className="w-full h-full object-cover" />
@@ -81,7 +78,6 @@ export const UnifiedComposer: React.FC<UnifiedComposerProps> = ({
         )}
       </div>
 
-      {/* Footer Actions */}
       <div className="pt-6 mt-4 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center">
          <div className="flex gap-2">
             <div className={`text-xs font-bold ${content.length > 280 ? 'text-red-500' : 'text-slate-400'}`}>

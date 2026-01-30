@@ -32,7 +32,6 @@ export const PlatformSelector: React.FC<PlatformSelectorProps> = ({ accounts, se
               }
             `}
           >
-            {/* Status Indicator Icon */}
             <div className="absolute -top-2 -right-2">
               {isSelected ? (
                 <div className="bg-cbp-navy dark:bg-cbp-gold text-white dark:text-cbp-navy rounded-full p-0.5 shadow-sm">

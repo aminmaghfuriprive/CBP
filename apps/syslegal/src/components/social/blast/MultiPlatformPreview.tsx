@@ -11,13 +11,12 @@ interface MultiPlatformPreviewProps {
   activePlatforms: SocialPlatform[];
 }
 
-export const MultiPlatformPreview: React.FC<MultiPlatformPreviewProps> = ({ content, mediaPreview, activePlatforms }) => {
+export const MultiPlatformPreview: React.FC<MultiPlatformPreviewProps> = ({ content, mediaPreview }) => {
   const [tab, setTab] = useState<SocialPlatform>('INSTAGRAM');
 
-  // Helper untuk format teks dengan highlight hashtag/link
   const formatText = (text: string) => {
     if (!text) return <span className="text-slate-400 italic">Preview text akan muncul di sini...</span>;
-    return text; // Bisa dikembangkan dengan regex untuk coloring hashtag
+    return text;
   };
 
   const renderInstagram = () => (
@@ -115,7 +114,7 @@ export const MultiPlatformPreview: React.FC<MultiPlatformPreviewProps> = ({ cont
          <div className="transform scale-90 sm:scale-100 transition-transform">
             {tab === 'INSTAGRAM' && renderInstagram()}
             {tab === 'LINKEDIN' && renderLinkedIn()}
-            {tab === 'FACEBOOK' && renderLinkedIn()} {/* FB Style similar to LI for MVP */}
+            {tab === 'FACEBOOK' && renderLinkedIn()} 
          </div>
       </div>
       

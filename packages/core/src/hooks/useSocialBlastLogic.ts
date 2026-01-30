@@ -4,7 +4,7 @@
 import { useState } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../db';
-import { SocialPost, SocialPlatform, SocialAccount } from '../types';
+import { SocialPost, SocialPlatform } from '../types';
 import { useNotifications } from '../context/NotificationContext';
 
 export const useSocialBlastLogic = () => {
@@ -33,7 +33,6 @@ export const useSocialBlastLogic = () => {
 
   const handleMediaUpload = (file: File) => {
     setMediaFile(file);
-    // Create preview URL
     const objectUrl = URL.createObjectURL(file);
     setMediaPreview(objectUrl);
   };
@@ -67,7 +66,7 @@ export const useSocialBlastLogic = () => {
       id: `blast_${Date.now()}`,
       content,
       platforms: selectedPlatforms,
-      mediaUrl: mediaPreview || undefined, // In real app, upload to storage first
+      mediaUrl: mediaPreview || undefined, 
       shortenLinks,
       date: new Date().toISOString(),
       likes: 0,
@@ -83,10 +82,8 @@ export const useSocialBlastLogic = () => {
         addNotification('Terkirim Sebagian', 'Beberapa platform mengalami kendala.', 'warning');
       }
       
-      // Reset Form
       setContent('');
       removeMedia();
-      // Keep selected platforms for convenience
     } catch (error) {
       addNotification('Error', 'Gagal menyimpan data blast.', 'warning');
     } finally {
@@ -97,20 +94,7 @@ export const useSocialBlastLogic = () => {
   return {
     accounts,
     history,
-    formState: {
-      content,
-      selectedPlatforms,
-      mediaPreview,
-      shortenLinks,
-      isBlasting
-    },
-    formActions: {
-      setContent,
-      togglePlatform,
-      handleMediaUpload,
-      removeMedia,
-      setShortenLinks,
-      blastPost
-    }
+    formState: { content, selectedPlatforms, mediaPreview, shortenLinks, isBlasting },
+    formActions: { setContent, togglePlatform, handleMediaUpload, removeMedia, setShortenLinks, blastPost }
   };
 };

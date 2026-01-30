@@ -15,6 +15,7 @@ export * from './hooks/useServiceCatalog';
 export * from './hooks/useAgendaSchedule'; 
 export * from './hooks/useBookingManager'; 
 export * from './hooks/useSocialMediaLogic'; 
+export * from './hooks/useSocialBlastLogic'; // Added this export
 export * from './hooks/useTemplateLogic'; 
 export * from './hooks/useClientLogic';
 export * from './hooks/useEmployeeLogic';
