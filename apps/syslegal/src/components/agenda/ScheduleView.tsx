@@ -1,16 +1,18 @@
 
 "use client";
 
-import React from 'react';
-import { useAgendaSchedule } from '@cbp/core';
+import React, { useState } from 'react';
+import { useAgendaSchedule, CalendarEvent } from '@cbp/core';
 import { AgendaTable } from './molecules/AgendaTable';
 import { MiniCalendarWidget } from './molecules/MiniCalendarWidget';
 import { AgendaDailyStats } from './molecules/AgendaDailyStats';
 import { FilterBar } from './atoms/FilterBar';
+import { EventDetailModal } from './molecules/EventDetailModal';
 import { Calendar as CalendarIcon } from 'lucide-react';
 
 export const ScheduleView: React.FC = () => {
   const { events, activeFilter, setFilter, stats } = useAgendaSchedule();
+  const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -31,7 +33,10 @@ export const ScheduleView: React.FC = () => {
         
         {/* Table View */}
         {events.length > 0 ? (
-          <AgendaTable events={events} />
+          <AgendaTable 
+            events={events} 
+            onEventClick={setSelectedEvent}
+          />
         ) : (
           <div className="p-12 text-center text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-900 rounded-lg border border-dashed border-slate-300 dark:border-slate-700">
             <p>Tidak ada agenda untuk filter ini.</p>
@@ -47,6 +52,12 @@ export const ScheduleView: React.FC = () => {
           hearingCount={stats.hearingCount} 
         />
       </div>
+
+      <EventDetailModal 
+        isOpen={!!selectedEvent} 
+        onClose={() => setSelectedEvent(null)} 
+        event={selectedEvent} 
+      />
     </div>
   );
 };
