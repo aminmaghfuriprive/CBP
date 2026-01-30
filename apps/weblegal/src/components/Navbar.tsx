@@ -22,8 +22,8 @@ export const Navbar: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Sembunyikan Navbar publik jika berada di dalam portal klien
-  if (pathname && pathname.startsWith('/portal')) return null;
+  // Sembunyikan Navbar jika di Portal Klien atau Halaman Auth
+  if (pathname && (pathname.startsWith('/portal') || pathname.startsWith('/auth'))) return null;
 
   const navLinks = [
     { name: 'Beranda', path: '/' },

@@ -10,8 +10,8 @@ export const Footer: React.FC = () => {
   const pathname = usePathname();
   const sysLegalUrl = process.env.NEXT_PUBLIC_SYSLEGAL_URL || "http://localhost:3001/login";
 
-  // Sembunyikan Footer publik jika berada di dalam portal klien
-  if (pathname && pathname.startsWith('/portal')) return null;
+  // Sembunyikan Footer publik jika berada di dalam portal klien atau auth
+  if (pathname && (pathname.startsWith('/portal') || pathname.startsWith('/auth'))) return null;
 
   return (
     <footer className="bg-cbp-navy dark:bg-slate-950 text-white pt-20 pb-10 border-t border-slate-800">
