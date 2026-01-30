@@ -5,38 +5,38 @@ import { Lawyer, User } from '../types';
 export const TEAM: Lawyer[] = [
   {
     id: 'team_founder',
-    name: 'Dr. Christian Bagoes Prasetyo, S.H., M.Kn, CLA, CCD',
-    role: 'Founder / Pimpinan',
-    specialty: 'Master of Notary & Corporate Law',
+    name: 'Dr. Christian Bagoes Prasetyo',
+    role: 'Founder & Managing Partner',
+    specialty: 'S.H., M.Kn., CLA, CCD', // Gelar dipisah ke sini
     imageUrl: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=600'
   },
   // --- STAF AHLI (PRODUKSI) ---
   {
     id: 'prod_1',
     name: 'Saumita Ngesti Ramadanti, S.H.',
-    role: 'Staff Produksi 1',
-    specialty: 'Divisi Law Firm',
+    role: 'Staff Produksi & Litigasi',
+    specialty: 'Hukum Umum & Litigasi',
     imageUrl: 'https://images.unsplash.com/photo-1573496359-136d475583dc?auto=format&fit=crop&q=80&w=400'
   },
   {
     id: 'prod_2',
     name: 'Yevita Nur Sholihah, S.H.',
-    role: 'Staff Produksi 2',
-    specialty: 'Divisi Sahabat Ijinku',
+    role: 'Staff Perizinan',
+    specialty: 'Perizinan & Bisnis',
     imageUrl: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=400'
   },
   {
     id: 'prod_3',
     name: 'Izatil Khoiriyah, S.H.',
-    role: 'Staff Produksi 3',
-    specialty: 'Divisi Legal',
+    role: 'Staff Korporasi',
+    specialty: 'Legal Administratif & Korporasi',
     imageUrl: 'https://images.unsplash.com/photo-1598550874175-4d7112ee7f64?auto=format&fit=crop&q=80&w=400'
   },
   {
     id: 'prod_4',
     name: 'Khrisna Wijayanti, S.H.',
-    role: 'Staff Produksi 4',
-    specialty: 'Divisi Law Firm Tanah',
+    role: 'Staff Agraria',
+    specialty: 'Pertanahan & Agraria',
     imageUrl: 'https://images.unsplash.com/photo-1507537297725-24a1c029d3ca?auto=format&fit=crop&q=80&w=400'
   },
   // --- TIM PENDUKUNG ---

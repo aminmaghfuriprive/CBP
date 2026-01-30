@@ -11,7 +11,7 @@ interface AboutHeroSectionProps {
 
 export const AboutHeroSection: React.FC<AboutHeroSectionProps> = ({ founder }) => {
   return (
-    <div className="bg-cbp-navy dark:bg-slate-900 relative overflow-hidden pt-32 pb-32 md:pb-48">
+    <div className="bg-cbp-navy dark:bg-slate-900 relative overflow-hidden pt-40 pb-32">
       {/* Background Ambience */}
       <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1555529733-0e670560f7e1?auto=format&fit=crop&q=80&w=2000')] bg-cover bg-center opacity-10"></div>
       <div className="absolute inset-0 bg-gradient-to-t from-cbp-navy via-cbp-navy/80 to-cbp-navy/40 dark:from-slate-900 dark:via-slate-900/80"></div>
@@ -42,9 +42,15 @@ export const AboutHeroSection: React.FC<AboutHeroSectionProps> = ({ founder }) =
               {ABOUT_HERO_CONTENT.role}
             </div>
             
-            <h1 className="text-4xl lg:text-5xl font-serif font-bold mb-6 leading-tight">
-              {founder?.name.split(',')[0]}
-            </h1>
+            <div className="mb-8">
+              <h1 className="text-4xl lg:text-5xl font-serif font-bold mb-2 leading-tight">
+                {founder?.name}
+              </h1>
+              {/* Gelar ditaruh di bawah nama sesuai request */}
+              <p className="text-xl text-cbp-gold font-serif italic tracking-wide">
+                {founder?.specialty}
+              </p>
+            </div>
             
             <div className="relative pl-6 border-l-4 border-cbp-gold mb-8">
               <p className="text-xl md:text-2xl text-slate-200 font-serif italic leading-relaxed">
@@ -58,10 +64,16 @@ export const AboutHeroSection: React.FC<AboutHeroSectionProps> = ({ founder }) =
               ))}
             </div>
             
-            <div className="mt-8 flex flex-wrap gap-4">
-              {ABOUT_HERO_CONTENT.credentials.map((cred, idx) => (
-                <CredentialBadge key={idx} iconName={cred.iconName} label={cred.label} />
-              ))}
+            <div className="mt-8">
+              <p className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-3">Sertifikasi & Keahlian</p>
+              <div className="flex flex-wrap gap-4">
+                {ABOUT_HERO_CONTENT.credentials.map((cred, idx) => (
+                  <CredentialBadge key={idx} iconName={cred.iconName} label={cred.label} />
+                ))}
+                {/* Tambahan manual jika perlu */}
+                <CredentialBadge iconName="Award" label="Certified Legal Auditor" />
+                <CredentialBadge iconName="FileCheck" label="Certified Contract Drafter" />
+              </div>
             </div>
           </div>
         </div>
