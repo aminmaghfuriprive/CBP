@@ -12,10 +12,11 @@ export * from './db';
 export * from './hooks/useServiceLogic';
 export * from './hooks/useContentLogic';
 export * from './hooks/useServiceCatalog';
-export * from './hooks/useAgendaSchedule'; // Export Hook Step 2
-export * from './hooks/useBookingManager'; // Export Hook Step 2
+export * from './hooks/useAgendaSchedule'; 
+export * from './hooks/useBookingManager'; 
+export * from './hooks/useSocialMediaLogic'; // Export Hook Social
 
-// Utils (New in Step 4)
+// Utils
 export * from './utils/formatters';
 export * from './utils/mappers';
 
@@ -26,3 +27,4 @@ export * from './data/mock_cases';
 export * from './data/mock_finance';
 export * from './data/mock_content';
 export * from './data/mock_calendar';
+export * from './data/mock_social'; // Export Mock Social

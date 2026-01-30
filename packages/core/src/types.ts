@@ -184,6 +184,28 @@ export interface Message {
   isRead: boolean;
 }
 
+// Social Media Types
+export type SocialPlatform = 'FACEBOOK' | 'INSTAGRAM' | 'LINKEDIN' | 'TWITTER';
+
+export interface SocialAccount {
+  id: string;
+  platform: SocialPlatform;
+  handle: string; // @username
+  followers: number;
+  isConnected: boolean;
+  lastSync: string;
+}
+
+export interface SocialPost {
+  id: string;
+  content: string;
+  platforms: SocialPlatform[];
+  date: string;
+  likes: number;
+  shares: number;
+  status: 'Published' | 'Scheduled';
+}
+
 // Attendance Types
 export interface AttendanceRecord {
   id: string;

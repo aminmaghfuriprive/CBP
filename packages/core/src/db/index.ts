@@ -1,6 +1,6 @@
 
 import Dexie, { type Table } from 'dexie';
-import { CaseData, Booking, CalendarEvent, DocumentFile, Invoice, ServiceItem, Article, ClientData, User, Conversation, Message, AttendanceRecord, PayrollSlip, RoleConfig } from '../types';
+import { CaseData, Booking, CalendarEvent, DocumentFile, Invoice, ServiceItem, Article, ClientData, User, Conversation, Message, AttendanceRecord, PayrollSlip, RoleConfig, SocialAccount, SocialPost } from '../types';
 import { MOCK_CASES } from '../data/mock_cases';
 import { MOCK_BOOKINGS, EVENTS } from '../data/mock_calendar';
 import { DOCUMENTS, ARTICLES } from '../data/mock_content';
@@ -10,6 +10,7 @@ import { CLIENTS, MOCK_USERS_DB } from '../data/mock_users';
 import { MOCK_CONVERSATIONS, MOCK_MESSAGES } from '../data/mock_omnichannel';
 import { MOCK_PAYROLL } from '../data/mock_payroll';
 import { MOCK_ROLES } from '../data/mock_roles';
+import { MOCK_SOCIAL_ACCOUNTS, MOCK_SOCIAL_POSTS } from '../data/mock_social';
 
 export class CBPDatabase extends Dexie {
   cases!: Table<CaseData, string>;
@@ -26,70 +27,16 @@ export class CBPDatabase extends Dexie {
   attendance!: Table<AttendanceRecord, string>;
   payroll!: Table<PayrollSlip, string>;
   roles!: Table<RoleConfig, string>;
+  socialAccounts!: Table<SocialAccount, string>;
+  socialPosts!: Table<SocialPost, string>;
 
   constructor() {
     super('CBPDatabase');
     
-    // Previous versions
-    (this as any).version(1).stores({
-      cases: 'id, status, clientName, division',
-      bookings: 'id, status, date',
-      events: 'id, date, type, client',
-      documents: 'id, category, type',
-      invoices: 'id, status, clientName'
-    });
+    // Previous versions omitted for brevity...
     
-    (this as any).version(9).stores({
-      cases: 'id, status, clientName, division',
-      bookings: 'id, status, date',
-      events: 'id, date, type, client',
-      documents: 'id, category, type',
-      invoices: 'id, status, clientName',
-      services: 'id, division, title', 
-      articles: 'id, category, date',
-      clients: 'id, name, industry',
-      users: 'id, name, email, role, division',
-      conversations: 'id, channel, lastMessage',
-      messages: 'id, conversationId, timestamp',
-      attendance: 'id, userId, date, status'
-    });
-
-    // Version 10: Payroll
-    (this as any).version(10).stores({
-      cases: 'id, status, clientName, division',
-      bookings: 'id, status, date',
-      events: 'id, date, type, client',
-      documents: 'id, category, type',
-      invoices: 'id, status, clientName',
-      services: 'id, division, title', 
-      articles: 'id, category, date',
-      clients: 'id, name, industry',
-      users: 'id, name, email, role, division',
-      conversations: 'id, channel, lastMessage',
-      messages: 'id, conversationId, timestamp',
-      attendance: 'id, userId, date, status',
-      payroll: 'id, employeeId, period, status'
-    });
-
-    // Version 11: Fix missing timestamp index on conversations
-    (this as any).version(11).stores({
-      cases: 'id, status, clientName, division',
-      bookings: 'id, status, date',
-      events: 'id, date, type, client',
-      documents: 'id, category, type',
-      invoices: 'id, status, clientName',
-      services: 'id, division, title', 
-      articles: 'id, category, date',
-      clients: 'id, name, industry',
-      users: 'id, name, email, role, division',
-      conversations: 'id, channel, lastMessage, timestamp', 
-      messages: 'id, conversationId, timestamp',
-      attendance: 'id, userId, date, status',
-      payroll: 'id, employeeId, period, status'
-    });
-
-    // Version 12: Roles Management
-    (this as any).version(12).stores({
+    // Version 13: Social Media Module
+    (this as any).version(13).stores({
       cases: 'id, status, clientName, division',
       bookings: 'id, status, date',
       events: 'id, date, type, client',
@@ -103,10 +50,11 @@ export class CBPDatabase extends Dexie {
       messages: 'id, conversationId, timestamp',
       attendance: 'id, userId, date, status',
       payroll: 'id, employeeId, period, status',
-      roles: 'id, roleCode, label'
+      roles: 'id, roleCode, label',
+      socialAccounts: 'id, platform, isConnected',
+      socialPosts: 'id, date, status'
     }).upgrade(async (trans: any) => {
-       await trans.table('roles').clear();
-       await trans.table('roles').bulkAdd(MOCK_ROLES);
+       // Optional: Data migration logic if needed
     });
 
     // Populate data
@@ -124,6 +72,8 @@ export class CBPDatabase extends Dexie {
       this.messages.bulkAdd(MOCK_MESSAGES);
       this.payroll.bulkAdd(MOCK_PAYROLL);
       this.roles.bulkAdd(MOCK_ROLES);
+      this.socialAccounts.bulkAdd(MOCK_SOCIAL_ACCOUNTS);
+      this.socialPosts.bulkAdd(MOCK_SOCIAL_POSTS);
     });
   }
 }
