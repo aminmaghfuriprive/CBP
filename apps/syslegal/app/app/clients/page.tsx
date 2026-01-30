@@ -1,63 +1,93 @@
 
 "use client";
 
-import React from 'react';
-import { CLIENTS } from '@cbp/core';
-import { Card, Button } from '@cbp/ui';
-import { Mail, Phone, Building, User, Download, Plus } from 'lucide-react';
+import React, { useState } from 'react';
+import { useData, CLIENTS } from '@cbp/core';
+import { PageHeader, StatCard } from '@cbp/ui';
+import { Users, FileText, FolderOpen, Briefcase } from 'lucide-react';
+import { ClientListView } from '../../../src/components/clients/ClientListView';
+import { CaseListView } from '../../../src/components/cases/CaseListView';
+import { DocumentRepositoryView } from '../../../src/components/documents/DocumentRepositoryView';
 
 export default function ClientDatabasePage() {
+  const [activeTab, setActiveTab] = useState<'clients' | 'cases' | 'documents'>('clients');
+  const { cases, documents } = useData();
+
+  // Summary Stats untuk Header
+  const activeCasesCount = cases.filter(c => c.status === 'Aktif').length;
+
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-2xl font-serif font-bold text-cbp-navy dark:text-white">Database Klien</h1>
-          <p className="text-slate-500 dark:text-slate-400">Daftar klien aktif dan arsip kontak.</p>
-        </div>
-        <div className="flex gap-2">
-          <Button variant="outline" size="sm" className="gap-2 border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300">
-            <Download className="h-4 w-4" /> Ekspor
-          </Button>
-          <Button size="sm" className="gap-2">
-            <Plus className="h-4 w-4" /> Tambah Klien
-          </Button>
-        </div>
+    <div className="space-y-6 max-w-7xl mx-auto">
+      <PageHeader 
+        title="Database & Perkara" 
+        subtitle="Pusat data klien, manajemen kasus, dan repository dokumen." 
+      />
+
+      {/* Quick Stats Row */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+         <StatCard 
+            label="Total Klien" 
+            value={CLIENTS.length} 
+            icon={Users} 
+            variant="primary" 
+         />
+         <StatCard 
+            label="Kasus Aktif" 
+            value={activeCasesCount} 
+            icon={Briefcase} 
+            variant="success" 
+         />
+         <StatCard 
+            label="Total Dokumen" 
+            value={documents.length} 
+            icon={FolderOpen} 
+            variant="secondary" 
+         />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {CLIENTS.map((client) => (
-          <Card key={client.id} className="hover:shadow-lg transition-shadow border-t-4 border-t-cbp-gold bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800">
-            <div className="flex items-start justify-between mb-4">
-              <div className="p-3 bg-slate-50 dark:bg-slate-800 rounded-full border border-slate-100 dark:border-slate-700">
-                <Building className="h-6 w-6 text-cbp-navy dark:text-cbp-gold" />
-              </div>
-              <span className="text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-2 py-1 rounded border border-slate-200 dark:border-slate-700">
-                {client.industry}
-              </span>
-            </div>
-            
-            <h3 className="text-lg font-bold text-cbp-navy dark:text-white mb-1">{client.name}</h3>
-            <p className="text-sm text-slate-500 dark:text-slate-400 mb-6 font-mono">ID: {client.id.toUpperCase()}</p>
-            
-            <div className="space-y-3">
-              <div className="flex items-center text-sm text-slate-600 dark:text-slate-300">
-                <User className="h-4 w-4 mr-3 text-cbp-gold" />
-                {client.contact}
-              </div>
-              <div className="flex items-center text-sm text-slate-600 dark:text-slate-300">
-                <Mail className="h-4 w-4 mr-3 text-cbp-gold" />
-                <a href={`mailto:${client.email}`} className="hover:text-cbp-navy dark:hover:text-white hover:underline transition-colors">
-                  {client.email}
-                </a>
-              </div>
-            </div>
-            
-            <div className="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800 flex gap-2">
-              <Button variant="ghost" size="sm" className="w-full text-xs">Lihat Profil</Button>
-              <Button variant="outline" size="sm" className="w-full text-xs border-slate-200 dark:border-slate-700">Riwayat</Button>
-            </div>
-          </Card>
-        ))}
+      {/* Navigation Tabs */}
+      <div className="flex gap-4 border-b border-slate-200 dark:border-slate-800 mb-6 overflow-x-auto">
+        <button
+          onClick={() => setActiveTab('clients')}
+          className={`pb-3 px-2 text-sm font-bold flex items-center gap-2 transition-all relative whitespace-nowrap ${
+            activeTab === 'clients' 
+              ? 'text-cbp-navy dark:text-cbp-gold' 
+              : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
+          }`}
+        >
+          <Users className="h-4 w-4" /> Daftar Klien
+          {activeTab === 'clients' && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-cbp-gold rounded-t-full"></div>}
+        </button>
+
+        <button
+          onClick={() => setActiveTab('cases')}
+          className={`pb-3 px-2 text-sm font-bold flex items-center gap-2 transition-all relative whitespace-nowrap ${
+            activeTab === 'cases' 
+              ? 'text-cbp-navy dark:text-cbp-gold' 
+              : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
+          }`}
+        >
+          <FileText className="h-4 w-4" /> Semua Kasus
+          {activeTab === 'cases' && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-cbp-gold rounded-t-full"></div>}
+        </button>
+
+        <button
+          onClick={() => setActiveTab('documents')}
+          className={`pb-3 px-2 text-sm font-bold flex items-center gap-2 transition-all relative whitespace-nowrap ${
+            activeTab === 'documents' 
+              ? 'text-cbp-navy dark:text-cbp-gold' 
+              : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
+          }`}
+        >
+          <FolderOpen className="h-4 w-4" /> Repository Dokumen
+          {activeTab === 'documents' && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-cbp-gold rounded-t-full"></div>}
+        </button>
+      </div>
+
+      <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
+        {activeTab === 'clients' && <ClientListView />}
+        {activeTab === 'cases' && <CaseListView />}
+        {activeTab === 'documents' && <DocumentRepositoryView />}
       </div>
     </div>
   );
