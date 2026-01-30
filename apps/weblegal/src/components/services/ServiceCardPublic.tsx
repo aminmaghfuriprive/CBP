@@ -21,10 +21,10 @@ export const ServiceCardPublic: React.FC<ServiceCardPublicProps> = ({ data, onCl
       {/* Visual Accent: Gold Line on Hover */}
       <div className="absolute top-0 left-0 w-full h-1 bg-cbp-gold transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left z-10"></div>
       
-      {/* Duration Badge (New Feature) */}
+      {/* Duration Badge (Updated: Uniform Gold Style) */}
       {totalDays > 0 && (
-        <div className="absolute top-0 right-0 bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 px-4 py-2 rounded-bl-2xl text-[10px] font-bold uppercase tracking-wider flex items-center gap-1.5 z-0 border-b border-l border-slate-200 dark:border-slate-700">
-          <Clock className="h-3 w-3" /> {totalDays} Hari
+        <div className="absolute top-0 right-0 bg-cbp-gold text-cbp-navy px-4 py-2 rounded-bl-2xl text-[11px] font-bold uppercase tracking-wider flex items-center gap-1.5 z-20 shadow-md">
+          <Clock className="h-3.5 w-3.5" /> {totalDays} Hari
         </div>
       )}
 

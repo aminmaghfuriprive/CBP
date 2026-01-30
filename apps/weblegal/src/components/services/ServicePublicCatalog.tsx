@@ -32,10 +32,10 @@ export const ServicePublicCatalog: React.FC<ServicePublicCatalogProps> = ({ onSe
     );
   }
 
-  // Filter layanan berdasarkan tab aktif, dan ambil max 6
+  // Filter layanan berdasarkan tab aktif, dan ambil max 9 (Updated limit)
   // Type assertion: activeTab is validated by UI flow to be one of the divisions (keys of GroupedServices)
   const currentServices = groupedServices[activeTab as ServiceDivision] || [];
-  const displayServices = currentServices.slice(0, 6);
+  const displayServices = currentServices.slice(0, 9);
 
   return (
     <div>
@@ -57,7 +57,7 @@ export const ServicePublicCatalog: React.FC<ServicePublicCatalogProps> = ({ onSe
            </p>
         </div>
 
-        {/* Grid Layout (Max 6 Cards) */}
+        {/* Grid Layout (Max 9 Cards) */}
         {displayServices.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {displayServices.map((service) => (
