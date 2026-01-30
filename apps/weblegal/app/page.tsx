@@ -52,14 +52,14 @@ export default function Home() {
               
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link href="/contact">
-                  {/* BUTTON 1: Force Gold/Navy style regardless of theme */}
-                  <Button size="lg" className="bg-cbp-gold dark:bg-cbp-gold text-cbp-navy dark:text-cbp-navy hover:bg-white dark:hover:bg-white hover:text-cbp-navy dark:hover:text-cbp-navy border-transparent transition-all duration-300 px-8 py-4 h-auto text-base w-full sm:w-auto shadow-lg shadow-cbp-gold/20 font-bold">
+                  {/* FORCE DARK STYLE: Gold Button */}
+                  <Button size="lg" className="!bg-cbp-gold !text-cbp-navy hover:!bg-white hover:!text-cbp-navy !border-transparent transition-all duration-300 px-8 py-4 h-auto text-base w-full sm:w-auto shadow-lg shadow-cbp-gold/20 font-bold">
                     Jadwalkan Konsultasi
                   </Button>
                 </Link>
                 <Link href="/services">
-                  {/* BUTTON 2: High contrast outline for dark bg, forced white text */}
-                  <Button variant="outline" size="lg" className="border-slate-400 dark:border-slate-400 text-slate-100 dark:text-slate-100 hover:border-white dark:hover:border-white hover:text-white dark:hover:text-white hover:bg-white/10 dark:hover:bg-white/10 px-8 py-4 h-auto text-base w-full sm:w-auto">
+                  {/* FORCE DARK STYLE: White Outline Button */}
+                  <Button variant="outline" size="lg" className="!bg-transparent !border-slate-400 !text-slate-100 hover:!border-white hover:!text-white hover:!bg-white/10 px-8 py-4 h-auto text-base w-full sm:w-auto">
                     Eksplorasi Layanan
                   </Button>
                 </Link>
@@ -153,7 +153,6 @@ export default function Home() {
               </div>
 
               <Link href="/about">
-                {/* BUTTON 4: Changed from text link to Button, Gold/Navy style consistent */}
                 <Button size="lg" className="bg-cbp-gold text-cbp-navy hover:bg-cbp-navy hover:text-cbp-gold border-transparent transition-all duration-300 px-8 py-4 h-auto text-base shadow-lg shadow-cbp-gold/20 font-bold">
                    Lihat Profil Lengkap <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
@@ -213,14 +212,14 @@ export default function Home() {
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-6">
             <Link href="/contact">
-              {/* BUTTON 3: Force Gold/Navy style regardless of theme */}
-              <Button size="lg" className="bg-cbp-gold dark:bg-cbp-gold text-cbp-navy dark:text-cbp-navy hover:bg-white dark:hover:bg-white hover:text-cbp-navy dark:hover:text-cbp-navy px-12 py-4 text-lg shadow-lg hover:shadow-cbp-gold/20 transform hover:-translate-y-1 transition-all border-transparent font-bold">
+              {/* FORCE DARK STYLE: Gold Button */}
+              <Button size="lg" className="!bg-cbp-gold !text-cbp-navy hover:!bg-white hover:!text-cbp-navy px-12 py-4 text-lg shadow-lg hover:shadow-cbp-gold/20 transform hover:-translate-y-1 transition-all !border-transparent font-bold">
                 Jadwalkan Konsultasi
               </Button>
             </Link>
             <Link href="/contact">
-              {/* BUTTON 3: Force White Outline style regardless of theme */}
-              <Button size="lg" variant="outline" className="px-12 py-4 text-lg border-slate-400 dark:border-slate-400 text-slate-100 dark:text-slate-100 hover:bg-white dark:hover:bg-white hover:text-cbp-navy dark:hover:text-cbp-navy hover:border-white dark:hover:border-white">
+              {/* FORCE DARK STYLE: Outline Button */}
+              <Button size="lg" variant="outline" className="px-12 py-4 text-lg !border-slate-400 !text-slate-100 hover:!bg-white hover:!text-cbp-navy hover:!border-white">
                 Hubungi Staf Kami
               </Button>
             </Link>

@@ -32,6 +32,8 @@ export const Navbar: React.FC = () => {
 
   // FORCE DARK STYLE: Navbar selalu menggunakan background gelap/transparan gelap
   const navBg = scrolled ? 'bg-slate-950/90 backdrop-blur-md shadow-lg py-4 border-b border-white/10' : 'bg-transparent py-6';
+  
+  // Force text colors using !important to override any theme defaults
   const textColor = 'text-slate-200 hover:text-white';
   const activeColor = 'text-cbp-gold font-bold';
 
@@ -61,17 +63,17 @@ export const Navbar: React.FC = () => {
             <div className="h-6 w-px bg-white/20"></div>
             
             {/* Theme Toggle forced to dark style (Transparent/White) regardless of theme */}
-            <ThemeToggle className="!bg-white/10 !text-white hover:!bg-white/20" />
+            <ThemeToggle className="!bg-white/10 !text-white hover:!bg-white/20 !border-transparent" />
             
             {isAuthenticated && user?.role === 'CLIENT' ? (
               <Link href="/portal/dashboard">
-                 <Button size="sm" className="bg-cbp-gold dark:bg-cbp-gold text-cbp-navy dark:text-cbp-navy hover:bg-white dark:hover:bg-white border-none font-bold shadow-none">
+                 <Button size="sm" className="!bg-cbp-gold !text-cbp-navy hover:!bg-white border-none font-bold shadow-none">
                    <User className="h-4 w-4 mr-2" /> Portal
                  </Button>
               </Link>
             ) : (
               <Link href="/auth/login">
-                <Button size="sm" className="bg-white dark:bg-white text-cbp-navy dark:text-cbp-navy hover:bg-slate-200 dark:hover:bg-slate-200 border-none font-bold shadow-none">
+                <Button size="sm" className="!bg-white !text-cbp-navy hover:!bg-slate-200 border-none font-bold shadow-none">
                   Login Klien
                 </Button>
               </Link>
@@ -101,7 +103,7 @@ export const Navbar: React.FC = () => {
           ))}
           <div className="h-px bg-white/10 my-2"></div>
           <Link href="/auth/login" onClick={() => setIsOpen(false)}>
-            <Button className="w-full bg-cbp-gold text-cbp-navy font-bold">Login Portal Klien</Button>
+            <Button className="w-full !bg-cbp-gold !text-cbp-navy font-bold">Login Portal Klien</Button>
           </Link>
         </div>
       )}

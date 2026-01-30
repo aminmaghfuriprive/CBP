@@ -344,7 +344,7 @@ export default function Contact() {
                       </div>
                     )}
 
-                    {/* STEP 3: KONFIRMASI */}
+                    {/* STEP 3: KONFIRMASI (RINGKASAN) */}
                     {step === 3 && (
                       <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
                          <div className="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-xl border border-slate-200 dark:border-slate-800">
