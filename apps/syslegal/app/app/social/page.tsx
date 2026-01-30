@@ -3,101 +3,111 @@
 
 import React, { useState } from 'react';
 import { PageHeader } from '@cbp/ui';
-import { useSocialMediaLogic } from '@cbp/core';
-import { ConnectedAccountsView } from '../../../src/components/social/organisms/ConnectedAccountsView';
-import { PostComposer } from '../../../src/components/social/molecules/PostComposer';
-import { SocialFeedView } from '../../../src/components/social/organisms/SocialFeedView';
+import { useSocialBlastLogic } from '@cbp/core';
 import { OmnichannelView } from '../../../src/components/omnichannel/OmnichannelView';
-import { AyrshareIntegrationView } from '../../../src/components/ayrshare/AyrshareIntegrationView';
-import { MessageSquare, Share2, Radio } from 'lucide-react';
+import { PlatformSelector } from '../../../src/components/social/blast/PlatformSelector';
+import { UnifiedComposer } from '../../../src/components/social/blast/UnifiedComposer';
+import { MultiPlatformPreview } from '../../../src/components/social/blast/MultiPlatformPreview';
+import { BlastHistoryTable } from '../../../src/components/social/blast/BlastHistoryTable';
+import { AccountStatusWidget } from '../../../src/components/social/blast/AccountStatusWidget';
+import { MessageSquare, Rocket } from 'lucide-react';
 
 export default function SocialMediaPage() {
-  const { accounts, posts, toggleConnection, createPost } = useSocialMediaLogic();
-  const [activeTab, setActiveTab] = useState<'social' | 'inbox' | 'ayrshare'>('social');
-
-  // Filter connected platforms for composer
-  const connectedPlatforms = accounts.filter(a => a.isConnected).map(a => a.platform);
+  const { 
+    accounts, 
+    history, 
+    formState, 
+    formActions 
+  } = useSocialBlastLogic();
+  
+  const [activeTab, setActiveTab] = useState<'blast' | 'inbox'>('blast');
 
   return (
     <div className="h-full flex flex-col">
       <PageHeader 
-        title="Sosial & Komunikasi" 
-        subtitle="Kelola media sosial terpadu, integrasi API Ayrshare, dan pesan masuk." 
+        title="Social Command Center" 
+        subtitle="Kelola distribusi konten massal dan komunikasi klien dalam satu pintu." 
       />
 
-      {/* Tabs */}
-      <div className="flex gap-4 border-b border-slate-200 dark:border-slate-800 mb-6 flex-shrink-0 overflow-x-auto">
+      {/* Main Tabs */}
+      <div className="flex gap-4 border-b border-slate-200 dark:border-slate-800 mb-6 flex-shrink-0">
         <button
-          onClick={() => setActiveTab('social')}
-          className={`pb-3 px-2 text-sm font-bold flex items-center gap-2 transition-all relative whitespace-nowrap ${
-            activeTab === 'social' 
+          onClick={() => setActiveTab('blast')}
+          className={`pb-3 px-2 text-sm font-bold flex items-center gap-2 transition-all relative ${
+            activeTab === 'blast' 
               ? 'text-cbp-navy dark:text-cbp-gold' 
               : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
           }`}
         >
-          <Share2 className="h-4 w-4" /> Media Sosial
-          {activeTab === 'social' && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-cbp-gold rounded-t-full"></div>}
-        </button>
-
-        <button
-          onClick={() => setActiveTab('ayrshare')}
-          className={`pb-3 px-2 text-sm font-bold flex items-center gap-2 transition-all relative whitespace-nowrap ${
-            activeTab === 'ayrshare' 
-              ? 'text-cbp-navy dark:text-cbp-gold' 
-              : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
-          }`}
-        >
-          <Radio className="h-4 w-4" /> Integrasi Ayrshare
-          {activeTab === 'ayrshare' && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-cbp-gold rounded-t-full"></div>}
+          <Rocket className="h-4 w-4" /> Compose & Blast
+          {activeTab === 'blast' && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-cbp-gold rounded-t-full"></div>}
         </button>
 
         <button
           onClick={() => setActiveTab('inbox')}
-          className={`pb-3 px-2 text-sm font-bold flex items-center gap-2 transition-all relative whitespace-nowrap ${
+          className={`pb-3 px-2 text-sm font-bold flex items-center gap-2 transition-all relative ${
             activeTab === 'inbox' 
               ? 'text-cbp-navy dark:text-cbp-gold' 
               : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
           }`}
         >
-          <MessageSquare className="h-4 w-4" /> Inbox Pesan
+          <MessageSquare className="h-4 w-4" /> Inbox & DM
           {activeTab === 'inbox' && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-cbp-gold rounded-t-full"></div>}
         </button>
       </div>
 
       <div className="flex-1 min-h-0 animate-in fade-in slide-in-from-bottom-2 duration-300">
-        {activeTab === 'social' && (
-            <div className="space-y-8 max-w-6xl mx-auto pb-10">
-              <section>
-                <h3 className="font-bold text-lg text-cbp-navy dark:text-white mb-4">Akun Terhubung</h3>
-                <ConnectedAccountsView 
-                  accounts={accounts} 
-                  onToggleConnection={toggleConnection} 
-                />
-              </section>
+        
+        {/* --- TAB: BLAST (OPERATIONAL DASHBOARD) --- */}
+        {activeTab === 'blast' && (
+            <div className="grid grid-cols-12 gap-6 max-w-7xl mx-auto pb-10">
+              
+              {/* Top Row: Platform Selector */}
+              <div className="col-span-12">
+                 <PlatformSelector 
+                   accounts={accounts} 
+                   selected={formState.selectedPlatforms} 
+                   onToggle={formActions.togglePlatform} 
+                 />
+              </div>
 
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <div className="lg:col-span-2">
-                  <SocialFeedView posts={posts} />
-                </div>
-                <div className="lg:col-span-1">
-                  <div className="sticky top-4">
-                    <h3 className="font-bold text-lg text-cbp-navy dark:text-white mb-4">Buat Postingan</h3>
-                    <PostComposer 
-                      onPost={createPost} 
-                      availablePlatforms={connectedPlatforms} 
+              {/* Main Workspace (Composer + Preview) */}
+              <div className="col-span-12 lg:col-span-7 h-[500px]">
+                 <UnifiedComposer 
+                   content={formState.content}
+                   setContent={formActions.setContent}
+                   mediaPreview={formState.mediaPreview}
+                   onUpload={formActions.handleMediaUpload}
+                   onRemoveMedia={formActions.removeMedia}
+                   shortenLinks={formState.shortenLinks}
+                   setShortenLinks={formActions.setShortenLinks}
+                   onBlast={formActions.blastPost}
+                   isBlasting={formState.isBlasting}
+                   platformCount={formState.selectedPlatforms.length}
+                 />
+              </div>
+
+              <div className="col-span-12 lg:col-span-5 h-[500px] flex flex-col gap-6">
+                 <div className="flex-1 min-h-0">
+                    <MultiPlatformPreview 
+                      content={formState.content}
+                      mediaPreview={formState.mediaPreview}
+                      activePlatforms={formState.selectedPlatforms}
                     />
-                  </div>
-                </div>
+                 </div>
+                 <div className="flex-shrink-0">
+                    <AccountStatusWidget accounts={accounts} />
+                 </div>
+              </div>
+
+              {/* Bottom Row: History */}
+              <div className="col-span-12">
+                 <BlastHistoryTable history={history} />
               </div>
             </div>
         )}
 
-        {activeTab === 'ayrshare' && (
-           <div className="max-w-6xl mx-auto pb-10">
-             <AyrshareIntegrationView />
-           </div>
-        )}
-
+        {/* --- TAB: INBOX --- */}
         {activeTab === 'inbox' && (
             <div className="h-full">
                <OmnichannelView />

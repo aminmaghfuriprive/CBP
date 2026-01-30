@@ -174,7 +174,8 @@ export interface PermissionGroup {
   items: { key: string; label: string }[];
 }
 
-export type SocialPlatform = 'FACEBOOK' | 'INSTAGRAM' | 'LINKEDIN' | 'TWITTER';
+// Updated Social Types for Blast Feature
+export type SocialPlatform = 'FACEBOOK' | 'INSTAGRAM' | 'LINKEDIN' | 'TWITTER' | 'GMB';
 
 export interface SocialAccount {
   id: string;
@@ -183,19 +184,25 @@ export interface SocialAccount {
   followers: number;
   isConnected: boolean;
   lastSync: string;
+  avatarUrl?: string; // Added for preview
 }
+
+export type BlastStatus = 'Draft' | 'Sending' | 'Sent' | 'Partial' | 'Failed';
 
 export interface SocialPost {
   id: string;
   content: string;
   platforms: SocialPlatform[];
+  mediaUrl?: string; // Added image support
+  shortenLinks?: boolean;
   date: string;
-  likes: number;
+  likes: number; // Aggregate stats
+  comments?: number;
   shares: number;
-  status: 'Draft' | 'Published' | 'Scheduled';
+  status: BlastStatus;
 }
 
-// Ayrshare Types
+// Ayrshare Types (Legacy/Backend Support)
 export interface AyrshareConfig {
   id: string;
   apiKey: string;

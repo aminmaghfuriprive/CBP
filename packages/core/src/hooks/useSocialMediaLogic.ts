@@ -43,7 +43,7 @@ export const useSocialMediaLogic = () => {
       date: new Date().toISOString(),
       likes: 0,
       shares: 0,
-      status: 'Published'
+      status: 'Sent'
     };
 
     try {
