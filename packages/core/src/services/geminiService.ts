@@ -1,5 +1,7 @@
-import { GoogleGenAI } from "@google/genai";
+
+import { GoogleGenAI, Type } from "@google/genai";
 import { SERVICES } from "../constants";
+import { ServiceStep } from "../types";
 
 const getApiKey = (): string => {
   try {
@@ -74,5 +76,57 @@ export const recommendService = async (problemDescription: string) => {
   } catch (error) {
     console.error("Gemini Recommendation Error:", error);
     return null;
+  }
+};
+
+export const generateServiceSOP = async (title: string, description: string): Promise<ServiceStep[]> => {
+  const apiKey = getApiKey();
+  if (!apiKey) return [];
+
+  try {
+    const ai = new GoogleGenAI({ apiKey });
+    const prompt = `
+      Buatkan Standard Operating Procedure (SOP) langkah demi langkah untuk layanan hukum:
+      Judul: ${title}
+      Deskripsi: ${description}
+
+      Buatlah langkah-langkah yang logis, profesional, dan detail mulai dari persiapan hingga selesai.
+      Estimasi hari harus realistis.
+      Gunakan Bahasa Indonesia.
+    `;
+
+    const response = await ai.models.generateContent({
+      model: 'gemini-3-flash-preview',
+      contents: prompt,
+      config: {
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: Type.ARRAY,
+          items: {
+            type: Type.OBJECT,
+            properties: {
+              phase: { type: Type.STRING, description: "Fase (e.g., Persiapan, Eksekusi, Finalisasi)" },
+              task: { type: Type.STRING, description: "Detail pekerjaan" },
+              estimatedDays: { type: Type.NUMBER, description: "Estimasi hari kerja" }
+            },
+            required: ["phase", "task", "estimatedDays"]
+          }
+        }
+      }
+    });
+
+    const steps = JSON.parse(response.text || '[]');
+    
+    // Assign random IDs client-side usually, but let's map it here to ensure structure
+    return steps.map((s: any, index: number) => ({
+      id: `sop_gen_${Date.now()}_${index}`,
+      phase: s.phase,
+      task: s.task,
+      estimatedDays: s.estimatedDays
+    }));
+
+  } catch (error) {
+    console.error("Gemini SOP Generation Error:", error);
+    return [];
   }
 };

@@ -103,7 +103,12 @@ export default function CreateServicePage() {
            </Card>
 
            {/* SOP Module (Controlled) */}
-           <ServiceSOPManager steps={sopSteps} onStepsChange={setSopSteps} />
+           <ServiceSOPManager 
+             steps={sopSteps} 
+             onStepsChange={setSopSteps} 
+             serviceTitle={formData.title} 
+             serviceDescription={formData.description}
+           />
         </div>
 
         {/* Right Column: Settings & Summary */}

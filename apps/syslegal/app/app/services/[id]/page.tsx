@@ -117,7 +117,12 @@ export default function ServiceDetailPage() {
            </Card>
 
            {/* SOP Module */}
-           <ServiceSOPManager steps={service.sop || []} onStepsChange={handleSopChange} />
+           <ServiceSOPManager 
+             steps={service.sop || []} 
+             onStepsChange={handleSopChange} 
+             serviceTitle={formData.title}
+             serviceDescription={formData.description}
+           />
         </div>
 
         {/* Right Column: Settings & Summary */}
