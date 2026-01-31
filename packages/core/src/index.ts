@@ -28,7 +28,9 @@ export * from './hooks/usePayrollLogic';
 export * from './hooks/useRoleLogic';
 export * from './hooks/useAyrshareLogic';
 export * from './hooks/usePortfolioLogic'; 
-export * from './hooks/useClientData'; // Added
+export * from './hooks/useClientData'; 
+export * from './hooks/useInternalStats'; 
+export * from './hooks/useFieldLogic'; // New
 
 // Utils
 export * from './utils/formatters';

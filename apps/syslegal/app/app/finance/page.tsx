@@ -1,29 +1,35 @@
+
 "use client";
 
 import React, { useState } from 'react';
 import { useData } from '@cbp/core';
-import { Card, Button, PageHeader, StatCard, StatusBadge } from '@cbp/ui';
+import { Button, PageHeader } from '@cbp/ui';
 import { InvoiceModal } from '../../../src/components/InvoiceModal';
-import { DollarSign, TrendingUp, AlertCircle, CheckCircle, Download, Plus } from 'lucide-react';
+import { FinanceStats } from '../../../src/components/finance/molecules/FinanceStats';
+import { InvoiceTable } from '../../../src/components/finance/molecules/InvoiceTable';
+import { Download, Plus, Filter } from 'lucide-react';
 
 export default function FinancePage() {
   const { invoices, addInvoice, updateInvoiceStatus } = useData();
   const [filter, setFilter] = useState('All');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Statistics
+  // Logic: Statistics Calculation
   const totalRevenue = invoices.filter(i => i.status === 'Paid').reduce((sum, i) => sum + i.amount, 0);
   const outstanding = invoices.filter(i => i.status !== 'Paid').reduce((sum, i) => sum + i.amount, 0);
   const overdueCount = invoices.filter(i => i.status === 'Overdue').length;
 
+  // Logic: Filtering
   const filteredInvoices = invoices.filter(i => filter === 'All' || i.status === filter);
 
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(amount);
+  const handleMarkPaid = (id: string) => {
+    if(confirm('Tandai invoice ini sebagai lunas?')) {
+        updateInvoiceStatus(id, 'Paid');
+    }
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 max-w-7xl mx-auto">
       <PageHeader 
         title="Keuangan & Tagihan" 
         subtitle="Kelola arus kas, tagihan klien, dan status pembayaran."
@@ -39,103 +45,43 @@ export default function FinancePage() {
         }
       />
 
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <StatCard 
-          label="Total Pendapatan" 
-          value={formatCurrency(totalRevenue)} 
-          icon={TrendingUp} 
-          variant="success" 
+      <div className="animate-in fade-in slide-in-from-bottom-2 duration-300 space-y-8">
+        {/* Stats Section */}
+        <FinanceStats 
+          totalRevenue={totalRevenue} 
+          outstanding={outstanding} 
+          overdueCount={overdueCount} 
         />
-        <StatCard 
-          label="Tagihan Belum Lunas" 
-          value={formatCurrency(outstanding)} 
-          icon={DollarSign} 
-          variant="warning" 
-        />
-        <StatCard 
-          label="Jatuh Tempo" 
-          value={`${overdueCount} Tagihan`} 
-          icon={AlertCircle} 
-          variant="danger" 
-        />
+
+        {/* Filters & Table */}
+        <div className="space-y-4">
+           <div className="flex justify-between items-center bg-white dark:bg-slate-900 p-2 rounded-xl border border-slate-200 dark:border-slate-800">
+              <h3 className="font-bold text-cbp-navy dark:text-white px-3 flex items-center gap-2">
+                 <Filter className="h-4 w-4 text-cbp-gold" /> Filter Status
+              </h3>
+              <div className="flex gap-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-lg">
+                {['All', 'Paid', 'Unpaid', 'Overdue'].map((s) => (
+                  <button
+                    key={s}
+                    onClick={() => setFilter(s)}
+                    className={`px-4 py-1.5 text-xs font-bold rounded-md transition-all ${
+                      filter === s 
+                        ? 'bg-white dark:bg-slate-700 text-cbp-navy dark:text-white shadow-sm' 
+                        : 'text-slate-500 dark:text-slate-400 hover:text-cbp-navy dark:hover:text-white'
+                    }`}
+                  >
+                    {s === 'All' ? 'Semua' : s}
+                  </button>
+                ))}
+              </div>
+           </div>
+
+           <InvoiceTable 
+             invoices={filteredInvoices} 
+             onMarkPaid={handleMarkPaid} 
+           />
+        </div>
       </div>
-
-      {/* Invoice Table */}
-      <Card padding={false} className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
-        <div className="p-4 border-b border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row gap-4 justify-between items-center bg-slate-50/50 dark:bg-slate-800/30">
-          <h3 className="font-bold text-cbp-navy dark:text-white">Daftar Invoice</h3>
-          <div className="flex bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-700 p-1 shadow-sm">
-            {['All', 'Paid', 'Unpaid', 'Overdue'].map((s) => (
-              <button
-                key={s}
-                onClick={() => setFilter(s)}
-                className={`px-4 py-1.5 text-xs font-bold rounded-md transition-all ${
-                  filter === s 
-                    ? 'bg-cbp-navy text-white dark:bg-cbp-gold dark:text-cbp-navy shadow-sm' 
-                    : 'text-slate-500 dark:text-slate-400 hover:text-cbp-navy dark:hover:text-white'
-                }`}
-              >
-                {s === 'All' ? 'Semua' : s}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm text-left">
-            <thead className="text-xs text-slate-500 dark:text-slate-400 uppercase bg-slate-50 dark:bg-slate-800/60 border-b border-slate-200 dark:border-slate-800">
-              <tr>
-                <th className="px-6 py-4 font-bold tracking-wider">No. Invoice</th>
-                <th className="px-6 py-4 font-bold tracking-wider">Klien</th>
-                <th className="px-6 py-4 font-bold tracking-wider">Jatuh Tempo</th>
-                <th className="px-6 py-4 font-bold tracking-wider">Jumlah</th>
-                <th className="px-6 py-4 font-bold tracking-wider">Status</th>
-                <th className="px-6 py-4 font-bold tracking-wider text-right">Aksi</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100 dark:divide-slate-800 bg-white dark:bg-slate-900">
-              {filteredInvoices.length > 0 ? (
-                filteredInvoices.map((inv) => (
-                  <tr key={inv.id} className="border-b border-slate-100 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
-                    <td className="px-6 py-4 font-mono text-xs font-bold text-slate-600 dark:text-slate-400 bg-slate-50/50 dark:bg-slate-800/20 rounded-r-md">{inv.id}</td>
-                    <td className="px-6 py-4">
-                      <p className="font-bold text-cbp-navy dark:text-slate-200">{inv.clientName}</p>
-                      <p className="text-xs text-slate-500 dark:text-slate-500 truncate max-w-[150px]">{inv.description}</p>
-                    </td>
-                    <td className="px-6 py-4 text-slate-600 dark:text-slate-400">{inv.dueDate}</td>
-                    <td className="px-6 py-4 font-bold text-cbp-navy dark:text-white">{formatCurrency(inv.amount)}</td>
-                    <td className="px-6 py-4">
-                      <StatusBadge status={inv.status} />
-                    </td>
-                    <td className="px-6 py-4 text-right">
-                      {inv.status !== 'Paid' && (
-                        <button 
-                          onClick={() => updateInvoiceStatus(inv.id, 'Paid')}
-                          className="text-xs text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300 font-bold flex items-center justify-end gap-1 ml-auto transition-colors"
-                        >
-                          <CheckCircle className="h-3 w-3" /> Tandai Lunas
-                        </button>
-                      )}
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan={6} className="px-6 py-12 text-center text-slate-500 dark:text-slate-500">
-                    <div className="flex flex-col items-center">
-                      <div className="p-3 bg-slate-50 dark:bg-slate-800 rounded-full mb-2">
-                        <DollarSign className="h-6 w-6 text-slate-300 dark:text-slate-600" />
-                      </div>
-                      Tidak ada data tagihan ditemukan.
-                    </div>
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-      </Card>
 
       <InvoiceModal 
         isOpen={isModalOpen} 

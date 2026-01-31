@@ -4,8 +4,9 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useData } from '@cbp/core';
-import { Card, Button, SearchInput, StatusBadge } from '@cbp/ui';
-import { Plus, Filter, Eye } from 'lucide-react';
+import { Button, SearchInput } from '@cbp/ui';
+import { Plus, Filter } from 'lucide-react';
+import { CaseTable } from './molecules/CaseTable';
 
 export const CaseListView: React.FC = () => {
   const { cases } = useData();
@@ -20,64 +21,49 @@ export const CaseListView: React.FC = () => {
     return matchesFilter && matchesSearch;
   });
 
+  const handleViewCase = (id: string) => {
+    router.push(`/app/cases/${id}`);
+  };
+
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center mb-2">
-         <h3 className="font-bold text-lg text-cbp-navy dark:text-white">Daftar Perkara</h3>
-         <Button className="flex items-center gap-2">
+      {/* Header Actions */}
+      <div className="flex flex-col sm:flex-row justify-between gap-4 bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+         <div className="flex gap-2 w-full sm:w-auto">
+            <div className="w-full sm:w-64">
+              <SearchInput 
+                placeholder="Cari klien atau kasus..." 
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+            <div className="relative">
+              <select 
+                className="pl-3 pr-8 py-2.5 text-sm border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white rounded-lg appearance-none outline-none focus:ring-2 focus:ring-cbp-navy/20 dark:focus:ring-cbp-gold/20 cursor-pointer h-full"
+                value={filter}
+                onChange={(e) => setFilter(e.target.value)}
+              >
+                <option value="All">Semua Status</option>
+                <option value="Aktif">Aktif</option>
+                <option value="Menunggu">Menunggu</option>
+                <option value="Selesai">Selesai</option>
+              </select>
+              <Filter className="absolute right-2.5 top-1/2 -translate-y-1/2 h-3 w-3 text-slate-500 pointer-events-none" />
+            </div>
+         </div>
+         <Button className="flex items-center gap-2 w-full sm:w-auto">
             <Plus className="h-4 w-4" /> Registrasi Kasus
          </Button>
       </div>
 
-      <Card padding={false} className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
-        <div className="p-4 border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30 flex flex-col sm:flex-row gap-4">
-          <div className="w-full sm:w-72">
-            <SearchInput 
-              placeholder="Cari klien atau kasus..." 
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
-          <div className="relative">
-            <select 
-              className="pl-3 pr-8 py-2.5 text-sm border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white rounded-lg appearance-none outline-none focus:ring-2 focus:ring-cbp-navy/20 dark:focus:ring-cbp-gold/20 cursor-pointer"
-              value={filter}
-              onChange={(e) => setFilter(e.target.value)}
-            >
-              <option value="All">Semua Status</option>
-              <option value="Aktif">Aktif</option>
-              <option value="Menunggu">Menunggu</option>
-              <option value="Selesai">Selesai</option>
-            </select>
-            <Filter className="absolute right-2.5 top-1/2 -translate-y-1/2 h-3 w-3 text-slate-500 pointer-events-none" />
-          </div>
+      {/* Atomic Table */}
+      <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
+        <CaseTable cases={filteredCases} onView={handleViewCase} />
+        
+        <div className="mt-4 text-xs text-slate-500 text-center">
+          Menampilkan {filteredCases.length} dari total {cases.length} perkara
         </div>
-
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm text-left">
-            <thead className="text-xs text-slate-500 dark:text-slate-400 uppercase bg-slate-50 dark:bg-slate-800/60 border-b border-slate-200 dark:border-slate-800">
-              <tr>
-                <th className="px-6 py-4">Klien</th>
-                <th className="px-6 py-4">Jenis Kasus</th>
-                <th className="px-6 py-4">Status</th>
-                <th className="px-6 py-4">Update</th>
-                <th className="px-6 py-4 text-right">Aksi</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-              {filteredCases.map((c) => (
-                <tr key={c.id} onClick={() => router.push(`/app/cases/${c.id}`)} className="hover:bg-slate-50 dark:hover:bg-slate-800/40 cursor-pointer transition-colors group">
-                  <td className="px-6 py-4 font-bold text-slate-900 dark:text-slate-200 group-hover:text-cbp-navy dark:group-hover:text-cbp-gold transition-colors">{c.clientName}</td>
-                  <td className="px-6 py-4 text-slate-700 dark:text-slate-300">{c.caseType}</td>
-                  <td className="px-6 py-4"><StatusBadge status={c.status} /></td>
-                  <td className="px-6 py-4 text-slate-500">{c.lastUpdate}</td>
-                  <td className="px-6 py-4 text-right"><Eye className="h-4 w-4 inline text-slate-400 group-hover:text-cbp-navy dark:group-hover:text-white" /></td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </Card>
+      </div>
     </div>
   );
 };
