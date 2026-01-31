@@ -1,6 +1,6 @@
 
 import Dexie, { type Table } from 'dexie';
-import { CaseData, Booking, CalendarEvent, DocumentFile, Invoice, ServiceItem, Article, ClientData, User, Conversation, Message, AttendanceRecord, PayrollSlip, RoleConfig, SocialAccount, SocialPost, DocumentTemplate, AyrshareConfig } from '../types';
+import { CaseData, Booking, CalendarEvent, DocumentFile, Invoice, ServiceItem, Article, ClientData, User, Conversation, Message, AttendanceRecord, PayrollSlip, RoleConfig, SocialAccount, SocialPost, DocumentTemplate, AyrshareConfig, PortfolioItem } from '../types';
 import { MOCK_CASES } from '../data/mock_cases';
 import { MOCK_BOOKINGS, EVENTS } from '../data/mock_calendar';
 import { DOCUMENTS, ARTICLES } from '../data/mock_content';
@@ -12,6 +12,7 @@ import { MOCK_PAYROLL } from '../data/mock_payroll';
 import { MOCK_ROLES } from '../data/mock_roles';
 import { MOCK_SOCIAL_ACCOUNTS, MOCK_SOCIAL_POSTS } from '../data/mock_social';
 import { MOCK_TEMPLATES } from '../data/mock_templates';
+import { MOCK_PORTFOLIO } from '../data/mock_portfolio';
 
 export class CBPDatabase extends Dexie {
   cases!: Table<CaseData, string>;
@@ -32,12 +33,13 @@ export class CBPDatabase extends Dexie {
   socialPosts!: Table<SocialPost, string>;
   templates!: Table<DocumentTemplate, string>;
   ayrshareConfig!: Table<AyrshareConfig, string>;
+  portfolios!: Table<PortfolioItem, string>;
 
   constructor() {
     super('CBPDatabase');
     
-    // Version 17: Removed GBP Tables
-    (this as any).version(17).stores({
+    // Version 18: Added Portfolios Table
+    (this as any).version(18).stores({
       cases: 'id, status, clientName, division',
       bookings: 'id, status, date',
       events: 'id, date, type, client',
@@ -55,7 +57,8 @@ export class CBPDatabase extends Dexie {
       socialAccounts: 'id, platform, isConnected',
       socialPosts: 'id, date, status',
       templates: 'id, type, isActive',
-      ayrshareConfig: 'id'
+      ayrshareConfig: 'id',
+      portfolios: 'id, category, clientIndustry' // New Table
     });
 
     (this as any).on('populate', () => {
@@ -75,6 +78,7 @@ export class CBPDatabase extends Dexie {
       this.socialAccounts.bulkAdd(MOCK_SOCIAL_ACCOUNTS);
       this.socialPosts.bulkAdd(MOCK_SOCIAL_POSTS);
       this.templates.bulkAdd(MOCK_TEMPLATES);
+      this.portfolios.bulkAdd(MOCK_PORTFOLIO); // Seed Portfolio
     });
   }
 }

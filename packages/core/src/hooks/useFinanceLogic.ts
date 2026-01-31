@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useLiveQuery } from 'dexie-react-hooks';
@@ -27,5 +28,17 @@ export const useFinanceLogic = () => {
     }
   };
 
-  return { invoices, addInvoice, updateInvoiceStatus };
+  const confirmPayment = async (id: string, proofUrl: string) => {
+    try {
+      await db.invoices.update(id, { 
+        status: 'Verifying', // Set to verifying state
+        paymentProofUrl: proofUrl
+      });
+      addNotification('Konfirmasi Terkirim', 'Bukti pembayaran telah dikirim untuk verifikasi.', 'success');
+    } catch (error) {
+      addNotification('Error', 'Gagal mengirim konfirmasi.', 'warning');
+    }
+  };
+
+  return { invoices, addInvoice, updateInvoiceStatus, confirmPayment };
 };

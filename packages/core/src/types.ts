@@ -48,6 +48,19 @@ export interface ServiceItem {
   sop?: ServiceStep[];
 }
 
+export interface PortfolioItem {
+  id: string;
+  title: string;
+  category: ServiceDivision;
+  clientIndustry: string;
+  year: string;
+  challenge: string;
+  solution: string;
+  result: string;
+  imageUrl: string;
+  isFeatured?: boolean;
+}
+
 export interface ClientData {
   id: string;
   name: string;
@@ -91,10 +104,12 @@ export interface CalendarEvent {
 export interface DocumentFile {
   id: string;
   name: string;
-  type: 'PDF' | 'DOCX' | 'XLSX';
+  type: 'PDF' | 'DOCX' | 'XLSX' | 'JPG' | 'PNG';
   size: string;
   category: string;
   lastModified: string;
+  uploadedBy?: 'Client' | 'Internal'; 
+  relatedCaseId?: string;
 }
 
 export interface Article {
@@ -110,10 +125,11 @@ export interface Invoice {
   id: string;
   clientName: string;
   amount: number;
-  status: 'Paid' | 'Unpaid' | 'Overdue';
+  status: 'Paid' | 'Unpaid' | 'Overdue' | 'Verifying'; // Added Verifying
   issueDate: string;
   dueDate: string;
   description: string;
+  paymentProofUrl?: string; // New field for proof
 }
 
 export type ChannelType = 'WHATSAPP' | 'EMAIL' | 'INSTAGRAM' | 'LINKEDIN';
@@ -126,7 +142,7 @@ export interface Conversation {
   unreadCount: number;
   channel: ChannelType;
   tags: string[];
-  relatedClientId?: string; // Link ke data Client
+  relatedClientId?: string; 
 }
 
 export interface Message {
@@ -136,7 +152,7 @@ export interface Message {
   sender: 'agent' | 'user';
   timestamp: string;
   isRead: boolean;
-  isInternal?: boolean; // New: Internal Note Flag
+  isInternal?: boolean; 
   attachments?: { name: string; url: string; type: 'image' | 'file' }[];
 }
 
@@ -177,7 +193,6 @@ export interface PermissionGroup {
   items: { key: string; label: string }[];
 }
 
-// Updated Social Types for Blast Feature
 export type SocialPlatform = 'FACEBOOK' | 'INSTAGRAM' | 'LINKEDIN' | 'TWITTER' | 'GMB';
 
 export interface SocialAccount {
@@ -187,7 +202,7 @@ export interface SocialAccount {
   followers: number;
   isConnected: boolean;
   lastSync: string;
-  avatarUrl?: string; // Added for preview
+  avatarUrl?: string; 
 }
 
 export type BlastStatus = 'Draft' | 'Sending' | 'Sent' | 'Partial' | 'Failed';
@@ -196,16 +211,15 @@ export interface SocialPost {
   id: string;
   content: string;
   platforms: SocialPlatform[];
-  mediaUrl?: string; // Added image support
+  mediaUrl?: string; 
   shortenLinks?: boolean;
   date: string;
-  likes: number; // Aggregate stats
+  likes: number; 
   comments?: number;
   shares: number;
   status: BlastStatus;
 }
 
-// Ayrshare Types (Legacy/Backend Support)
 export interface AyrshareConfig {
   id: string;
   apiKey: string;

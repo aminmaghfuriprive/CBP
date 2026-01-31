@@ -58,6 +58,7 @@ interface DataContextType {
   deleteDocument: (id: string) => void;
   addInvoice: (invoice: Invoice) => void;
   updateInvoiceStatus: (id: string, status: Invoice['status']) => void;
+  confirmPayment: (id: string, proofUrl: string) => void; // New
   addClient: (client: ClientData) => void;
   addEmployee: (employee: User) => void;
   updateEmployee: (id: string, updates: Partial<User>) => void;
@@ -72,7 +73,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   const { bookings, addBooking, updateBookingStatus: _updateBooking } = useBookingLogic();
   const { events, addEvent } = useScheduleLogic();
   const { documents, addDocument, deleteDocument } = useDocumentLogic();
-  const { invoices, addInvoice, updateInvoiceStatus } = useFinanceLogic();
+  const { invoices, addInvoice, updateInvoiceStatus, confirmPayment } = useFinanceLogic();
   const { clients, addClient } = useClientLogic();
   const { employees, addEmployee, updateEmployee, deleteEmployee } = useEmployeeLogic();
   const { conversations, activeMessages, selectedConversationId, selectConversation, sendMessage, currentContext } = useOmnichannelLogic();
@@ -124,7 +125,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
       payrolls, createSlip, markAsPaid,
       roles, updateRolePermissions,
       addCase, addBooking, updateBookingStatus: handleUpdateBooking, addEvent, 
-      addDocument, deleteDocument, addInvoice, updateInvoiceStatus, addClient,
+      addDocument, deleteDocument, addInvoice, updateInvoiceStatus, confirmPayment, addClient,
       addEmployee, updateEmployee, deleteEmployee
     }}>
       {children}

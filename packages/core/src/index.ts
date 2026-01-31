@@ -15,7 +15,7 @@ export * from './hooks/useServiceCatalog';
 export * from './hooks/useAgendaSchedule'; 
 export * from './hooks/useBookingManager'; 
 export * from './hooks/useSocialMediaLogic'; 
-export * from './hooks/useSocialBlastLogic'; // Added this export
+export * from './hooks/useSocialBlastLogic'; 
 export * from './hooks/useTemplateLogic'; 
 export * from './hooks/useClientLogic';
 export * from './hooks/useEmployeeLogic';
@@ -27,6 +27,8 @@ export * from './hooks/useAttendanceLogic';
 export * from './hooks/usePayrollLogic';
 export * from './hooks/useRoleLogic';
 export * from './hooks/useAyrshareLogic';
+export * from './hooks/usePortfolioLogic'; 
+export * from './hooks/useClientData'; // Added
 
 // Utils
 export * from './utils/formatters';
@@ -42,3 +44,4 @@ export * from './data/mock_calendar';
 export * from './data/mock_social';
 export * from './data/mock_templates';
 export * from './data/mock_ayrshare';
+export * from './data/mock_portfolio';

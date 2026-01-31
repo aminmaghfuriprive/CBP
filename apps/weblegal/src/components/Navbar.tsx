@@ -26,12 +26,11 @@ export const Navbar: React.FC = () => {
     { name: 'Beranda', path: '/' },
     { name: 'Tentang Kami', path: '/about' },
     { name: 'Layanan', path: '/services' },
+    { name: 'Portofolio', path: '/portfolio' }, // Added
     { name: 'Wawasan', path: '/insights' },
     { name: 'Hubungi', path: '/contact' },
   ];
 
-  // Logic: Transparent at top, Dark when scrolled.
-  // We rely on ALL pages having a dark hero section at the top.
   const navBg = scrolled 
     ? 'bg-slate-950/90 backdrop-blur-md shadow-lg py-4 border-b border-white/10' 
     : 'bg-transparent py-6';
