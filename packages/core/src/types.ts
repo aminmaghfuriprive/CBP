@@ -26,6 +26,9 @@ export interface Notification {
   type: 'info' | 'success' | 'warning';
   read: boolean;
   timestamp: string;
+  recipientRole?: UserRole; // Target spesifik role (e.g. FINANCE)
+  recipientId?: string; // Target user ID spesifik
+  actionUrl?: string; // Klik notif ke mana
 }
 
 export type ServiceDivision = 'Hukum Umum & Litigasi' | 'Perizinan & Bisnis' | 'Pertanahan & Agraria' | 'Legal Administratif & Korporasi';
@@ -110,6 +113,8 @@ export interface DocumentFile {
   lastModified: string;
   uploadedBy?: 'Client' | 'Internal'; 
   relatedCaseId?: string;
+  status?: 'Pending' | 'Approved' | 'Rejected'; 
+  rejectionReason?: string; 
 }
 
 export interface Article {
@@ -125,11 +130,12 @@ export interface Invoice {
   id: string;
   clientName: string;
   amount: number;
-  status: 'Paid' | 'Unpaid' | 'Overdue' | 'Verifying'; // Added Verifying
+  status: 'Paid' | 'Unpaid' | 'Overdue' | 'Verifying' | 'Rejected'; 
   issueDate: string;
   dueDate: string;
   description: string;
-  paymentProofUrl?: string; // New field for proof
+  paymentProofUrl?: string;
+  rejectionReason?: string; 
 }
 
 export type ChannelType = 'WHATSAPP' | 'EMAIL' | 'INSTAGRAM' | 'LINKEDIN';

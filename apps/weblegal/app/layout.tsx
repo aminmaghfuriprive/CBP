@@ -1,9 +1,11 @@
+
 import React from "react";
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Providers } from "./providers";
+import { NotificationToast } from "@cbp/ui";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -41,6 +43,7 @@ export default function RootLayout({
             {children}
           </main>
           <Footer />
+          <NotificationToast />
         </Providers>
       </body>
     </html>

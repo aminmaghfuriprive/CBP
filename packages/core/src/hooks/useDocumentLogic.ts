@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useLiveQuery } from 'dexie-react-hooks';
@@ -11,10 +12,25 @@ export const useDocumentLogic = () => {
 
   const addDocument = async (doc: DocumentFile) => {
     try {
-      await db.documents.add(doc);
-      addNotification('Upload Berhasil', `Dokumen ${doc.name} tersimpan lokal.`, 'success');
+      await db.documents.add({
+        ...doc,
+        status: doc.uploadedBy === 'Client' ? 'Pending' : 'Approved'
+      });
+      addNotification('Upload Berhasil', `Dokumen ${doc.name} tersimpan.`, 'success');
     } catch (error) {
       addNotification('Gagal', 'Tidak bisa menyimpan dokumen.', 'warning');
+    }
+  };
+
+  const verifyDocument = async (id: string, status: 'Approved' | 'Rejected', reason?: string) => {
+    try {
+      await db.documents.update(id, { 
+        status, 
+        rejectionReason: reason 
+      });
+      addNotification('Verifikasi Selesai', `Dokumen telah di-${status.toLowerCase()}.`, 'success');
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -27,5 +43,5 @@ export const useDocumentLogic = () => {
     }
   };
 
-  return { documents, addDocument, deleteDocument };
+  return { documents, addDocument, deleteDocument, verifyDocument };
 };

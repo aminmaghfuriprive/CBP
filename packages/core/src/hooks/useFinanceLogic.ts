@@ -13,16 +13,20 @@ export const useFinanceLogic = () => {
   const addInvoice = async (invoice: Invoice) => {
     try {
       await db.invoices.add(invoice);
-      addNotification('Invoice Dibuat', `Tagihan untuk ${invoice.clientName} diterbitkan.`, 'success');
+      await addNotification('Tagihan Baru', `Invoice ${invoice.id} telah diterbitkan.`, 'info', 'CLIENT');
     } catch (error) {
-      addNotification('Error', 'Gagal membuat invoice.', 'warning');
+      console.error(error);
     }
   };
 
   const updateInvoiceStatus = async (id: string, status: Invoice['status']) => {
     try {
+      const inv = await db.invoices.get(id);
       await db.invoices.update(id, { status });
-      addNotification('Status Diperbarui', `Tagihan diubah menjadi ${status}.`, 'info');
+      
+      if (status === 'Paid') {
+        await addNotification('Pembayaran Lunas', `Terima kasih! Pembayaran untuk invoice ${id} telah kami terima.`, 'success', 'CLIENT');
+      }
     } catch (error) {
       console.error(error);
     }
@@ -30,15 +34,40 @@ export const useFinanceLogic = () => {
 
   const confirmPayment = async (id: string, proofUrl: string) => {
     try {
+      const inv = await db.invoices.get(id);
       await db.invoices.update(id, { 
-        status: 'Verifying', // Set to verifying state
+        status: 'Verifying',
         paymentProofUrl: proofUrl
       });
-      addNotification('Konfirmasi Terkirim', 'Bukti pembayaran telah dikirim untuk verifikasi.', 'success');
+      // Notif ke tim FINANCE
+      await addNotification(
+        'Konfirmasi Pembayaran', 
+        `Klien ${inv?.clientName} telah mengunggah bukti transfer untuk invoice ${id}.`, 
+        'warning', 
+        'FINANCE'
+      );
     } catch (error) {
-      addNotification('Error', 'Gagal mengirim konfirmasi.', 'warning');
+      console.error(error);
     }
   };
 
-  return { invoices, addInvoice, updateInvoiceStatus, confirmPayment };
+  const rejectPayment = async (id: string, reason: string) => {
+    try {
+      await db.invoices.update(id, { 
+        status: 'Rejected',
+        rejectionReason: reason
+      });
+      // Notif ke Klien
+      await addNotification(
+        'Pembayaran Gagal Diverifikasi', 
+        `Alasan: ${reason}. Mohon periksa kembali bukti transfer Anda.`, 
+        'warning', 
+        'CLIENT'
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  return { invoices, addInvoice, updateInvoiceStatus, confirmPayment, rejectPayment };
 };

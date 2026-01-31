@@ -1,6 +1,6 @@
 
 import Dexie, { type Table } from 'dexie';
-import { CaseData, Booking, CalendarEvent, DocumentFile, Invoice, ServiceItem, Article, ClientData, User, Conversation, Message, AttendanceRecord, PayrollSlip, RoleConfig, SocialAccount, SocialPost, DocumentTemplate, AyrshareConfig, PortfolioItem } from '../types';
+import { CaseData, Booking, CalendarEvent, DocumentFile, Invoice, ServiceItem, Article, ClientData, User, Conversation, Message, AttendanceRecord, PayrollSlip, RoleConfig, SocialAccount, SocialPost, DocumentTemplate, AyrshareConfig, PortfolioItem, Notification } from '../types';
 import { MOCK_CASES } from '../data/mock_cases';
 import { MOCK_BOOKINGS, EVENTS } from '../data/mock_calendar';
 import { DOCUMENTS, ARTICLES } from '../data/mock_content';
@@ -34,12 +34,13 @@ export class CBPDatabase extends Dexie {
   templates!: Table<DocumentTemplate, string>;
   ayrshareConfig!: Table<AyrshareConfig, string>;
   portfolios!: Table<PortfolioItem, string>;
+  notifications!: Table<Notification, string>; // New
 
   constructor() {
     super('CBPDatabase');
     
-    // Version 18: Added Portfolios Table
-    (this as any).version(18).stores({
+    // Version 19: Added Notifications Table
+    (this as any).version(19).stores({
       cases: 'id, status, clientName, division',
       bookings: 'id, status, date',
       events: 'id, date, type, client',
@@ -58,7 +59,8 @@ export class CBPDatabase extends Dexie {
       socialPosts: 'id, date, status',
       templates: 'id, type, isActive',
       ayrshareConfig: 'id',
-      portfolios: 'id, category, clientIndustry' // New Table
+      portfolios: 'id, category, clientIndustry',
+      notifications: 'id, read, recipientRole, timestamp' // New
     });
 
     (this as any).on('populate', () => {
@@ -78,7 +80,15 @@ export class CBPDatabase extends Dexie {
       this.socialAccounts.bulkAdd(MOCK_SOCIAL_ACCOUNTS);
       this.socialPosts.bulkAdd(MOCK_SOCIAL_POSTS);
       this.templates.bulkAdd(MOCK_TEMPLATES);
-      this.portfolios.bulkAdd(MOCK_PORTFOLIO); // Seed Portfolio
+      this.portfolios.bulkAdd(MOCK_PORTFOLIO);
+      this.notifications.add({
+        id: 'n_initial',
+        title: 'Sistem Aktif',
+        message: 'Selamat datang di CBP Integrated Legal System.',
+        type: 'info',
+        read: false,
+        timestamp: new Date().toISOString()
+      });
     });
   }
 }

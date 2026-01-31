@@ -5,12 +5,12 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth, UserRole } from '@cbp/core';
-import { LayoutDashboard, Users, LogOut, DollarSign, Settings, Calendar, Sliders, Briefcase, UserCog, Share2 } from 'lucide-react';
+import { LayoutDashboard, Users, LogOut, DollarSign, Settings, Calendar, Sliders, Briefcase, UserCog, Share2, ShieldCheck } from 'lucide-react';
 
 interface MenuItem {
   label: string;
   path: string;
-  matchPaths?: string[]; // Tambahan untuk menghandle highlight sub-pages (cases/documents)
+  matchPaths?: string[]; 
   icon: React.ElementType;
   roles: UserRole[]; 
 }
@@ -33,6 +33,12 @@ export const Sidebar: React.FC = () => {
       roles: ['ADMIN', 'FINANCE', 'PRODUCTION', 'IT', 'FIELD_OPS'] 
     },
     { 
+      label: 'Verifikasi', 
+      path: '/app/verification', 
+      icon: ShieldCheck, 
+      roles: ['ADMIN', 'FINANCE', 'PRODUCTION'] 
+    },
+    { 
       label: 'Agenda', 
       path: '/app/agenda', 
       icon: Calendar, 
@@ -47,7 +53,7 @@ export const Sidebar: React.FC = () => {
     { 
       label: 'Database Klien', 
       path: '/app/clients',
-      matchPaths: ['/app/cases', '/app/documents'], // Highlight menu ini jika user ada di cases atau docs
+      matchPaths: ['/app/cases', '/app/documents'],
       icon: Users, 
       roles: ['ADMIN', 'PRODUCTION', 'FINANCE'] 
     },
@@ -108,7 +114,6 @@ export const Sidebar: React.FC = () => {
       <div className="flex-1 overflow-y-auto py-6 px-3 space-y-1 scrollbar-hide">
         <p className="px-4 text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-3">Aplikasi</p>
         {allowedItems.map((item) => {
-          // Logika Active State yang lebih pintar
           const isExactMatch = pathname === item.path;
           const isSubPath = pathname.startsWith(`${item.path}/`);
           const isAlternativeMatch = item.matchPaths?.some(p => pathname.startsWith(p));
