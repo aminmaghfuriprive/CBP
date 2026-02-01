@@ -1,21 +1,15 @@
 
 "use client";
 
-import React from 'react';
-import { PageHeader } from '@cbp/ui';
-import { ScheduleView } from '../../../src/components/agenda/ScheduleView';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { Loader2 } from 'lucide-react';
 
-export default function AgendaPage() {
-  return (
-    <div className="space-y-6 max-w-6xl mx-auto">
-      <PageHeader 
-        title="Agenda Kerja" 
-        subtitle="Pusat pengelolaan jadwal sidang, tugas lapangan, dan agenda konsultasi." 
-      />
+export default function RedirectAgenda() {
+  const router = useRouter();
+  useEffect(() => {
+    router.replace('/app/clients');
+  }, [router]);
 
-      <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
-        <ScheduleView />
-      </div>
-    </div>
-  );
+  return <div className="p-12 flex justify-center"><Loader2 className="animate-spin" /></div>;
 }

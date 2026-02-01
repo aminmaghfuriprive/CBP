@@ -2,34 +2,41 @@
 "use client";
 
 import React, { useState } from 'react';
-import { useData } from '@cbp/core';
+import { useData, useDocumentLogic } from '@cbp/core';
 import { PageHeader, StatCard, SearchInput } from '@cbp/ui';
-import { Users, FileText, FolderOpen, Briefcase, LayoutGrid, List } from 'lucide-react';
+import { Users, FileText, FolderOpen, Briefcase, LayoutGrid, List, Calendar, ShieldCheck } from 'lucide-react';
 import { ClientListView } from '../../../src/components/clients/ClientListView';
 import { CaseListView } from '../../../src/components/cases/CaseListView';
 import { DocumentRepositoryView } from '../../../src/components/documents/DocumentRepositoryView';
 import { KanbanBoard } from '../../../src/components/cases/board/KanbanBoard';
+import { ScheduleView } from '../../../src/components/agenda/ScheduleView';
+import { DocumentVerificationList } from '../../../src/components/verification/DocumentVerificationList';
 
 export default function ClientDatabasePage() {
-  const [activeTab, setActiveTab] = useState<'clients' | 'cases' | 'documents'>('clients');
+  const [activeTab, setActiveTab] = useState<'clients' | 'cases' | 'agenda' | 'documents' | 'verification'>('clients');
   const [caseViewMode, setCaseViewMode] = useState<'list' | 'board'>('list');
   const [boardSearch, setBoardSearch] = useState('');
   
-  const { cases, documents, clients } = useData();
+  const { cases, documents, clients, events } = useData();
+  const { documents: allDocs } = useDocumentLogic();
 
   // Summary Stats untuk Header
   const activeCasesCount = cases.filter(c => c.status === 'Aktif').length;
+  const upcomingEventsCount = events.filter(e => new Date(e.date) >= new Date()).length;
+  
+  // Pending Document Verification Count
+  const pendingDocs = allDocs.filter(d => d.status === 'Pending' || (d.uploadedBy === 'Client' && !d.status)).length;
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto h-full flex flex-col">
       <div className="flex-shrink-0">
         <PageHeader 
           title="Database & Perkara" 
-          subtitle="Pusat data klien, manajemen kasus, dan repository dokumen." 
+          subtitle="Pusat data klien, manajemen kasus, agenda sidang, dan repository dokumen." 
         />
 
         {/* Quick Stats Row */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
            <StatCard 
               label="Total Klien" 
               value={clients.length} 
@@ -41,6 +48,12 @@ export default function ClientDatabasePage() {
               value={activeCasesCount} 
               icon={Briefcase} 
               variant="success" 
+           />
+           <StatCard 
+              label="Agenda Aktif" 
+              value={upcomingEventsCount} 
+              icon={Calendar} 
+              variant="warning" 
            />
            <StatCard 
               label="Total Dokumen" 
@@ -74,6 +87,35 @@ export default function ClientDatabasePage() {
           >
             <FileText className="h-4 w-4" /> Semua Kasus
             {activeTab === 'cases' && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-cbp-gold rounded-t-full"></div>}
+          </button>
+
+          <button
+            onClick={() => setActiveTab('agenda')}
+            className={`pb-3 px-2 text-sm font-bold flex items-center gap-2 transition-all relative whitespace-nowrap ${
+              activeTab === 'agenda' 
+                ? 'text-cbp-navy dark:text-cbp-gold' 
+                : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
+            }`}
+          >
+            <Calendar className="h-4 w-4" /> Agenda & Sidang
+            {activeTab === 'agenda' && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-cbp-gold rounded-t-full"></div>}
+          </button>
+
+          <button
+            onClick={() => setActiveTab('verification')}
+            className={`pb-3 px-2 text-sm font-bold flex items-center gap-2 transition-all relative whitespace-nowrap ${
+              activeTab === 'verification' 
+                ? 'text-cbp-navy dark:text-cbp-gold' 
+                : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
+            }`}
+          >
+            <ShieldCheck className="h-4 w-4" /> Validasi Berkas
+            {pendingDocs > 0 && (
+              <span className="h-5 w-5 bg-blue-500 text-white rounded-full flex items-center justify-center text-[10px]">
+                {pendingDocs}
+              </span>
+            )}
+            {activeTab === 'verification' && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-cbp-gold rounded-t-full"></div>}
           </button>
 
           <button
@@ -135,6 +177,10 @@ export default function ClientDatabasePage() {
              )}
           </div>
         )}
+
+        {activeTab === 'agenda' && <ScheduleView />}
+
+        {activeTab === 'verification' && <DocumentVerificationList />}
 
         {activeTab === 'documents' && <DocumentRepositoryView />}
       </div>

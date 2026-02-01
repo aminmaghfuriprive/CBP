@@ -5,7 +5,7 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth, UserRole } from '@cbp/core';
-import { LayoutDashboard, Users, LogOut, DollarSign, Settings, Calendar, Sliders, Briefcase, UserCog, Share2, ShieldCheck } from 'lucide-react';
+import { LayoutDashboard, Users, LogOut, DollarSign, Settings, Sliders, Briefcase, UserCog, Share2 } from 'lucide-react';
 
 interface MenuItem {
   label: string;
@@ -33,18 +33,6 @@ export const Sidebar: React.FC = () => {
       roles: ['ADMIN', 'FINANCE', 'PRODUCTION', 'IT', 'FIELD_OPS'] 
     },
     { 
-      label: 'Verifikasi', 
-      path: '/app/verification', 
-      icon: ShieldCheck, 
-      roles: ['ADMIN', 'FINANCE', 'PRODUCTION'] 
-    },
-    { 
-      label: 'Agenda', 
-      path: '/app/agenda', 
-      icon: Calendar, 
-      roles: ['ADMIN', 'PRODUCTION', 'FIELD_OPS'] 
-    },
-    { 
       label: 'Sosial & Komunikasi', 
       path: '/app/social', 
       icon: Share2, 
@@ -53,9 +41,9 @@ export const Sidebar: React.FC = () => {
     { 
       label: 'Database Klien', 
       path: '/app/clients',
-      matchPaths: ['/app/cases', '/app/documents'],
+      matchPaths: ['/app/cases', '/app/documents', '/app/agenda'],
       icon: Users, 
-      roles: ['ADMIN', 'PRODUCTION', 'FINANCE'] 
+      roles: ['ADMIN', 'PRODUCTION', 'FINANCE', 'FIELD_OPS'] 
     },
     { 
       label: 'Layanan', 
