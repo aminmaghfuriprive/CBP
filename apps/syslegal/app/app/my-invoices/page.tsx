@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { useData, useAuth, Invoice, useFinanceLogic } from '@cbp/core';
 import { Card, Badge, Button } from '@cbp/ui';
 import { DollarSign, Download, CreditCard, CheckCircle, Clock } from 'lucide-react';
-import { PaymentGatewayModal } from '../../src/components/payment/PaymentGatewayModal';
+import { PaymentGatewayModal } from '@/components/payment/PaymentGatewayModal';
 
 export default function ClientInvoicesPage() {
   const { user } = useAuth();
