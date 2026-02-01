@@ -40,7 +40,8 @@ export class CBPDatabase extends Dexie {
   constructor() {
     super('CBPDatabase');
     
-    (this as any).version(21).stores({
+    // Bump version to 22 to ensure leads table creation triggers for existing users
+    (this as any).version(22).stores({
       cases: 'id, status, lifecycle, clientName, division',
       bookings: 'id, status, date',
       events: 'id, date, type, client',
@@ -83,7 +84,7 @@ export class CBPDatabase extends Dexie {
       this.templates.bulkAdd(MOCK_TEMPLATES);
       this.portfolios.bulkAdd(MOCK_PORTFOLIO);
       
-      // Mock Leads
+      // Mock Leads (Only populated on fresh DB creation)
       this.leads.bulkAdd([
         { id: 'lead_1', name: 'Sari Roti (Cabang)', contact: '0812345678', interest: 'Perizinan PIRT', source: 'Website', status: 'New', createdAt: new Date().toISOString() },
         { id: 'lead_2', name: 'Pak Bambang', contact: '0819876543', interest: 'Sengketa Lahan', source: 'Referral', status: 'Contacted', createdAt: new Date(Date.now() - 86400000).toISOString() },

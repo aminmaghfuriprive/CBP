@@ -9,21 +9,26 @@ import { useNotifications } from '../context/NotificationContext';
 export const useLeadLogic = () => {
   const { addNotification } = useNotifications();
 
-  const leads = useLiveQuery(() => 
-    db.leads.orderBy('createdAt').reverse().toArray()
-  ) || [];
+  // Fail-safe query: Cek apakah db.leads sudah ada sebelum akses
+  const leads = useLiveQuery(() => {
+    if (!db.leads) return [];
+    return db.leads.orderBy('createdAt').reverse().toArray();
+  }) || [];
 
   const addLead = async (lead: Lead) => {
     try {
+      if (!db.leads) throw new Error("Database not ready");
       await db.leads.add(lead);
       addNotification('Lead Masuk', `Permintaan baru dari ${lead.name}.`, 'info', 'MARKETING');
     } catch (error) {
       console.error(error);
+      addNotification('Gagal', 'Sistem belum siap menerima data lead. Coba refresh halaman.', 'warning');
     }
   };
 
   const updateLeadStatus = async (id: string, status: LeadStatus) => {
     try {
+      if (!db.leads) return;
       await db.leads.update(id, { status });
     } catch (error) {
       console.error(error);
@@ -32,6 +37,8 @@ export const useLeadLogic = () => {
 
   const convertLeadToClient = async (lead: Lead) => {
     try {
+      if (!db.clients || !db.bookings || !db.leads) return;
+
       // 1. Create Client
       const newClient: ClientData = {
         id: `cl_${Date.now()}`,
@@ -68,6 +75,7 @@ export const useLeadLogic = () => {
 
   const deleteLead = async (id: string) => {
     if(confirm("Hapus lead ini?")) {
+        if (!db.leads) return;
         await db.leads.delete(id);
     }
   };
