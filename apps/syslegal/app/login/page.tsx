@@ -5,7 +5,7 @@ import React, { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@cbp/core';
 import { Button } from '@cbp/ui';
-import { Shield, Lock, Mail, ArrowRight, Loader2, DollarSign, Briefcase, Laptop, UserCog, Map } from 'lucide-react';
+import { Shield, Lock, Mail, ArrowRight, Loader2, DollarSign, Briefcase, Laptop, UserCog, Map, Megaphone } from 'lucide-react';
 
 function LoginForm() {
   const [email, setEmail] = useState('');
@@ -72,9 +72,10 @@ function LoginForm() {
           
           <div className="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800">
              <p className="text-center text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Pilih Role (Demo)</p>
-             <div className="grid grid-cols-5 gap-2">
+             <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
                <QuickBtn mail="admin@cbp.id" label="Admin" icon={UserCog} color="text-purple-600" />
                <QuickBtn mail="produksi@cbp.id" label="Produksi" icon={Briefcase} color="text-cbp-gold" />
+               <QuickBtn mail="marketing@cbp.id" label="Marketing" icon={Megaphone} color="text-pink-500" />
                <QuickBtn mail="lapangan@cbp.id" label="Lapangan" icon={Map} color="text-orange-500" />
                <QuickBtn mail="finance@cbp.id" label="Finance" icon={DollarSign} color="text-green-600" />
                <QuickBtn mail="it@cbp.id" label="IT Dev" icon={Laptop} color="text-blue-500" />

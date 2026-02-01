@@ -31,27 +31,27 @@ export const Sidebar: React.FC = () => {
       label: 'Dashboard', 
       path: '/app', 
       icon: LayoutDashboard, 
-      roles: ['ADMIN', 'FINANCE', 'PRODUCTION', 'IT', 'FIELD_OPS', 'CLIENT'] 
+      roles: ['ADMIN', 'FINANCE', 'PRODUCTION', 'IT', 'FIELD_OPS', 'CLIENT', 'MARKETING'] 
     },
     // --- INTERNAL STAFF ---
     { 
       label: 'Sosial & Komunikasi', 
       path: '/app/social', 
       icon: Share2, 
-      roles: ['ADMIN', 'PRODUCTION', 'IT', 'FINANCE', 'FIELD_OPS'] 
+      roles: ['ADMIN', 'PRODUCTION', 'IT', 'FINANCE', 'FIELD_OPS', 'MARKETING'] 
     },
     { 
       label: 'Database Klien', 
       path: '/app/clients',
       matchPaths: ['/app/cases', '/app/documents', '/app/agenda'],
       icon: Users, 
-      roles: ['ADMIN', 'PRODUCTION', 'FINANCE', 'FIELD_OPS'] 
+      roles: ['ADMIN', 'PRODUCTION', 'FINANCE', 'FIELD_OPS', 'MARKETING'] 
     },
     { 
       label: 'Layanan', 
       path: '/app/services',
       icon: Briefcase, 
-      roles: ['ADMIN', 'FINANCE', 'PRODUCTION'] 
+      roles: ['ADMIN', 'FINANCE', 'PRODUCTION', 'MARKETING'] 
     },
     { 
       label: 'Keuangan', 
@@ -69,7 +69,7 @@ export const Sidebar: React.FC = () => {
       label: 'Konten Website', 
       path: '/app/cms', 
       icon: Settings, 
-      roles: ['ADMIN', 'IT'] 
+      roles: ['ADMIN', 'IT', 'MARKETING'] 
     },
     // --- CLIENT PORTAL (In SysLegal) ---
     {
@@ -89,7 +89,7 @@ export const Sidebar: React.FC = () => {
       label: 'Pengaturan', 
       path: '/app/settings', 
       icon: Sliders, 
-      roles: ['ADMIN', 'FINANCE', 'PRODUCTION', 'IT', 'FIELD_OPS', 'CLIENT'] 
+      roles: ['ADMIN', 'FINANCE', 'PRODUCTION', 'IT', 'FIELD_OPS', 'CLIENT', 'MARKETING'] 
     },
   ];
 

@@ -88,6 +88,15 @@ export const MOCK_ROLES: RoleConfig[] = [
     ]
   },
   {
+    id: 'role_mkt',
+    roleCode: 'MARKETING',
+    label: 'Marketing & PR',
+    description: 'Manajemen konten website, media sosial, dan relasi klien.',
+    permissions: [
+        'system.settings', 'case.view'
+    ]
+  },
+  {
     id: 'role_client',
     roleCode: 'CLIENT',
     label: 'Klien Eksternal',

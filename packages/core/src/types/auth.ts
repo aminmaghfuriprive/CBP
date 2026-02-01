@@ -1,5 +1,5 @@
 
-export type UserRole = 'ADMIN' | 'PRODUCTION' | 'FINANCE' | 'IT' | 'FIELD_OPS' | 'CLIENT';
+export type UserRole = 'ADMIN' | 'PRODUCTION' | 'FINANCE' | 'IT' | 'FIELD_OPS' | 'CLIENT' | 'MARKETING';
 
 export type Division = 
   | 'Hukum Umum & Litigasi' 
@@ -9,6 +9,7 @@ export type Division =
   | 'FIELD' 
   | 'FINANCE' 
   | 'IT' 
+  | 'MARKETING'
   | null;
 
 export interface User {

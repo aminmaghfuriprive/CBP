@@ -117,6 +117,14 @@ export const MOCK_USERS_DB: User[] = [
     role: 'IT',
     division: 'IT',
   },
+  {
+    id: 'u_mkt',
+    name: 'Karina Putri',
+    email: 'marketing@cbp.id',
+    role: 'MARKETING',
+    division: 'MARKETING',
+    avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=400'
+  },
   // Klien Demo
   {
     id: 'u_client',
