@@ -53,12 +53,13 @@ export const ClientListView: React.FC = () => {
       <div className="flex-1 min-w-0 relative">
         {selectedClient ? (
           <ClientWorkspacePanel 
+            key={selectedClient.id} /* FORCE REMOUNT ON CLIENT CHANGE */
             client={selectedClient}
             activeView={activeView}
             cases={cases}
             invoices={invoices}
             documents={documents}
-            events={events} // Pass events data
+            events={events} 
             onViewCase={handleViewCase}
           />
         ) : (

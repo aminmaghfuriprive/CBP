@@ -35,12 +35,14 @@ export const ClientWorkspacePanel: React.FC<ClientWorkspacePanelProps> = ({
   // Ref untuk container scroll
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Effect: Scroll to top saat client berubah
+  // Effect: Scroll to top saat tab view berubah
+  // Note: Saat client berubah, komponen di-remount oleh parent (key prop), jadi otomatis scroll top = 0 default.
+  // Effect ini khusus untuk perpindahan antar tab (Overview -> Kasus -> Dokumen)
   useEffect(() => {
     if (containerRef.current) {
-      containerRef.current.scrollTop = 0;
+      containerRef.current.scrollTo({ top: 0, behavior: 'auto' }); // Instant jump ('auto') instead of 'smooth'
     }
-  }, [client.id, activeView]); // Trigger saat ganti client atau ganti tab view
+  }, [activeView]); 
 
   // Filter Data Contextual
   const clientCases = cases.filter(c => c.clientName === client.name);
@@ -57,7 +59,7 @@ export const ClientWorkspacePanel: React.FC<ClientWorkspacePanelProps> = ({
   return (
     <div 
       ref={containerRef}
-      className="flex flex-col h-full bg-slate-50/50 dark:bg-slate-950/50 overflow-y-auto custom-scrollbar p-6 lg:p-8 space-y-6 scroll-smooth"
+      className="flex flex-col h-full bg-slate-50/50 dark:bg-slate-950/50 overflow-y-auto custom-scrollbar p-6 lg:p-8 space-y-6"
     >
       
       {/* Always Visible Header */}
