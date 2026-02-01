@@ -5,7 +5,7 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth, UserRole } from '@cbp/core';
-import { LayoutDashboard, Users, LogOut, DollarSign, Settings, Sliders, Briefcase, UserCog, Share2, FileText, CreditCard } from 'lucide-react';
+import { LayoutDashboard, Users, LogOut, DollarSign, Settings, Sliders, Briefcase, UserCog, Target, FileText, CreditCard } from 'lucide-react';
 
 interface MenuItem {
   label: string;
@@ -35,9 +35,9 @@ export const Sidebar: React.FC = () => {
     },
     // --- INTERNAL STAFF ---
     { 
-      label: 'Sosial & Komunikasi', 
-      path: '/app/social', 
-      icon: Share2, 
+      label: 'Marketing',  // Renamed from Sosial & Komunikasi
+      path: '/app/social', // Path kept same to preserve structure
+      icon: Target, // Icon Changed
       roles: ['ADMIN', 'PRODUCTION', 'IT', 'FINANCE', 'FIELD_OPS', 'MARKETING'] 
     },
     { 

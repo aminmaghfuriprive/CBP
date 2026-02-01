@@ -1,6 +1,6 @@
 
 import Dexie, { type Table } from 'dexie';
-import { CaseData, Booking, CalendarEvent, DocumentFile, Invoice, ServiceItem, Article, ClientData, User, Conversation, Message, AttendanceRecord, PayrollSlip, RoleConfig, SocialAccount, SocialPost, DocumentTemplate, AyrshareConfig, PortfolioItem, Notification } from '../types';
+import { CaseData, Booking, CalendarEvent, DocumentFile, Invoice, ServiceItem, Article, ClientData, User, Conversation, Message, AttendanceRecord, PayrollSlip, RoleConfig, SocialAccount, SocialPost, DocumentTemplate, AyrshareConfig, PortfolioItem, Notification, Lead } from '../types';
 import { MOCK_CASES } from '../data/mock_cases';
 import { MOCK_BOOKINGS, EVENTS } from '../data/mock_calendar';
 import { DOCUMENTS, ARTICLES } from '../data/mock_content';
@@ -35,12 +35,12 @@ export class CBPDatabase extends Dexie {
   ayrshareConfig!: Table<AyrshareConfig, string>;
   portfolios!: Table<PortfolioItem, string>;
   notifications!: Table<Notification, string>;
+  leads!: Table<Lead, string>; // New Table
 
   constructor() {
     super('CBPDatabase');
     
-    // Version 20: Added 'lifecycle' to cases schema and migration logic
-    (this as any).version(20).stores({
+    (this as any).version(21).stores({
       cases: 'id, status, lifecycle, clientName, division',
       bookings: 'id, status, date',
       events: 'id, date, type, client',
@@ -60,23 +60,8 @@ export class CBPDatabase extends Dexie {
       templates: 'id, type, isActive',
       ayrshareConfig: 'id',
       portfolios: 'id, category, clientIndustry',
-      notifications: 'id, read, recipientRole, timestamp'
-    }).upgrade((tx: any) => {
-      // MIGRATION LOGIC:
-      // Mengisi field 'lifecycle' untuk data lama berdasarkan status 'status' yang sudah ada
-      return tx.table('cases').toCollection().modify((c: CaseData) => {
-        if (!c.lifecycle) {
-          if (c.status === 'Selesai') {
-            c.lifecycle = 'ARCHIVED';
-          } else if (c.status === 'Menunggu') {
-            c.lifecycle = 'PRE_PRODUCTION';
-          } else {
-            // Default untuk 'Aktif' kita anggap masuk PRODUCTION dulu, 
-            // nanti user bisa geser manual ke POST_PRODUCTION jika perlu
-            c.lifecycle = 'PRODUCTION'; 
-          }
-        }
-      });
+      notifications: 'id, read, recipientRole, timestamp',
+      leads: 'id, status, source, interest' // New Schema
     });
 
     (this as any).on('populate', () => {
@@ -97,6 +82,14 @@ export class CBPDatabase extends Dexie {
       this.socialPosts.bulkAdd(MOCK_SOCIAL_POSTS);
       this.templates.bulkAdd(MOCK_TEMPLATES);
       this.portfolios.bulkAdd(MOCK_PORTFOLIO);
+      
+      // Mock Leads
+      this.leads.bulkAdd([
+        { id: 'lead_1', name: 'Sari Roti (Cabang)', contact: '0812345678', interest: 'Perizinan PIRT', source: 'Website', status: 'New', createdAt: new Date().toISOString() },
+        { id: 'lead_2', name: 'Pak Bambang', contact: '0819876543', interest: 'Sengketa Lahan', source: 'Referral', status: 'Contacted', createdAt: new Date(Date.now() - 86400000).toISOString() },
+        { id: 'lead_3', name: 'CV Tech Maju', contact: '0856789012', interest: 'Kontrak Kerjasama', source: 'Social Media', status: 'Qualified', createdAt: new Date(Date.now() - 172800000).toISOString() }
+      ]);
+
       this.notifications.add({
         id: 'n_initial',
         title: 'Sistem Aktif',
@@ -108,7 +101,6 @@ export class CBPDatabase extends Dexie {
     });
   }
 
-  // Helper untuk Reset Database (Factory Reset)
   async resetDatabase() {
     await (this as any).delete();
     window.location.reload();

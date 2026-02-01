@@ -50,6 +50,7 @@ export * from './hooks/usePortfolioLogic';
 export * from './hooks/useClientData'; 
 export * from './hooks/useInternalStats'; 
 export * from './hooks/useFieldLogic';
+export * from './hooks/useLeadLogic'; // NEW
 
 // Utils
 export * from './utils/formatters';

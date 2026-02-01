@@ -3,26 +3,27 @@
 
 import React, { useState } from 'react';
 import { Card, Button } from '@cbp/ui';
-import { Mail, Phone, MapPin, Clock, ExternalLink, User, CheckCircle, ArrowRight, ArrowLeft, FileText } from 'lucide-react';
-import { SERVICES, useData, Booking, ClientData } from '@cbp/core';
+import { Mail, Phone, MapPin, CheckCircle, ArrowRight, ArrowLeft } from 'lucide-react';
+import { SERVICES, useLeadLogic, Lead } from '@cbp/core';
 
 export default function Contact() {
   const [step, setStep] = useState(1);
   const [submitted, setSubmitted] = useState(false);
   const [isNavigating, setIsNavigating] = useState(false);
   
-  const { addBooking, addClient } = useData();
+  const { addLead } = useLeadLogic();
   
   const [formData, setFormData] = useState({
     name: '',
     whatsapp: '',
+    email: '',
     address: '',
     district: '',
     city: '',
     province: '',
     country: 'Indonesia',
     service: SERVICES[0]?.title || 'Konsultasi Umum',
-    date: '',
+    date: '', // Still kept for UI but will be saved in notes
     time: '09:00',
     notes: ''
   });
@@ -64,30 +65,21 @@ export default function Contact() {
     e.preventDefault();
     if (isNavigating) return;
 
-    // 1. Simpan Data Booking
-    const newBooking: Booking = {
-      id: `bk_${Date.now()}`,
-      clientName: formData.name,
-      contact: formData.whatsapp,
-      serviceType: formData.service,
-      date: formData.date,
-      time: formData.time,
-      status: 'Pending',
-      notes: formData.notes || 'Konsultasi via Website'
-    };
-    addBooking(newBooking);
-
-    // 2. Simpan Data Klien ke Database
-    const newClient: ClientData = {
-      id: `cl_${Date.now()}`,
+    // IMPORVISASI: Data masuk ke Leads Marketing dulu, bukan Booking/Client langsung.
+    const newLead: Lead = {
+      id: `lead_${Date.now()}`,
       name: formData.name,
       contact: formData.whatsapp,
-      industry: 'Individual', // Default for public form
-      email: '', // Email not captured in this simplified form
-      address: `${formData.address}, ${formData.district}, ${formData.city}, ${formData.province}`
+      email: formData.email, // Added field
+      interest: formData.service,
+      source: 'Website',
+      status: 'New',
+      address: `${formData.address}, ${formData.district}, ${formData.city}`,
+      notes: `Req Tanggal: ${formData.date} Jam ${formData.time}. Ket: ${formData.notes}`,
+      createdAt: new Date().toISOString()
     };
-    addClient(newClient);
 
+    addLead(newLead);
     setSubmitted(true);
   };
 
@@ -206,7 +198,7 @@ export default function Contact() {
                   </div>
                   <h3 className="text-2xl font-serif font-bold text-cbp-navy dark:text-white mb-2">Permintaan Terkirim</h3>
                   <p className="text-slate-600 dark:text-slate-400 mb-8 max-w-md">
-                    Terima kasih. Tim kami akan menghubungi Anda melalui WhatsApp untuk konfirmasi jadwal dalam waktu 1x24 jam.
+                    Terima kasih. Data Anda telah masuk ke sistem kami. Tim Marketing kami akan segera menghubungi Anda untuk konfirmasi jadwal.
                   </p>
                   <Button onClick={() => { setSubmitted(false); setStep(1); }} variant="outline">Buat Jadwal Baru</Button>
                 </div>
@@ -233,8 +225,12 @@ export default function Contact() {
                           </div>
                         </div>
                         <div>
+                           <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Email (Opsional)</label>
+                           <input name="email" value={formData.email} onChange={handleChange} type="email" className="w-full px-4 py-3 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white" placeholder="email@anda.com" />
+                        </div>
+                        <div>
                            <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Alamat Lengkap</label>
-                           <textarea name="address" value={formData.address} onChange={handleChange} rows={3} className="w-full px-4 py-3 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white" placeholder="Jalan, Nomor Rumah..." />
+                           <textarea name="address" value={formData.address} onChange={handleChange} rows={2} className="w-full px-4 py-3 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white" placeholder="Jalan, Nomor Rumah..." />
                         </div>
                       </div>
                     )}
@@ -314,7 +310,7 @@ export default function Contact() {
                         </Button>
                       ) : (
                         <Button type="submit" disabled={isNavigating} className="bg-cbp-navy text-white dark:bg-cbp-gold dark:text-cbp-navy shadow-lg shadow-cbp-gold/20 font-bold px-8">
-                          Konfirmasi Booking
+                          Kirim Permintaan
                         </Button>
                       )}
                     </div>
