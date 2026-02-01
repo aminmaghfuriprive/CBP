@@ -9,20 +9,28 @@ import { useNotifications } from '../context/NotificationContext';
 export const useLeadLogic = () => {
   const { addNotification } = useNotifications();
 
-  // Fail-safe query: Cek apakah db.leads sudah ada sebelum akses
-  const leads = useLiveQuery(() => {
-    if (!db.leads) return [];
-    return db.leads.orderBy('createdAt').reverse().toArray();
+  // Fail-safe query: Try-catch block inside the query function
+  const leads = useLiveQuery(async () => {
+    try {
+      // Double check if table property exists on db instance
+      if (!db.leads) return [];
+      
+      // Dexie queries are promises, await them
+      return await db.leads.orderBy('createdAt').reverse().toArray();
+    } catch (error) {
+      console.warn("Leads table query failed (DB might be updating):", error);
+      return [];
+    }
   }) || [];
 
   const addLead = async (lead: Lead) => {
     try {
-      if (!db.leads) throw new Error("Database not ready");
+      if (!db.leads) throw new Error("Database leads table not found");
       await db.leads.add(lead);
       addNotification('Lead Masuk', `Permintaan baru dari ${lead.name}.`, 'info', 'MARKETING');
     } catch (error) {
       console.error(error);
-      addNotification('Gagal', 'Sistem belum siap menerima data lead. Coba refresh halaman.', 'warning');
+      addNotification('Gagal', 'Sistem database belum siap. Silakan refresh halaman.', 'warning');
     }
   };
 

@@ -40,8 +40,8 @@ export class CBPDatabase extends Dexie {
   constructor() {
     super('CBPDatabase');
     
-    // Bump version to 22 to ensure leads table creation triggers for existing users
-    (this as any).version(22).stores({
+    // Bump version to 23 to ensure leads table creation triggers for existing users
+    (this as any).version(23).stores({
       cases: 'id, status, lifecycle, clientName, division',
       bookings: 'id, status, date',
       events: 'id, date, type, client',
