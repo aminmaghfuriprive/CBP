@@ -24,10 +24,10 @@ export default function SettingsPage() {
       />
 
       {/* Navigation Tabs */}
-      <div className="flex gap-4 border-b border-slate-200 dark:border-slate-800 flex-shrink-0">
+      <div className="flex gap-4 border-b border-slate-200 dark:border-slate-800 flex-shrink-0 overflow-x-auto">
         <button
           onClick={() => setActiveTab('profile')}
-          className={`pb-3 px-2 text-sm font-bold flex items-center gap-2 transition-all relative ${
+          className={`pb-3 px-2 text-sm font-bold flex items-center gap-2 transition-all relative whitespace-nowrap ${
             activeTab === 'profile' 
               ? 'text-cbp-navy dark:text-cbp-gold' 
               : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
@@ -41,7 +41,7 @@ export default function SettingsPage() {
           <>
             <button
               onClick={() => setActiveTab('business')}
-              className={`pb-3 px-2 text-sm font-bold flex items-center gap-2 transition-all relative ${
+              className={`pb-3 px-2 text-sm font-bold flex items-center gap-2 transition-all relative whitespace-nowrap ${
                 activeTab === 'business' 
                   ? 'text-cbp-navy dark:text-cbp-gold' 
                   : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
@@ -53,7 +53,7 @@ export default function SettingsPage() {
 
             <button
               onClick={() => setActiveTab('templates')}
-              className={`pb-3 px-2 text-sm font-bold flex items-center gap-2 transition-all relative ${
+              className={`pb-3 px-2 text-sm font-bold flex items-center gap-2 transition-all relative whitespace-nowrap ${
                 activeTab === 'templates' 
                   ? 'text-cbp-navy dark:text-cbp-gold' 
                   : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
