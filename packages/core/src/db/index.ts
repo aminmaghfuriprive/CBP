@@ -34,7 +34,7 @@ export class CBPDatabase extends Dexie {
   templates!: Table<DocumentTemplate, string>;
   ayrshareConfig!: Table<AyrshareConfig, string>;
   portfolios!: Table<PortfolioItem, string>;
-  notifications!: Table<Notification, string>; // New
+  notifications!: Table<Notification, string>;
 
   constructor() {
     super('CBPDatabase');
@@ -60,7 +60,7 @@ export class CBPDatabase extends Dexie {
       templates: 'id, type, isActive',
       ayrshareConfig: 'id',
       portfolios: 'id, category, clientIndustry',
-      notifications: 'id, read, recipientRole, timestamp' // New
+      notifications: 'id, read, recipientRole, timestamp'
     });
 
     (this as any).on('populate', () => {
@@ -90,6 +90,12 @@ export class CBPDatabase extends Dexie {
         timestamp: new Date().toISOString()
       });
     });
+  }
+
+  // Helper untuk Reset Database (Factory Reset)
+  async resetDatabase() {
+    await (this as any).delete();
+    window.location.reload();
   }
 }
 
