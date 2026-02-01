@@ -11,33 +11,32 @@ export const TEAM: Lawyer[] = [
     imageUrl: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=600'
   },
   // --- STAF AHLI (KEPALA DIVISI) ---
-  // Urutan disesuaikan dengan landing page: Litigasi, Perizinan, Agraria, Korporasi (opsional)
   {
     id: 'prod_1',
     name: 'Saumita Ngesti Ramadanti, S.H.',
     role: 'Staff Produksi',
-    specialty: 'Divisi Hukum Umum & Litigasi', // Match Landing Page
+    specialty: 'Divisi Hukum Umum & Litigasi',
     imageUrl: 'https://images.unsplash.com/photo-1573496359-136d475583dc?auto=format&fit=crop&q=80&w=400'
   },
   {
     id: 'prod_2',
     name: 'Yevita Nur Sholihah, S.H.',
     role: 'Staff Perizinan',
-    specialty: 'Divisi Perizinan & Bisnis', // Match Landing Page
+    specialty: 'Divisi Perizinan & Bisnis',
     imageUrl: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=400'
   },
   {
     id: 'prod_4',
     name: 'Khrisna Wijayanti, S.H.',
     role: 'Staff Agraria',
-    specialty: 'Divisi Pertanahan & Agraria', // Match Landing Page
+    specialty: 'Divisi Pertanahan & Agraria',
     imageUrl: 'https://images.unsplash.com/photo-1507537297725-24a1c029d3ca?auto=format&fit=crop&q=80&w=400'
   },
   {
     id: 'prod_3',
     name: 'Izatil Khoiriyah, S.H.',
     role: 'Staff Korporasi',
-    specialty: 'Divisi Legal Administratif & Korporasi', // Match Landing Page
+    specialty: 'Divisi Legal Administratif & Korporasi',
     imageUrl: 'https://images.unsplash.com/photo-1598550874175-4d7112ee7f64?auto=format&fit=crop&q=80&w=400'
   },
   // --- TIM PENDUKUNG ---
@@ -118,10 +117,11 @@ export const MOCK_USERS_DB: User[] = [
     role: 'IT',
     division: 'IT',
   },
+  // Klien Demo
   {
     id: 'u_client',
     name: 'Bpk. Budi Santoso',
-    email: 'client@gmail.com',
+    email: 'budi@demo.com', // Updated for consistency
     role: 'CLIENT',
     division: null,
   }
@@ -131,5 +131,7 @@ export const CLIENTS = [
   { id: 'cl_01', name: 'PT. Maju Sejahtera', industry: 'Manufaktur', contact: 'Bpk. Budi', email: 'budi@maju.com' },
   { id: 'cl_02', name: 'Bpk. Hartono', industry: 'Individual', contact: 'Hartono', email: 'hartono@gmail.com' },
   { id: 'cl_03', name: 'CV. Kuliner Nusantara', industry: 'F&B', contact: 'Ibu Dian', email: 'dian@kuliner.id' },
-  { id: 'cl_04', name: 'Ibu Ratna Sari', industry: 'Individual', contact: 'Ratna', email: 'ratna@yahoo.com' }
+  { id: 'cl_04', name: 'Ibu Ratna Sari', industry: 'Individual', contact: 'Ratna', email: 'ratna@yahoo.com' },
+  // Data Baru untuk Budi Santoso agar muncul di database klien
+  { id: 'cl_demo', name: 'Bpk. Budi Santoso', industry: 'Teknologi & Jasa', contact: '081234567890', email: 'budi@demo.com', address: 'Jl. Kemang Raya No. 12, Jakarta Selatan' }
 ];

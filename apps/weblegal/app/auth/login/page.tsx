@@ -116,7 +116,7 @@ export default function ClientLoginPage() {
           </div>
 
           <button 
-             onClick={() => handleLogin(undefined, 'budi@maju.com')}
+             onClick={() => handleLogin(undefined, 'budi@demo.com')}
              className="w-full p-3 bg-white hover:bg-slate-50 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 rounded-lg flex items-center justify-center gap-3 transition-colors group"
            >
              <UserCheck className="h-5 w-5 text-slate-400 group-hover:text-cbp-navy dark:group-hover:text-cbp-gold transition-colors" />

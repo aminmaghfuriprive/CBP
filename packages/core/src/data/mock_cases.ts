@@ -45,5 +45,17 @@ export const MOCK_CASES: CaseData[] = [
     currentStage: '10_monitoring',
     lastUpdate: '2023-10-26',
     description: 'Berkas sudah masuk BPN, menunggu jadwal pengukuran ulang.'
+  },
+  // Data Kasus Demo untuk Budi Santoso
+  {
+    id: 'case_demo_01',
+    clientName: 'Bpk. Budi Santoso',
+    caseType: 'Review Kontrak Kerjasama IT',
+    division: 'Legal Administratif & Korporasi',
+    status: 'Aktif',
+    lifecycle: 'PRODUCTION',
+    currentStage: '7_drafting',
+    lastUpdate: '2023-10-29',
+    description: 'Sedang dilakukan review pasal-pasal krusial terkait SLA dan denda keterlambatan dalam kontrak pengembangan software.'
   }
 ];
