@@ -12,7 +12,7 @@ import { ClientViewMode } from './molecules/ClientDirectoryCard';
 
 export const ClientListView: React.FC = () => {
   const router = useRouter();
-  const { clients, cases, invoices, documents, addClient } = useData();
+  const { clients, cases, invoices, documents, events, addClient } = useData();
   
   const [selectedClientId, setSelectedClientId] = useState<string | null>(null);
   const [activeView, setActiveView] = useState<ClientViewMode>('overview');
@@ -58,6 +58,7 @@ export const ClientListView: React.FC = () => {
             cases={cases}
             invoices={invoices}
             documents={documents}
+            events={events} // Pass events data
             onViewCase={handleViewCase}
           />
         ) : (

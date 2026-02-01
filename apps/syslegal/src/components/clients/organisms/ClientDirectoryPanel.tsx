@@ -3,7 +3,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { ClientData } from '@cbp/core';
-import { SearchInput, Button } from '@cbp/ui';
+import { SearchInput } from '@cbp/ui';
 import { ClientDirectoryCard, ClientViewMode } from '../molecules/ClientDirectoryCard';
 import { UserPlus, Users, Search } from 'lucide-react';
 
@@ -44,19 +44,25 @@ export const ClientDirectoryPanel: React.FC<ClientDirectoryPanelProps> = ({
            <h2 className="font-bold text-cbp-navy dark:text-white text-sm flex items-center gap-2">
              <Users className="h-4 w-4 text-cbp-gold" /> Direktori Klien
            </h2>
-           {onAddNew && (
-            <button onClick={onAddNew} className="text-xs bg-slate-100 dark:bg-slate-800 p-1.5 rounded-md hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
-              <UserPlus className="h-4 w-4" />
-            </button>
-           )}
         </div>
         
-        <SearchInput 
-          placeholder="Cari klien..." 
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="shadow-sm"
-        />
+        <div className="flex gap-2">
+          <SearchInput 
+            placeholder="Cari klien..." 
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="shadow-sm flex-1"
+          />
+          {onAddNew && (
+            <button 
+              onClick={onAddNew} 
+              className="flex items-center justify-center w-10 h-10 rounded-lg bg-cbp-gold hover:bg-yellow-500 text-cbp-navy shadow-sm transition-colors"
+              title="Tambah Klien Baru"
+            >
+              <UserPlus className="h-5 w-5" />
+            </button>
+          )}
+        </div>
       </div>
 
       {/* 2. Client List */}

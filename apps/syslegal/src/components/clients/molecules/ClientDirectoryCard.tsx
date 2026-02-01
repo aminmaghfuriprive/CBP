@@ -1,9 +1,9 @@
 
 import React from 'react';
 import { ClientData } from '@cbp/core';
-import { ChevronDown, ChevronRight, Phone, LayoutGrid, FileText, FolderOpen, DollarSign } from 'lucide-react';
+import { ChevronDown, LayoutGrid, FileText, FolderOpen, DollarSign, Calendar } from 'lucide-react';
 
-export type ClientViewMode = 'overview' | 'cases' | 'documents' | 'billing';
+export type ClientViewMode = 'overview' | 'cases' | 'documents' | 'billing' | 'agenda';
 
 interface ClientDirectoryCardProps {
   client: ClientData;
@@ -24,6 +24,7 @@ export const ClientDirectoryCard: React.FC<ClientDirectoryCardProps> = ({
   const menuItems = [
     { id: 'overview', label: 'Overview', icon: LayoutGrid },
     { id: 'cases', label: 'Riwayat Kasus', icon: FileText },
+    { id: 'agenda', label: 'Agenda & Jadwal', icon: Calendar },
     { id: 'documents', label: 'Dokumen', icon: FolderOpen },
     { id: 'billing', label: 'Keuangan', icon: DollarSign },
   ];

@@ -2,7 +2,7 @@
 "use client";
 
 import React from 'react';
-import { ClientData, CaseData, Invoice, DocumentFile } from '@cbp/core';
+import { ClientData, CaseData, Invoice, DocumentFile, CalendarEvent } from '@cbp/core';
 import { ClientViewMode } from '../molecules/ClientDirectoryCard';
 import { ClientProfileHeader } from '../molecules/ClientProfileHeader';
 import { ClientStatsOverview } from '../molecules/ClientStatsOverview';
@@ -10,6 +10,7 @@ import { ClientContactInfo } from '../molecules/ClientContactInfo';
 import { CaseTable } from '../../cases/molecules/CaseTable';
 import { InvoiceTable } from '../../finance/molecules/InvoiceTable';
 import { ClientDocumentManager } from './ClientDocumentManager';
+import { AgendaTable } from '../../agenda/molecules/AgendaTable';
 import { Card } from '@cbp/ui';
 
 interface ClientWorkspacePanelProps {
@@ -18,6 +19,7 @@ interface ClientWorkspacePanelProps {
   cases: CaseData[];
   invoices: Invoice[];
   documents: DocumentFile[];
+  events: CalendarEvent[];
   onViewCase: (id: string) => void;
 }
 
@@ -27,11 +29,13 @@ export const ClientWorkspacePanel: React.FC<ClientWorkspacePanelProps> = ({
   cases,
   invoices,
   documents,
+  events,
   onViewCase
 }) => {
   // Filter Data Contextual
   const clientCases = cases.filter(c => c.clientName === client.name);
   const clientInvoices = invoices.filter(i => i.clientName === client.name);
+  const clientEvents = events.filter(e => e.client === client.name);
   
   // Stats Calculation
   const totalCases = clientCases.length;
@@ -53,32 +57,17 @@ export const ClientWorkspacePanel: React.FC<ClientWorkspacePanelProps> = ({
         
         {/* VIEW: OVERVIEW */}
         {activeView === 'overview' && (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-2 space-y-6">
-               <ClientStatsOverview 
-                  totalCases={totalCases} 
-                  activeCases={activeCasesCount} 
-                  unpaidAmount={unpaidAmount} 
-               />
-               
-               <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800">
-                  <h3 className="text-lg font-bold text-cbp-navy dark:text-white mb-4">Informasi Kontak</h3>
-                  <ClientContactInfo client={client} />
-               </Card>
-            </div>
-
-            <div className="lg:col-span-1">
-               <Card className="h-full bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 flex flex-col">
-                  <h3 className="font-bold text-slate-700 dark:text-white mb-4">Aktivitas Terakhir</h3>
-                  {clientCases.length > 0 ? (
-                    <div className="flex-1 overflow-auto -mx-2 px-2">
-                       <CaseTable cases={clientCases.slice(0, 3)} onView={onViewCase} />
-                    </div>
-                  ) : (
-                    <p className="text-slate-500 text-sm italic">Belum ada aktivitas kasus.</p>
-                  )}
-               </Card>
-            </div>
+          <div className="space-y-6">
+             <ClientStatsOverview 
+                totalCases={totalCases} 
+                activeCases={activeCasesCount} 
+                unpaidAmount={unpaidAmount} 
+             />
+             
+             <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800">
+                <h3 className="text-lg font-bold text-cbp-navy dark:text-white mb-4">Informasi Kontak</h3>
+                <ClientContactInfo client={client} />
+             </Card>
           </div>
         )}
 
@@ -89,6 +78,20 @@ export const ClientWorkspacePanel: React.FC<ClientWorkspacePanelProps> = ({
                <h3 className="text-xl font-bold text-cbp-navy dark:text-white">Daftar Perkara</h3>
              </div>
              <CaseTable cases={clientCases} onView={onViewCase} />
+          </div>
+        )}
+
+        {/* VIEW: AGENDA (New) */}
+        {activeView === 'agenda' && (
+          <div className="space-y-4">
+             <h3 className="text-xl font-bold text-cbp-navy dark:text-white">Jadwal & Agenda</h3>
+             {clientEvents.length > 0 ? (
+               <AgendaTable events={clientEvents} />
+             ) : (
+               <div className="text-center py-12 bg-white dark:bg-slate-900 rounded-xl border border-dashed border-slate-200 dark:border-slate-800 text-slate-500">
+                 Tidak ada agenda tercatat untuk klien ini.
+               </div>
+             )}
           </div>
         )}
 
