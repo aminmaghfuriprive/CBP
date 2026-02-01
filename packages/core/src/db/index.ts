@@ -39,9 +39,9 @@ export class CBPDatabase extends Dexie {
   constructor() {
     super('CBPDatabase');
     
-    // Version 19: Added Notifications Table
-    (this as any).version(19).stores({
-      cases: 'id, status, clientName, division',
+    // Version 20: Added 'lifecycle' to cases schema and migration logic
+    (this as any).version(20).stores({
+      cases: 'id, status, lifecycle, clientName, division',
       bookings: 'id, status, date',
       events: 'id, date, type, client',
       documents: 'id, category, type',
@@ -61,6 +61,22 @@ export class CBPDatabase extends Dexie {
       ayrshareConfig: 'id',
       portfolios: 'id, category, clientIndustry',
       notifications: 'id, read, recipientRole, timestamp'
+    }).upgrade((tx: any) => {
+      // MIGRATION LOGIC:
+      // Mengisi field 'lifecycle' untuk data lama berdasarkan status 'status' yang sudah ada
+      return tx.table('cases').toCollection().modify((c: CaseData) => {
+        if (!c.lifecycle) {
+          if (c.status === 'Selesai') {
+            c.lifecycle = 'ARCHIVED';
+          } else if (c.status === 'Menunggu') {
+            c.lifecycle = 'PRE_PRODUCTION';
+          } else {
+            // Default untuk 'Aktif' kita anggap masuk PRODUCTION dulu, 
+            // nanti user bisa geser manual ke POST_PRODUCTION jika perlu
+            c.lifecycle = 'PRODUCTION'; 
+          }
+        }
+      });
     });
 
     (this as any).on('populate', () => {

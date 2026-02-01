@@ -96,6 +96,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
           caseType: booking.serviceType,
           division: division,
           status: 'Aktif',
+          lifecycle: 'PRE_PRODUCTION', // Default start di fase Pra-Produksi
           currentStage: '1_permintaan_awal',
           lastUpdate: new Date().toISOString().split('T')[0],
           description: `Berasal dari booking: ${booking.notes}`
@@ -111,7 +112,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
           client: booking.clientName
         });
         
-        addNotification('Booking Dikonfirmasi', `Jadwal konsultasi dengan ${booking.clientName} telah diatur.`, 'success');
+        addNotification('Booking Dikonfirmasi', `Jadwal konsultasi dengan ${booking.clientName} telah diatur dan kasus masuk fase Pra-Produksi.`, 'success');
       }
     }
   };

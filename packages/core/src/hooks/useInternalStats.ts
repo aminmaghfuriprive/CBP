@@ -33,6 +33,14 @@ export const useInternalStats = () => {
       .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
       .slice(0, 3);
 
+    // 4. Lifecycle Breakdown (Untuk Kanban Board)
+    const lifecycleStats = {
+      preProduction: cases.filter(c => c.lifecycle === 'PRE_PRODUCTION' || !c.lifecycle).length,
+      production: cases.filter(c => c.lifecycle === 'PRODUCTION').length,
+      postProduction: cases.filter(c => c.lifecycle === 'POST_PRODUCTION').length,
+      archived: cases.filter(c => c.lifecycle === 'ARCHIVED').length,
+    };
+
     return {
       activeCases,
       completedCases,
@@ -40,7 +48,8 @@ export const useInternalStats = () => {
       hasOverdue: overdueCount > 0,
       todaysEventsCount,
       chartData,
-      upcomingDeadlines
+      upcomingDeadlines,
+      lifecycleStats // Exported for UI
     };
   }, [cases, invoices, events]);
 

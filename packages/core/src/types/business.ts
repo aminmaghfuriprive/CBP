@@ -62,12 +62,19 @@ export interface ClientData {
   address?: string;
 }
 
+export type CaseLifecycle = 
+  | 'PRE_PRODUCTION'  // Onboarding, Verifikasi, Conflict Check
+  | 'PRODUCTION'      // Drafting, Litigasi, Pendampingan
+  | 'POST_PRODUCTION' // Penagihan Akhir, Serah Terima
+  | 'ARCHIVED';       // Read-only, Tersimpan
+
 export interface CaseData {
   id: string;
   clientName: string;
   caseType: string;
   division: string;
   status: 'Aktif' | 'Menunggu' | 'Selesai';
+  lifecycle: CaseLifecycle; // Field baru untuk tracking 4 fase
   currentStage: string;
   lastUpdate: string;
   description: string;
