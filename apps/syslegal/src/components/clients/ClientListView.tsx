@@ -23,10 +23,14 @@ export const ClientListView: React.FC = () => {
 
   // Handlers
   const handleSelectClient = (client: ClientData) => {
-    // Jika klik client yang sama, jangan reset view, cuma pastikan selectedId
-    if (selectedClientId !== client.id) {
+    // TOGGLE LOGIC:
+    // Jika klien yang sama diklik lagi -> Deselect (Tutup Accordion, Balik ke Analytics)
+    if (selectedClientId === client.id) {
+        setSelectedClientId(null);
+    } else {
+        // Jika klien baru -> Select & Reset default tab ke overview
         setSelectedClientId(client.id);
-        setActiveView('overview'); // Reset view to overview on new client select
+        setActiveView('overview');
     }
   };
 
