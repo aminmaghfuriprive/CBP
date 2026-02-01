@@ -1,7 +1,7 @@
 
 "use client";
 
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { ClientData, CaseData, Invoice, DocumentFile, CalendarEvent } from '@cbp/core';
 import { ClientViewMode } from '../molecules/ClientDirectoryCard';
 import { ClientProfileHeader } from '../molecules/ClientProfileHeader';
@@ -32,6 +32,16 @@ export const ClientWorkspacePanel: React.FC<ClientWorkspacePanelProps> = ({
   events,
   onViewCase
 }) => {
+  // Ref untuk container scroll
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Effect: Scroll to top saat client berubah
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.scrollTop = 0;
+    }
+  }, [client.id, activeView]); // Trigger saat ganti client atau ganti tab view
+
   // Filter Data Contextual
   const clientCases = cases.filter(c => c.clientName === client.name);
   const clientInvoices = invoices.filter(i => i.clientName === client.name);
@@ -45,7 +55,10 @@ export const ClientWorkspacePanel: React.FC<ClientWorkspacePanelProps> = ({
     .reduce((sum, i) => sum + i.amount, 0);
 
   return (
-    <div className="flex flex-col h-full bg-slate-50/50 dark:bg-slate-950/50 overflow-y-auto custom-scrollbar p-6 lg:p-8 space-y-6">
+    <div 
+      ref={containerRef}
+      className="flex flex-col h-full bg-slate-50/50 dark:bg-slate-950/50 overflow-y-auto custom-scrollbar p-6 lg:p-8 space-y-6 scroll-smooth"
+    >
       
       {/* Always Visible Header */}
       <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800">
