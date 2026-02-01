@@ -1,10 +1,11 @@
 
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useData, useDocumentLogic } from '@cbp/core';
-import { PageHeader, StatCard, SearchInput } from '@cbp/ui';
-import { Users, FileText, FolderOpen, Briefcase, LayoutGrid, List, Calendar, ShieldCheck } from 'lucide-react';
+import { PageHeader, SearchInput } from '@cbp/ui';
+import { Users, FileText, FolderOpen, LayoutGrid, List, Calendar, ShieldCheck } from 'lucide-react';
 import { ClientListView } from '../../../src/components/clients/ClientListView';
 import { CaseListView } from '../../../src/components/cases/CaseListView';
 import { DocumentRepositoryView } from '../../../src/components/documents/DocumentRepositoryView';
@@ -12,73 +13,63 @@ import { KanbanBoard } from '../../../src/components/cases/board/KanbanBoard';
 import { ScheduleView } from '../../../src/components/agenda/ScheduleView';
 import { DocumentVerificationList } from '../../../src/components/verification/DocumentVerificationList';
 
+type TabView = 'clients' | 'cases' | 'agenda' | 'documents' | 'verification';
+
 export default function ClientDatabasePage() {
-  const [activeTab, setActiveTab] = useState<'clients' | 'cases' | 'agenda' | 'documents' | 'verification'>('clients');
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  
+  // 1. Initialize Tab from URL or Default
+  const initialTab = (searchParams.get('view') as TabView) || 'clients';
+  const [activeTab, setActiveTab] = useState<TabView>(initialTab);
+  
   const [caseViewMode, setCaseViewMode] = useState<'list' | 'board'>('list');
   const [boardSearch, setBoardSearch] = useState('');
   
-  const { cases, documents, clients, events } = useData();
+  const { cases, events } = useData();
   const { documents: allDocs } = useDocumentLogic();
 
-  // Summary Stats untuk Header
-  const activeCasesCount = cases.filter(c => c.status === 'Aktif').length;
-  const upcomingEventsCount = events.filter(e => new Date(e.date) >= new Date()).length;
-  
+  // 2. Sync State when URL Changes (Back/Forward navigation)
+  useEffect(() => {
+    const view = searchParams.get('view') as TabView;
+    if (view && ['clients', 'cases', 'agenda', 'documents', 'verification'].includes(view)) {
+      setActiveTab(view);
+    }
+  }, [searchParams]);
+
+  // 3. Update URL when Tab Changes
+  const handleTabChange = (tab: TabView) => {
+    setActiveTab(tab);
+    router.push(`/app/clients?view=${tab}`, { scroll: false });
+  };
+
   // Pending Document Verification Count
   const pendingDocs = allDocs.filter(d => d.status === 'Pending' || (d.uploadedBy === 'Client' && !d.status)).length;
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto h-full flex flex-col">
-      <div className="flex-shrink-0">
+    <div className="space-y-6 h-full flex flex-col">
+      <div className="flex-shrink-0 px-1">
         <PageHeader 
           title="Database & Perkara" 
           subtitle="Pusat data klien, manajemen kasus, agenda sidang, dan repository dokumen." 
         />
 
-        {/* Quick Stats Row */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
-           <StatCard 
-              label="Total Klien" 
-              value={clients.length} 
-              icon={Users} 
-              variant="primary" 
-           />
-           <StatCard 
-              label="Kasus Aktif" 
-              value={activeCasesCount} 
-              icon={Briefcase} 
-              variant="success" 
-           />
-           <StatCard 
-              label="Agenda Aktif" 
-              value={upcomingEventsCount} 
-              icon={Calendar} 
-              variant="warning" 
-           />
-           <StatCard 
-              label="Total Dokumen" 
-              value={documents.length} 
-              icon={FolderOpen} 
-              variant="secondary" 
-           />
-        </div>
-
         {/* Navigation Tabs */}
-        <div className="flex gap-4 border-b border-slate-200 dark:border-slate-800 mb-6 overflow-x-auto">
+        <div className="flex gap-4 border-b border-slate-200 dark:border-slate-800 mb-6 overflow-x-auto no-scrollbar">
           <button
-            onClick={() => setActiveTab('clients')}
+            onClick={() => handleTabChange('clients')}
             className={`pb-3 px-2 text-sm font-bold flex items-center gap-2 transition-all relative whitespace-nowrap ${
               activeTab === 'clients' 
                 ? 'text-cbp-navy dark:text-cbp-gold' 
                 : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
             }`}
           >
-            <Users className="h-4 w-4" /> Daftar Klien
+            <Users className="h-4 w-4" /> Direktori Klien
             {activeTab === 'clients' && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-cbp-gold rounded-t-full"></div>}
           </button>
 
           <button
-            onClick={() => setActiveTab('cases')}
+            onClick={() => handleTabChange('cases')}
             className={`pb-3 px-2 text-sm font-bold flex items-center gap-2 transition-all relative whitespace-nowrap ${
               activeTab === 'cases' 
                 ? 'text-cbp-navy dark:text-cbp-gold' 
@@ -90,7 +81,7 @@ export default function ClientDatabasePage() {
           </button>
 
           <button
-            onClick={() => setActiveTab('agenda')}
+            onClick={() => handleTabChange('agenda')}
             className={`pb-3 px-2 text-sm font-bold flex items-center gap-2 transition-all relative whitespace-nowrap ${
               activeTab === 'agenda' 
                 ? 'text-cbp-navy dark:text-cbp-gold' 
@@ -102,7 +93,7 @@ export default function ClientDatabasePage() {
           </button>
 
           <button
-            onClick={() => setActiveTab('verification')}
+            onClick={() => handleTabChange('verification')}
             className={`pb-3 px-2 text-sm font-bold flex items-center gap-2 transition-all relative whitespace-nowrap ${
               activeTab === 'verification' 
                 ? 'text-cbp-navy dark:text-cbp-gold' 
@@ -119,7 +110,7 @@ export default function ClientDatabasePage() {
           </button>
 
           <button
-            onClick={() => setActiveTab('documents')}
+            onClick={() => handleTabChange('documents')}
             className={`pb-3 px-2 text-sm font-bold flex items-center gap-2 transition-all relative whitespace-nowrap ${
               activeTab === 'documents' 
                 ? 'text-cbp-navy dark:text-cbp-gold' 
@@ -136,7 +127,7 @@ export default function ClientDatabasePage() {
         {activeTab === 'clients' && <ClientListView />}
         
         {activeTab === 'cases' && (
-          <div className="flex flex-col h-full space-y-4">
+          <div className="flex flex-col h-full space-y-4 max-w-7xl mx-auto">
              {/* View Switcher & Search for Board Mode */}
              <div className="flex justify-between items-center">
                 {caseViewMode === 'board' ? (
@@ -178,11 +169,23 @@ export default function ClientDatabasePage() {
           </div>
         )}
 
-        {activeTab === 'agenda' && <ScheduleView />}
+        {activeTab === 'agenda' && (
+          <div className="max-w-7xl mx-auto">
+            <ScheduleView />
+          </div>
+        )}
 
-        {activeTab === 'verification' && <DocumentVerificationList />}
+        {activeTab === 'verification' && (
+          <div className="max-w-7xl mx-auto">
+            <DocumentVerificationList />
+          </div>
+        )}
 
-        {activeTab === 'documents' && <DocumentRepositoryView />}
+        {activeTab === 'documents' && (
+          <div className="max-w-7xl mx-auto">
+            <DocumentRepositoryView />
+          </div>
+        )}
       </div>
     </div>
   );

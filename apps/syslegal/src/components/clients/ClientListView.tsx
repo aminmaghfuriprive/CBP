@@ -1,104 +1,90 @@
 
 "use client";
 
-import React, { useState, useMemo } from 'react';
-import { useData, ClientData, useClientLogic } from '@cbp/core';
-import { Button, SearchInput } from '@cbp/ui';
-import { Download, Plus } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useData, ClientData, useClientLogic, DocumentFile } from '@cbp/core';
+import { ClientDirectoryPanel } from './organisms/ClientDirectoryPanel';
+import { ClientAnalyticsPanel } from './organisms/ClientAnalyticsPanel';
+import { ClientWorkspacePanel } from './organisms/ClientWorkspacePanel';
 import { ClientDetailModal } from './organisms/ClientDetailModal';
-import { ClientTable } from './molecules/ClientTable';
 
 export const ClientListView: React.FC = () => {
-  const { clients } = useData();
+  const router = useRouter();
+  const { clients, cases, invoices, documents, addClient } = useData();
   const { deleteClient } = useClientLogic();
   
-  const [selectedClient, setSelectedClient] = useState<ClientData | null>(null);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [sortConfig, setSortConfig] = useState<{ key: keyof ClientData; direction: 'asc' | 'desc' }>({
-    key: 'name',
-    direction: 'asc'
-  });
+  const [selectedClientId, setSelectedClientId] = useState<string | null>(null);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
-  // Logic: Filtering & Sorting
-  const processedClients = useMemo(() => {
-    let result = [...clients];
+  // Derived State
+  const selectedClient = clients.find(c => c.id === selectedClientId) || null;
 
-    // 1. Filter
-    if (searchTerm) {
-      const lowerTerm = searchTerm.toLowerCase();
-      result = result.filter(c => 
-        c.name.toLowerCase().includes(lowerTerm) ||
-        c.industry.toLowerCase().includes(lowerTerm) ||
-        c.contact.toLowerCase().includes(lowerTerm)
-      );
-    }
-
-    // 2. Sort
-    result.sort((a, b) => {
-      const aValue = a[sortConfig.key] || '';
-      const bValue = b[sortConfig.key] || '';
-      
-      if (aValue < bValue) return sortConfig.direction === 'asc' ? -1 : 1;
-      if (aValue > bValue) return sortConfig.direction === 'asc' ? 1 : -1;
-      return 0;
-    });
-
-    return result;
-  }, [clients, searchTerm, sortConfig]);
-
-  const handleSort = (key: keyof ClientData) => {
-    setSortConfig(current => ({
-      key,
-      direction: current.key === key && current.direction === 'asc' ? 'desc' : 'asc'
-    }));
+  // Handlers
+  const handleSelectClient = (client: ClientData) => {
+    setSelectedClientId(client.id);
   };
 
-  const handleDelete = (id: string) => {
-    if (confirm('Apakah Anda yakin ingin menghapus data klien ini secara permanen?')) {
-      deleteClient(id);
-    }
+  const handleBackToDashboard = () => {
+    setSelectedClientId(null);
+  };
+
+  const handleViewCase = (caseId: string) => {
+    router.push(`/app/cases/${caseId}`);
+  };
+
+  const handleReviewDoc = (doc: DocumentFile) => {
+    // Logic untuk navigasi ke tab validasi berkas global jika diperlukan
+    // Atau membuka modal review (bisa dikembangkan nanti)
+    alert(`Membuka review dokumen: ${doc.name}`);
+  };
+
+  const handleSaveNewClient = (newClient: ClientData) => {
+    addClient(newClient);
+    setIsAddModalOpen(false);
+    // Opsional: Auto select client baru
+    setSelectedClientId(newClient.id);
   };
 
   return (
-    <div className="space-y-6">
-      {/* Header Actions */}
-      <div className="flex flex-col sm:flex-row justify-between items-center gap-4 bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-        <div className="w-full sm:w-72">
-          <SearchInput 
-            placeholder="Cari nama, industri, atau kontak..." 
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+    <div className="flex h-[calc(100vh-140px)] border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm bg-white dark:bg-slate-900">
+      
+      {/* LEFT PANEL: Main Stage (70%) */}
+      <div className="flex-1 min-w-0 bg-slate-50/50 dark:bg-slate-950/50 relative">
+        {selectedClient ? (
+          <ClientWorkspacePanel 
+            client={selectedClient}
+            cases={cases}
+            invoices={invoices}
+            documents={documents}
+            onBack={handleBackToDashboard}
+            onViewCase={handleViewCase}
           />
-        </div>
-        <div className="flex gap-2 w-full sm:w-auto">
-          <Button variant="outline" size="sm" className="gap-2 border-slate-300 dark:border-slate-700 w-full sm:w-auto">
-            <Download className="h-4 w-4" /> Ekspor
-          </Button>
-          <Button size="sm" className="gap-2 w-full sm:w-auto">
-            <Plus className="h-4 w-4" /> Tambah Klien
-          </Button>
-        </div>
+        ) : (
+          <ClientAnalyticsPanel 
+            clients={clients}
+            cases={cases}
+            invoices={invoices}
+            onReviewDoc={handleReviewDoc}
+          />
+        )}
       </div>
 
-      {/* Interactive Table View */}
-      <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
-        <ClientTable 
-          clients={processedClients}
-          onSort={handleSort}
-          sortConfig={sortConfig}
-          onView={setSelectedClient}
-          onDelete={handleDelete}
+      {/* RIGHT PANEL: Directory (30%) */}
+      <div className="w-80 xl:w-96 flex-shrink-0 border-l border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 h-full">
+        <ClientDirectoryPanel 
+          clients={clients}
+          selectedClientId={selectedClientId}
+          onSelect={handleSelectClient}
+          onAddNew={() => setIsAddModalOpen(true)}
         />
-        
-        <div className="mt-4 text-xs text-slate-500 text-center">
-          Menampilkan {processedClients.length} dari total {clients.length} klien
-        </div>
       </div>
 
+      {/* Add Client Modal */}
       <ClientDetailModal 
-        isOpen={!!selectedClient} 
-        onClose={() => setSelectedClient(null)} 
-        client={selectedClient} 
+        isOpen={isAddModalOpen} 
+        onClose={() => setIsAddModalOpen(false)} 
+        client={null} // null triggers "Add New" mode
       />
     </div>
   );

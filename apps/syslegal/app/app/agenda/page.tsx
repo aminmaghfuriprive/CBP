@@ -8,7 +8,8 @@ import { Loader2 } from 'lucide-react';
 export default function RedirectAgenda() {
   const router = useRouter();
   useEffect(() => {
-    router.replace('/app/clients');
+    // Redirect to the centralized Client DB page with 'agenda' tab active
+    router.replace('/app/clients?view=agenda');
   }, [router]);
 
   return <div className="p-12 flex justify-center"><Loader2 className="animate-spin" /></div>;
