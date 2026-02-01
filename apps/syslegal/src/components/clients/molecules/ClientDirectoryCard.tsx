@@ -1,30 +1,47 @@
 
 import React from 'react';
 import { ClientData } from '@cbp/core';
-import { ChevronRight, Phone } from 'lucide-react';
+import { ChevronDown, ChevronRight, Phone, LayoutGrid, FileText, FolderOpen, DollarSign } from 'lucide-react';
+
+export type ClientViewMode = 'overview' | 'cases' | 'documents' | 'billing';
 
 interface ClientDirectoryCardProps {
   client: ClientData;
   isActive: boolean;
-  onClick: () => void;
+  activeView?: ClientViewMode;
+  onSelect: () => void;
+  onViewChange: (view: ClientViewMode) => void;
 }
 
-export const ClientDirectoryCard: React.FC<ClientDirectoryCardProps> = ({ client, isActive, onClick }) => {
+export const ClientDirectoryCard: React.FC<ClientDirectoryCardProps> = ({ 
+  client, 
+  isActive, 
+  activeView = 'overview',
+  onSelect, 
+  onViewChange 
+}) => {
+  
+  const menuItems = [
+    { id: 'overview', label: 'Overview', icon: LayoutGrid },
+    { id: 'cases', label: 'Riwayat Kasus', icon: FileText },
+    { id: 'documents', label: 'Dokumen', icon: FolderOpen },
+    { id: 'billing', label: 'Keuangan', icon: DollarSign },
+  ];
+
   return (
-    <div 
-      onClick={onClick}
-      className={`
-        group relative p-4 border-b border-slate-100 dark:border-slate-800 cursor-pointer transition-all duration-200
-        ${isActive 
-          ? 'bg-blue-50/50 dark:bg-slate-800/80 border-l-4 border-l-cbp-navy dark:border-l-cbp-gold' 
-          : 'hover:bg-slate-50 dark:hover:bg-slate-800/40 bg-white dark:bg-slate-900 border-l-4 border-l-transparent'
-        }
-      `}
-    >
-      <div className="flex items-center gap-3">
-        {/* Avatar / Initial */}
+    <div className={`border-b border-slate-100 dark:border-slate-800 transition-all duration-300 ${isActive ? 'bg-slate-50 dark:bg-slate-900' : 'bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800/50'}`}>
+      
+      {/* 1. Main Card Area (Click to Expand/Select) */}
+      <div 
+        onClick={onSelect}
+        className={`p-4 cursor-pointer relative flex items-center gap-3 ${isActive ? '' : ''}`}
+      >
+        {/* Active Indicator Line */}
+        {isActive && <div className="absolute left-0 top-0 bottom-0 w-1 bg-cbp-navy dark:bg-cbp-gold"></div>}
+
+        {/* Avatar */}
         <div className={`
-          flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold border
+          flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold border transition-colors
           ${isActive 
             ? 'bg-cbp-navy text-white dark:bg-cbp-gold dark:text-cbp-navy border-transparent' 
             : 'bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400 border-slate-200 dark:border-slate-700'
@@ -35,30 +52,45 @@ export const ClientDirectoryCard: React.FC<ClientDirectoryCardProps> = ({ client
 
         {/* Info */}
         <div className="flex-1 min-w-0">
-          <div className="flex justify-between items-center mb-0.5">
-            <h4 className={`text-sm truncate font-bold pr-2 ${isActive ? 'text-cbp-navy dark:text-white' : 'text-slate-700 dark:text-slate-300'}`}>
-              {client.name}
-            </h4>
-          </div>
-          
+          <h4 className={`text-sm truncate font-bold ${isActive ? 'text-cbp-navy dark:text-white' : 'text-slate-700 dark:text-slate-300'}`}>
+            {client.name}
+          </h4>
           <div className="flex flex-col gap-0.5">
              <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400 dark:text-slate-500 truncate">
                {client.industry}
              </span>
-             <div className="flex items-center gap-1 text-[10px] text-slate-500 dark:text-slate-400">
-               <Phone className="h-2.5 w-2.5" /> {client.contact}
-             </div>
           </div>
         </div>
 
-        {/* Action Indicator (Visible on Active/Hover) */}
-        <div className={`
-          flex-shrink-0 transition-opacity duration-200
-          ${isActive ? 'opacity-100 text-cbp-navy dark:text-cbp-gold' : 'opacity-0 group-hover:opacity-100 text-slate-400'}
-        `}>
-          <ChevronRight className="h-4 w-4" />
+        {/* Chevron */}
+        <div className={`transition-transform duration-300 ${isActive ? 'rotate-180 text-cbp-navy dark:text-cbp-gold' : 'text-slate-400'}`}>
+          <ChevronDown className="h-4 w-4" />
         </div>
       </div>
+
+      {/* 2. Accordion Menu (Only visible when active) */}
+      {isActive && (
+        <div className="px-4 pb-4 animate-in slide-in-from-top-2 duration-200">
+           <div className="flex flex-col gap-1 pl-12 border-l-2 border-slate-200 dark:border-slate-700 ml-5">
+              {menuItems.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={(e) => { e.stopPropagation(); onViewChange(item.id as ClientViewMode); }}
+                  className={`
+                    flex items-center gap-2 px-3 py-2 rounded-md text-xs font-medium text-left transition-colors
+                    ${activeView === item.id 
+                      ? 'bg-cbp-navy/10 text-cbp-navy dark:bg-cbp-gold/20 dark:text-cbp-gold font-bold' 
+                      : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800'
+                    }
+                  `}
+                >
+                  <item.icon className="h-3.5 w-3.5" />
+                  {item.label}
+                </button>
+              ))}
+           </div>
+        </div>
+      )}
     </div>
   );
 };
