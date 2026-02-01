@@ -1,11 +1,30 @@
 
-export * from './types';
+// Types (Modularized)
+export * from './types/index';
+
+// Constants & Data
 export * from './constants';
+export * from './data/services';
+export * from './data/mock_users';
+export * from './data/mock_cases';
+export * from './data/mock_finance';
+export * from './data/mock_content';
+export * from './data/mock_calendar';
+export * from './data/mock_social';
+export * from './data/mock_templates';
+export * from './data/mock_ayrshare';
+export * from './data/mock_portfolio';
+
+// Services
 export * from './services/geminiService';
+
+// Contexts
 export * from './context/AuthContext';
 export * from './context/DataContext';
 export * from './context/NotificationContext';
 export * from './context/ThemeContext';
+
+// Database
 export * from './db';
 
 // Hooks
@@ -30,20 +49,8 @@ export * from './hooks/useAyrshareLogic';
 export * from './hooks/usePortfolioLogic'; 
 export * from './hooks/useClientData'; 
 export * from './hooks/useInternalStats'; 
-export * from './hooks/useFieldLogic'; // New
+export * from './hooks/useFieldLogic';
 
 // Utils
 export * from './utils/formatters';
 export * from './utils/mappers';
-
-// Export Data Modules
-export * from './data/services';
-export * from './data/mock_users';
-export * from './data/mock_cases';
-export * from './data/mock_finance';
-export * from './data/mock_content';
-export * from './data/mock_calendar';
-export * from './data/mock_social';
-export * from './data/mock_templates';
-export * from './data/mock_ayrshare';
-export * from './data/mock_portfolio';

@@ -1,6 +1,6 @@
 
 import { GoogleGenAI, Type } from "@google/genai";
-import { SERVICES } from "../constants";
+import { SERVICES } from "../data/services";
 import { ServiceStep, CaseData } from "../types";
 
 const getApiKey = (): string => {
@@ -69,6 +69,45 @@ export const summarizeCase = async (caseData: CaseData): Promise<{ summary: stri
   }
 };
 
+export const generateCaseStrategy = async (caseData: CaseData): Promise<{ steps: string[]; legalBasis: string[] }> => {
+  const apiKey = getApiKey();
+  if (!apiKey) return { steps: [], legalBasis: [] };
+
+  try {
+    const ai = aiClient();
+    const prompt = `
+      Bertindaklah sebagai Senior Partner di Law Firm. Analisis kasus berikut:
+      Klien: ${caseData.clientName}
+      Masalah: ${caseData.description}
+      Tipe: ${caseData.caseType}
+
+      Berikan:
+      1. Langkah-langkah strategis konkret (taktis & prosedural) untuk memenangkan/menyelesaikan kasus ini.
+      2. Dasar hukum yang relevan (UU/Pasal/PP) di Indonesia yang menjadi landasan argumen.
+
+      Format JSON:
+      {
+        "steps": ["Langkah 1...", "Langkah 2...", "Langkah 3..."],
+        "legalBasis": ["UU No. X Tahun Y...", "Pasal Z KUHPerdata..."]
+      }
+    `;
+
+    const response = await ai.models.generateContent({
+      model: 'gemini-3-pro-preview', // Menggunakan Pro untuk penalaran hukum yang lebih dalam
+      contents: prompt,
+      config: { 
+        responseMimeType: "application/json",
+        thinkingConfig: { thinkingBudget: 2048 } // Budget berpikir untuk strategi
+      }
+    });
+
+    return JSON.parse(response.text || '{"steps": [], "legalBasis": []}');
+  } catch (error) {
+    console.error("Strategy Gen Error:", error);
+    return { steps: ["Gagal menghasilkan strategi."], legalBasis: [] };
+  }
+};
+
 export const draftLegalDocument = async (docType: string, clientInfo: string, matterDetails: string): Promise<string> => {
   const apiKey = getApiKey();
   if (!apiKey) return "API Key missing";
@@ -81,23 +120,51 @@ export const draftLegalDocument = async (docType: string, clientInfo: string, ma
       Detail Masalah: ${matterDetails}
 
       Ketentuan:
-      1. Gunakan format standar hukum Indonesia.
-      2. Berikan [Placeholder] untuk data yang belum lengkap (seperti nomor KTP, tanggal lahir, dll).
-      3. Pastikan bahasa tegas dan berwibawa sesuai standar CBP Corp Law Firm.
+      1. Gunakan format standar hukum Indonesia (Kepala surat, Komparisi, Premisse, Isi, Penutup).
+      2. Berikan [Placeholder] untuk data yang belum lengkap.
+      3. Gunakan bahasa hukum yang tegas, lugas, dan berwibawa.
     `;
 
-    // Menggunakan Gemini 3 Pro untuk tugas kompleks drafting
     const response = await ai.models.generateContent({
       model: 'gemini-3-pro-preview',
       contents: prompt,
-      config: { 
-        thinkingConfig: { thinkingBudget: 1000 } // Berikan budget berpikir untuk struktur hukum yang benar
-      }
+      config: { thinkingConfig: { thinkingBudget: 1024 } }
     });
 
     return response.text || "Gagal membuat draf.";
   } catch (error) {
     return "Error: " + (error instanceof Error ? error.message : "AI Error");
+  }
+};
+
+export const refineDraft = async (currentDraft: string, instructions: string): Promise<string> => {
+  const apiKey = getApiKey();
+  if (!apiKey) return currentDraft;
+
+  try {
+    const ai = aiClient();
+    const prompt = `
+      Anda adalah Editor Hukum Senior. Tugas Anda adalah merevisi draf dokumen berikut sesuai instruksi spesifik.
+      
+      Draf Awal:
+      """
+      ${currentDraft}
+      """
+
+      Instruksi Revisi:
+      "${instructions}"
+
+      Output: Hanya berikan hasil draf yang sudah direvisi secara lengkap. Jangan berikan komentar pengantar.
+    `;
+
+    const response = await ai.models.generateContent({
+      model: 'gemini-3-flash-preview', // Flash cukup untuk rewriting/editing
+      contents: prompt
+    });
+
+    return response.text || currentDraft;
+  } catch (error) {
+    return currentDraft;
   }
 };
 
@@ -107,13 +174,27 @@ export const recommendService = async (problemDescription: string) => {
 
   try {
     const ai = aiClient();
-    const servicesList = SERVICES.map(s => `${s.title} (ID: ${s.id}) - ${s.description}`).join('\n');
+    const servicesList = SERVICES.map(s => `${s.title} (ID: ${s.id}) - ${s.description} - Biaya Mulai: ${s.basePrice}`).join('\n');
     
     const prompt = `
       Analisis masalah hukum berikut: "${problemDescription}"
-      Cocokkan dengan salah satu layanan kami:
+      
+      Tugas:
+      1. Pilih 1 layanan kami yang paling relevan.
+      2. Berikan estimasi kompleksitas (Rendah/Sedang/Tinggi/Sangat Tinggi).
+      3. Berikan alasan singkat mengapa layanan ini cocok (reasoning).
+      4. Berikan estimasi range biaya (IDR) yang masuk akal berdasarkan base price layanan + kompleksitas.
+
+      Data Layanan:
       ${servicesList}
-      Kembalikan HANYA JSON.
+
+      Kembalikan JSON:
+      {
+        "recommendedServiceId": "Nama Layanan",
+        "estimatedComplexity": "String",
+        "reasoning": "String",
+        "estimatedCostRange": "String (e.g. Rp 5.000.000 - Rp 8.000.000)"
+      }
     `;
 
     const response = await ai.models.generateContent({
@@ -134,7 +215,7 @@ export const generateServiceSOP = async (title: string, description: string): Pr
 
   try {
     const ai = aiClient();
-    const prompt = `Buatkan SOP langkah demi langkah untuk: ${title} - ${description}`;
+    const prompt = `Buatkan SOP langkah demi langkah untuk layanan hukum: ${title}. Deskripsi: ${description}.`;
 
     const response = await ai.models.generateContent({
       model: 'gemini-3-flash-preview',

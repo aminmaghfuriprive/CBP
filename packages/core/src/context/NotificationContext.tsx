@@ -10,10 +10,11 @@ import { useAuth } from './AuthContext';
 interface NotificationContextType {
   notifications: Notification[];
   unreadCount: number;
-  addNotification: (title: string, message: string, type?: 'info' | 'success' | 'warning', recipientRole?: UserRole, recipientId?: string) => Promise<void>;
+  addNotification: (title: string, message: string, type?: 'info' | 'success' | 'warning' | 'danger', recipientRole?: UserRole, recipientId?: string) => Promise<void>;
   markAsRead: (id: string) => Promise<void>;
   markAllAsRead: () => Promise<void>;
-  lastNotification: Notification | null; // Untuk trigger Toast
+  lastNotification: Notification | null;
+  clearToast: () => void;
 }
 
 const NotificationContext = createContext<NotificationContextType | undefined>(undefined);
@@ -28,10 +29,6 @@ export const NotificationProvider = ({ children }: { children: React.ReactNode }
     
     return db.notifications
       .filter(n => {
-        // Logik filter:
-        // 1. Jika untuk role tertentu
-        // 2. Jika untuk user ID tertentu
-        // 3. Jika publik (tidak ada target)
         if (n.recipientId && n.recipientId !== user.id) return false;
         if (n.recipientRole && n.recipientRole !== user.role) return false;
         return true;
@@ -46,13 +43,15 @@ export const NotificationProvider = ({ children }: { children: React.ReactNode }
   useEffect(() => {
     if (notifications.length > 0) {
       const latest = notifications[0];
-      // Jika notifikasi baru (kurang dari 5 detik lalu) dan belum dibaca
-      const isNew = (Date.now() - new Date(latest.timestamp).getTime()) < 5000;
+      // Jika notifikasi baru (kurang dari 2 detik lalu) dan belum dibaca
+      const isNew = (Date.now() - new Date(latest.timestamp).getTime()) < 2000;
+      
+      // Mencegah toast muncul berulang saat refresh page
       if (isNew && !latest.read) {
         setLastNotification(latest);
-        // Auto clear toast after 4s
-        const timer = setTimeout(() => setLastNotification(null), 4000);
-        return () => clearTimeout(timer);
+        // Note: Kita menghapus logic setTimeout di sini.
+        // Timer sekarang ditangani oleh komponen UI (NotificationToast)
+        // agar sinkron dengan animasi progress bar.
       }
     }
   }, [notifications]);
@@ -60,7 +59,7 @@ export const NotificationProvider = ({ children }: { children: React.ReactNode }
   const addNotification = async (
     title: string, 
     message: string, 
-    type: 'info' | 'success' | 'warning' = 'info',
+    type: 'info' | 'success' | 'warning' | 'danger' = 'info',
     recipientRole?: UserRole,
     recipientId?: string
   ) => {
@@ -91,6 +90,10 @@ export const NotificationProvider = ({ children }: { children: React.ReactNode }
     await Promise.all(unreadIds.map(id => db.notifications.update(id, { read: true })));
   };
 
+  const clearToast = () => {
+    setLastNotification(null);
+  };
+
   return (
     <NotificationContext.Provider value={{ 
       notifications, 
@@ -98,7 +101,8 @@ export const NotificationProvider = ({ children }: { children: React.ReactNode }
       addNotification, 
       markAsRead, 
       markAllAsRead,
-      lastNotification
+      lastNotification,
+      clearToast
     }}>
       {children}
     </NotificationContext.Provider>

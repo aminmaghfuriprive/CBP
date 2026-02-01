@@ -15,5 +15,8 @@ export * from './SectionHeader';
 export * from './ServiceIcon';
 export * from './DivisionTag';
 
-// Feedback (Step 6)
+// Feedback & Loading (Step 6)
 export * from './NotificationToast';
+export * from './Skeleton';
+export * from './Spinner';
+export * from './LoadingOverlay';
