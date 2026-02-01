@@ -5,7 +5,7 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth, UserRole } from '@cbp/core';
-import { LayoutDashboard, Users, LogOut, DollarSign, Settings, Sliders, Briefcase, UserCog, Share2 } from 'lucide-react';
+import { LayoutDashboard, Users, LogOut, DollarSign, Settings, Sliders, Briefcase, UserCog, Share2, FileText, CreditCard } from 'lucide-react';
 
 interface MenuItem {
   label: string;
@@ -26,12 +26,14 @@ export const Sidebar: React.FC = () => {
   };
 
   const menuItems: MenuItem[] = [
+    // --- COMMON ---
     { 
       label: 'Dashboard', 
       path: '/app', 
       icon: LayoutDashboard, 
-      roles: ['ADMIN', 'FINANCE', 'PRODUCTION', 'IT', 'FIELD_OPS'] 
+      roles: ['ADMIN', 'FINANCE', 'PRODUCTION', 'IT', 'FIELD_OPS', 'CLIENT'] 
     },
+    // --- INTERNAL STAFF ---
     { 
       label: 'Sosial & Komunikasi', 
       path: '/app/social', 
@@ -69,11 +71,25 @@ export const Sidebar: React.FC = () => {
       icon: Settings, 
       roles: ['ADMIN', 'IT'] 
     },
+    // --- CLIENT PORTAL (In SysLegal) ---
+    {
+      label: 'Kasus Saya',
+      path: '/app/my-cases',
+      icon: FileText,
+      roles: ['CLIENT']
+    },
+    {
+      label: 'Tagihan Saya',
+      path: '/app/my-invoices',
+      icon: CreditCard,
+      roles: ['CLIENT']
+    },
+    // --- SETTINGS ---
     { 
       label: 'Pengaturan', 
       path: '/app/settings', 
       icon: Sliders, 
-      roles: ['ADMIN', 'FINANCE', 'PRODUCTION', 'IT', 'FIELD_OPS'] 
+      roles: ['ADMIN', 'FINANCE', 'PRODUCTION', 'IT', 'FIELD_OPS', 'CLIENT'] 
     },
   ];
 
@@ -100,7 +116,7 @@ export const Sidebar: React.FC = () => {
       </div>
       
       <div className="flex-1 overflow-y-auto py-6 px-3 space-y-1 scrollbar-hide">
-        <p className="px-4 text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-3">Aplikasi</p>
+        <p className="px-4 text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-3">Menu Utama</p>
         {allowedItems.map((item) => {
           const isExactMatch = pathname === item.path;
           const isSubPath = pathname.startsWith(`${item.path}/`);

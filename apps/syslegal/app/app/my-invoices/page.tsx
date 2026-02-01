@@ -1,14 +1,19 @@
 
 "use client";
 
-import React from 'react';
-import { useData, useAuth } from '@cbp/core';
+import React, { useState } from 'react';
+import { useData, useAuth, Invoice, useFinanceLogic } from '@cbp/core';
 import { Card, Badge, Button } from '@cbp/ui';
-import { DollarSign, Download, CreditCard } from 'lucide-react';
+import { DollarSign, Download, CreditCard, CheckCircle, Clock } from 'lucide-react';
+import { PaymentGatewayModal } from '../../src/components/payment/PaymentGatewayModal';
 
 export default function ClientInvoicesPage() {
   const { user } = useAuth();
   const { invoices } = useData();
+  const { updateInvoiceStatus } = useFinanceLogic();
+  
+  const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
+  const [isPaymentOpen, setPaymentOpen] = useState(false);
 
   const myInvoices = invoices.filter(i => 
     i.clientName.includes(user?.name || '') || (user?.name || '').includes(i.clientName)
@@ -23,7 +28,21 @@ export default function ClientInvoicesPage() {
       case 'Paid': return 'success';
       case 'Unpaid': return 'warning';
       case 'Overdue': return 'danger';
+      case 'Verifying': return 'info';
       default: return 'neutral';
+    }
+  };
+
+  const handlePayClick = (invoice: Invoice) => {
+    setSelectedInvoice(invoice);
+    setPaymentOpen(true);
+  };
+
+  const handlePaymentSuccess = async () => {
+    if (selectedInvoice) {
+      await updateInvoiceStatus(selectedInvoice.id, 'Paid');
+      setPaymentOpen(false);
+      setSelectedInvoice(null);
     }
   };
 
@@ -42,17 +61,21 @@ export default function ClientInvoicesPage() {
                 <div className={`p-3 rounded-full flex-shrink-0 ${
                   inv.status === 'Paid' 
                     ? 'bg-green-100 text-green-600 dark:bg-green-900/20 dark:text-green-400' 
+                    : inv.status === 'Verifying'
+                    ? 'bg-blue-100 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400'
                     : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400'
                 }`}>
-                  <DollarSign className="h-6 w-6" />
+                  {inv.status === 'Paid' ? <CheckCircle className="h-6 w-6" /> : <DollarSign className="h-6 w-6" />}
                 </div>
                 <div>
                   <div className="flex items-center gap-2 mb-1">
                      <h3 className="font-bold text-cbp-navy dark:text-white">{inv.id}</h3>
-                     <Badge variant={getStatusVariant(inv.status)}>{inv.status}</Badge>
+                     <Badge variant={getStatusVariant(inv.status)}>{inv.status === 'Verifying' ? 'Verifikasi' : inv.status}</Badge>
                   </div>
                   <p className="text-sm text-slate-600 dark:text-slate-300">{inv.description}</p>
-                  <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">Jatuh Tempo: {inv.dueDate}</p>
+                  <p className="text-xs text-slate-400 dark:text-slate-500 mt-1 flex items-center gap-1">
+                    <Clock className="h-3 w-3" /> Jatuh Tempo: {inv.dueDate}
+                  </p>
                 </div>
               </div>
 
@@ -66,10 +89,17 @@ export default function ClientInvoicesPage() {
                   <Button variant="ghost" size="sm" className="text-slate-400 hover:text-cbp-navy dark:hover:text-white">
                     <Download className="h-4 w-4" />
                   </Button>
-                  {inv.status !== 'Paid' && (
-                    <Button size="sm" className="gap-2">
+                  {inv.status !== 'Paid' && inv.status !== 'Verifying' && (
+                    <Button 
+                      size="sm" 
+                      className="gap-2 bg-cbp-navy text-white hover:bg-cbp-gold hover:text-cbp-navy dark:bg-cbp-gold dark:text-cbp-navy dark:hover:bg-white transition-all shadow-md"
+                      onClick={() => handlePayClick(inv)}
+                    >
                       <CreditCard className="h-4 w-4" /> Bayar
                     </Button>
+                  )}
+                  {inv.status === 'Verifying' && (
+                    <span className="text-xs text-blue-500 font-bold italic px-2">Menunggu Konfirmasi</span>
                   )}
                 </div>
               </div>
@@ -84,6 +114,13 @@ export default function ClientInvoicesPage() {
           <p className="text-slate-500 dark:text-slate-400">Tidak ada riwayat tagihan.</p>
         </div>
       )}
+
+      <PaymentGatewayModal 
+        isOpen={isPaymentOpen}
+        onClose={() => setPaymentOpen(false)}
+        invoice={selectedInvoice}
+        onSuccess={handlePaymentSuccess}
+      />
     </div>
   );
 }
