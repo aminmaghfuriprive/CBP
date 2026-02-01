@@ -2,26 +2,21 @@
 import React from 'react';
 import { CaseData, CaseLifecycle } from '@cbp/core';
 import { KanbanCard } from './KanbanCard';
-import { MoreHorizontal } from 'lucide-react';
 
 interface KanbanColumnProps {
   title: string;
   stage: CaseLifecycle;
   cases: CaseData[];
-  onDrop: (e: React.DragEvent, stage: CaseLifecycle) => void;
   onCardClick: (id: string) => void;
   onCardMove: (id: string) => void;
-  color: string; // 'yellow' | 'blue' | 'green' | 'slate'
+  color: string;
+  priorityFn: (c: CaseData) => number;
 }
 
 export const KanbanColumn: React.FC<KanbanColumnProps> = ({ 
-  title, stage, cases, onDrop, onCardClick, onCardMove, color 
+  title, cases, onCardClick, onCardMove, color, priorityFn 
 }) => {
   
-  const handleDragOver = (e: React.DragEvent) => {
-    e.preventDefault(); // Necessary to allow dropping
-  };
-
   const getColorClass = () => {
     switch (color) {
       case 'yellow': return 'border-t-yellow-500 bg-yellow-50/50 dark:bg-yellow-900/10';
@@ -41,11 +36,7 @@ export const KanbanColumn: React.FC<KanbanColumnProps> = ({
   };
 
   return (
-    <div 
-      className={`flex-shrink-0 w-80 flex flex-col h-full rounded-xl bg-slate-100/50 dark:bg-slate-900/50 border-t-4 ${getColorClass()}`}
-      onDragOver={handleDragOver}
-      onDrop={(e) => onDrop(e, stage)}
-    >
+    <div className={`flex-shrink-0 w-80 flex flex-col h-full rounded-xl bg-slate-100/50 dark:bg-slate-900/50 border-t-4 ${getColorClass()}`}>
       {/* Column Header */}
       <div className="p-4 flex items-center justify-between">
         <h3 className="font-bold text-sm text-slate-700 dark:text-slate-200 uppercase tracking-wide">
@@ -56,13 +47,13 @@ export const KanbanColumn: React.FC<KanbanColumnProps> = ({
         </span>
       </div>
 
-      {/* Cards Container */}
+      {/* Cards Container - No Drag Drop Handlers anymore */}
       <div className="flex-1 overflow-y-auto p-3 space-y-3 custom-scrollbar">
         {cases.map(c => (
           <KanbanCard 
             key={c.id} 
             data={c} 
-            onDragStart={(e, id) => e.dataTransfer.setData('text/plain', id)}
+            isUrgent={priorityFn(c) > 50}
             onClick={onCardClick}
             onMoveNext={onCardMove}
           />

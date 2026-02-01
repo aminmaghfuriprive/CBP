@@ -12,7 +12,7 @@ interface KanbanBoardProps {
 
 export const KanbanBoard: React.FC<KanbanBoardProps> = ({ searchTerm }) => {
   const router = useRouter();
-  const { columns, handleDrop, handleMoveNext } = useKanbanLogic(searchTerm);
+  const { columns, handleMoveNext, getPriorityScore } = useKanbanLogic(searchTerm);
 
   const handleCardClick = (id: string) => {
     router.push(`/app/cases/${id}`);
@@ -25,9 +25,9 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({ searchTerm }) => {
         stage="PRE_PRODUCTION"
         cases={columns.PRE_PRODUCTION}
         color="yellow"
-        onDrop={handleDrop}
         onCardClick={handleCardClick}
         onCardMove={handleMoveNext}
+        priorityFn={getPriorityScore}
       />
       
       <KanbanColumn 
@@ -35,9 +35,9 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({ searchTerm }) => {
         stage="PRODUCTION"
         cases={columns.PRODUCTION}
         color="blue"
-        onDrop={handleDrop}
         onCardClick={handleCardClick}
         onCardMove={handleMoveNext}
+        priorityFn={getPriorityScore}
       />
       
       <KanbanColumn 
@@ -45,9 +45,9 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({ searchTerm }) => {
         stage="POST_PRODUCTION"
         cases={columns.POST_PRODUCTION}
         color="green"
-        onDrop={handleDrop}
         onCardClick={handleCardClick}
         onCardMove={handleMoveNext}
+        priorityFn={getPriorityScore}
       />
       
       <KanbanColumn 
@@ -55,9 +55,9 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({ searchTerm }) => {
         stage="ARCHIVED"
         cases={columns.ARCHIVED}
         color="slate"
-        onDrop={handleDrop}
         onCardClick={handleCardClick}
         onCardMove={handleMoveNext}
+        priorityFn={getPriorityScore}
       />
     </div>
   );
