@@ -21,6 +21,17 @@ export const ClientListView: React.FC = () => {
   // Derived State
   const selectedClient = clients.find(c => c.id === selectedClientId) || null;
 
+  // Helper: Scroll main page to focus on the workspace
+  const scrollToWorkspace = () => {
+    // Delay sedikit untuk memastikan render selesai / layout update
+    setTimeout(() => {
+      const element = document.getElementById('client-list-view-root');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 100);
+  };
+
   // Handlers
   const handleSelectClient = (client: ClientData) => {
     // TOGGLE LOGIC:
@@ -31,11 +42,13 @@ export const ClientListView: React.FC = () => {
         // Jika klien baru -> Select & Reset default tab ke overview
         setSelectedClientId(client.id);
         setActiveView('overview');
+        scrollToWorkspace(); // Auto scroll up
     }
   };
 
   const handleViewChange = (view: ClientViewMode) => {
     setActiveView(view);
+    scrollToWorkspace(); // Auto scroll up saat navigasi accordion
   };
 
   const handleViewCase = (caseId: string) => {
@@ -47,7 +60,10 @@ export const ClientListView: React.FC = () => {
   };
 
   return (
-    <div className="flex h-[calc(100vh-140px)] border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm bg-white dark:bg-slate-900">
+    <div 
+      id="client-list-view-root"
+      className="flex h-[calc(100vh-100px)] border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm bg-white dark:bg-slate-900 scroll-mt-4"
+    >
       
       {/* LEFT PANEL: Workspace (70%) */}
       <div className="flex-1 min-w-0 relative">

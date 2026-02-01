@@ -39,7 +39,7 @@ export default function DashboardLayout({
       <Sidebar />
       <div className="flex-1 md:mr-64 flex flex-col h-screen overflow-hidden">
         <AppHeader />
-        <div className="flex-1 p-8 overflow-y-auto">
+        <div id="main-scroll-container" className="flex-1 p-8 overflow-y-auto scroll-smooth">
           {children}
         </div>
       </div>
