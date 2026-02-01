@@ -27,14 +27,19 @@ function LoginForm() {
     router.push(from);
   };
 
+  // Compact Button Component
   const QuickBtn = ({ mail, label, icon: Icon, color }: any) => (
     <button
       type="button"
       onClick={() => handleLogin(undefined, mail)}
-      className="flex flex-col items-center justify-center p-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 hover:bg-white dark:hover:bg-slate-800 hover:border-cbp-gold dark:hover:border-cbp-gold hover:shadow-md transition-all duration-200 group"
+      className="flex items-center justify-start gap-3 px-3 py-2.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/30 hover:border-cbp-navy dark:hover:border-cbp-gold hover:shadow-sm transition-all duration-200 group w-full"
     >
-      <Icon className={`h-6 w-6 mb-2 ${color} group-hover:scale-110 transition-transform`} />
-      <span className="text-[10px] font-bold text-slate-600 dark:text-slate-300 group-hover:text-cbp-navy dark:group-hover:text-white uppercase tracking-tighter">{label}</span>
+      <div className={`p-1 rounded-md bg-slate-50 dark:bg-slate-800 ${color.replace('text-', 'bg-').replace('600', '100').replace('500', '100')} bg-opacity-10 dark:bg-opacity-20`}>
+         <Icon className={`h-3.5 w-3.5 ${color}`} />
+      </div>
+      <span className="text-[10px] font-bold text-slate-600 dark:text-slate-300 group-hover:text-cbp-navy dark:group-hover:text-white uppercase tracking-wider truncate">
+        {label}
+      </span>
     </button>
   );
 
@@ -71,8 +76,9 @@ function LoginForm() {
           </form>
           
           <div className="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800">
-             <p className="text-center text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Pilih Role (Demo)</p>
-             <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
+             <p className="text-center text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Akses Cepat (Demo)</p>
+             {/* Grid layout adjusted for 2 compact rows on desktop (3 cols x 2 rows) */}
+             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                <QuickBtn mail="admin@cbp.id" label="Admin" icon={UserCog} color="text-purple-600" />
                <QuickBtn mail="produksi@cbp.id" label="Produksi" icon={Briefcase} color="text-cbp-gold" />
                <QuickBtn mail="marketing@cbp.id" label="Marketing" icon={Megaphone} color="text-pink-500" />
