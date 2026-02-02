@@ -3,8 +3,8 @@ import React from 'react';
 import { DocumentFile } from '@cbp/core';
 import { Button } from '@cbp/ui';
 import { Upload } from 'lucide-react';
-import { CaseDocuments } from '../../../CaseDocuments';
-import { ClientDocumentUploader } from '../../../ClientDocumentUploader';
+import { CaseDocuments } from '../../CaseDocuments';
+import { ClientDocumentUploader } from '../../ClientDocumentUploader';
 
 interface CaseDocumentsViewProps {
   documents: DocumentFile[];

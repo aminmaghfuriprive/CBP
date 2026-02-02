@@ -2,7 +2,7 @@
 import React from 'react';
 import { CaseData, ServiceStep } from '@cbp/core';
 import { Card } from '@cbp/ui';
-import { CaseTimeline } from '../../../CaseTimeline';
+import { CaseTimeline } from '../../CaseTimeline';
 
 interface CaseProgressViewProps {
   caseData: CaseData;

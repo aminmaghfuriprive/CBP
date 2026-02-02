@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Invoice } from '@cbp/core';
-import { CaseBilling } from '../../../CaseBilling';
+import { CaseBilling } from '../../CaseBilling';
 
 interface CaseBillingViewProps {
   invoices: Invoice[];
