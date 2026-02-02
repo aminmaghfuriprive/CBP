@@ -6,7 +6,29 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@cbp/core';
 import { Sidebar } from '../../src/components/Sidebar';
 import { AppHeader } from '../../src/components/AppHeader';
+import { LayoutProvider, useLayout } from '../../src/context/LayoutContext';
 import { Loader2 } from 'lucide-react';
+
+// Inner component to consume useLayout context
+const DashboardContent = ({ children }: { children: React.ReactNode }) => {
+  const { isSidebarCollapsed } = useLayout();
+
+  return (
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 font-sans flex transition-colors duration-300">
+      <Sidebar />
+      <div 
+        className={`flex-1 flex flex-col h-screen overflow-hidden transition-all duration-300 ease-in-out ${
+          isSidebarCollapsed ? 'md:ml-20' : 'md:ml-64'
+        }`}
+      >
+        <AppHeader />
+        <div id="main-scroll-container" className="flex-1 p-4 md:p-8 overflow-y-auto scroll-smooth">
+          {children}
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default function DashboardLayout({
   children,
@@ -31,18 +53,14 @@ export default function DashboardLayout({
   }
 
   if (!isAuthenticated) {
-    return null; // Will redirect via useEffect
+    return null; 
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 font-sans flex transition-colors duration-300">
-      <Sidebar />
-      <div className="flex-1 md:mr-64 flex flex-col h-screen overflow-hidden">
-        <AppHeader />
-        <div id="main-scroll-container" className="flex-1 p-8 overflow-y-auto scroll-smooth">
-          {children}
-        </div>
-      </div>
-    </div>
+    <LayoutProvider>
+      <DashboardContent>
+        {children}
+      </DashboardContent>
+    </LayoutProvider>
   );
 }

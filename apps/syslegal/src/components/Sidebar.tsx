@@ -5,7 +5,8 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth, UserRole } from '@cbp/core';
-import { LayoutDashboard, Users, LogOut, DollarSign, Settings, Sliders, Briefcase, UserCog, Target, FileText, CreditCard } from 'lucide-react';
+import { useLayout } from '../context/LayoutContext';
+import { LayoutDashboard, Users, LogOut, DollarSign, Settings, Sliders, Briefcase, UserCog, Target, FileText, CreditCard, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface MenuItem {
   label: string;
@@ -19,6 +20,7 @@ export const Sidebar: React.FC = () => {
   const pathname = usePathname();
   const router = useRouter();
   const { logout, user } = useAuth();
+  const { isSidebarCollapsed, toggleSidebar } = useLayout();
 
   const handleLogout = () => {
     logout();
@@ -96,31 +98,44 @@ export const Sidebar: React.FC = () => {
   const allowedItems = menuItems.filter(item => user && item.roles.includes(user.role));
 
   return (
-    <div className="hidden md:flex flex-col w-64 bg-white dark:bg-slate-900 border-l border-slate-200 dark:border-slate-800 h-screen fixed right-0 top-0 z-40 transition-colors duration-300">
-      <div className="h-24 flex items-center px-6 border-b border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900">
+    <div 
+      className={`
+        hidden md:flex flex-col bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 
+        h-screen fixed left-0 top-0 z-40 transition-all duration-300 ease-in-out
+        ${isSidebarCollapsed ? 'w-20' : 'w-64'}
+      `}
+    >
+      {/* 1. User Profile Section */}
+      <div className={`h-24 flex items-center border-b border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 transition-all ${isSidebarCollapsed ? 'justify-center px-0' : 'px-6'}`}>
         <div className="flex items-center gap-3 w-full">
-          <div className="h-10 w-10 rounded-full bg-cbp-navy dark:bg-cbp-gold text-white dark:text-cbp-navy flex items-center justify-center font-bold text-sm overflow-hidden ring-2 ring-slate-100 dark:ring-slate-700 shadow-sm flex-shrink-0">
+          <div className="h-10 w-10 rounded-full bg-cbp-navy dark:bg-cbp-gold text-white dark:text-cbp-navy flex items-center justify-center font-bold text-sm overflow-hidden ring-2 ring-slate-100 dark:ring-slate-700 shadow-sm flex-shrink-0 mx-auto">
              {user?.avatarUrl ? (
                <img src={user.avatarUrl} alt="User" className="h-full w-full object-cover" />
              ) : (
                user?.name.charAt(0) || 'U'
              )}
           </div>
-          <div className="overflow-hidden">
-            <h4 className="text-sm font-bold text-slate-900 dark:text-white truncate">{user?.name}</h4>
-            <p className="text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-widest truncate">
-              {user?.role.replace('_', ' ')}
-            </p>
-          </div>
+          {!isSidebarCollapsed && (
+            <div className="overflow-hidden animate-in fade-in duration-200">
+              <h4 className="text-sm font-bold text-slate-900 dark:text-white truncate">{user?.name}</h4>
+              <p className="text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-widest truncate">
+                {user?.role.replace('_', ' ')}
+              </p>
+            </div>
+          )}
         </div>
       </div>
       
+      {/* 2. Menu Items */}
       <div className="flex-1 overflow-y-auto py-6 px-3 space-y-1 scrollbar-hide">
-        <p className="px-4 text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-3">Menu Utama</p>
+        {!isSidebarCollapsed && (
+          <p className="px-4 text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-3 animate-in fade-in duration-200">
+            Menu Utama
+          </p>
+        )}
+        
         {allowedItems.map((item) => {
-          // FIX: Strict check for Dashboard (/app) vs Sub-routes
           let isActive = false;
-          
           if (item.path === '/app') {
              isActive = pathname === '/app';
           } else {
@@ -132,26 +147,44 @@ export const Sidebar: React.FC = () => {
             <Link
               key={item.path}
               href={item.path}
-              className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 group ${
-                isActive 
+              title={isSidebarCollapsed ? item.label : ''}
+              className={`
+                flex items-center gap-3 px-3 py-3 rounded-lg text-sm font-medium transition-all duration-200 group
+                ${isActive 
                   ? 'bg-cbp-navy text-white dark:bg-cbp-gold/10 dark:text-cbp-gold shadow-md dark:shadow-none' 
-                  : 'text-slate-600 dark:text-slate-400 hover:text-cbp-navy dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800/50'
-              }`}
+                  : 'text-slate-600 dark:text-slate-400 hover:text-cbp-navy dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800/50'}
+                ${isSidebarCollapsed ? 'justify-center' : ''}
+              `}
             >
-              <item.icon className={`h-4 w-4 transition-colors ${isActive ? 'text-cbp-gold dark:text-cbp-gold' : 'text-slate-400 dark:text-slate-500 group-hover:text-cbp-navy dark:group-hover:text-slate-300'}`} />
-              {item.label}
+              <item.icon className={`h-5 w-5 flex-shrink-0 transition-colors ${isActive ? 'text-cbp-gold dark:text-cbp-gold' : 'text-slate-400 dark:text-slate-500 group-hover:text-cbp-navy dark:group-hover:text-slate-300'}`} />
+              
+              {!isSidebarCollapsed && (
+                <span className="truncate animate-in fade-in duration-200">{item.label}</span>
+              )}
             </Link>
           );
         })}
       </div>
 
-      <div className="p-4 border-t border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900">
+      {/* 3. Footer Actions (Collapse & Logout) */}
+      <div className="p-3 border-t border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 space-y-2">
+        {/* Toggle Button */}
+        <button
+          onClick={toggleSidebar}
+          className={`w-full flex items-center gap-3 px-3 py-2 text-xs font-bold text-slate-400 hover:text-cbp-navy dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors ${isSidebarCollapsed ? 'justify-center' : ''}`}
+        >
+          {isSidebarCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
+          {!isSidebarCollapsed && <span>Ciutkan Menu</span>}
+        </button>
+
+        {/* Logout Button */}
         <button 
           onClick={handleLogout}
-          className="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/10 rounded-lg transition-colors"
+          className={`w-full flex items-center gap-3 px-3 py-3 text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/10 rounded-lg transition-colors ${isSidebarCollapsed ? 'justify-center' : ''}`}
+          title={isSidebarCollapsed ? 'Keluar' : ''}
         >
-          <LogOut className="h-4 w-4" />
-          Keluar
+          <LogOut className="h-4 w-4 flex-shrink-0" />
+          {!isSidebarCollapsed && <span className="truncate">Keluar</span>}
         </button>
       </div>
     </div>

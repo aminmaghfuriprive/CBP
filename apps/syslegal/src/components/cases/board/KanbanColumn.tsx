@@ -39,14 +39,14 @@ export const KanbanColumn: React.FC<KanbanColumnProps> = ({
     <div 
       className={`
         flex-shrink-0 flex flex-col h-full rounded-xl border-t-4 shadow-sm snap-center
-        w-[85vw] sm:w-80 md:w-80 
+        w-[85vw] sm:w-72 md:w-64 
         bg-slate-100/80 dark:bg-slate-900/80 backdrop-blur-sm
         ${getColorClass()}
       `}
     >
       {/* Column Header */}
       <div className="p-4 flex items-center justify-between flex-shrink-0 border-b border-white/50 dark:border-slate-800/50">
-        <h3 className="font-bold text-sm text-slate-700 dark:text-slate-200 uppercase tracking-wide truncate pr-2">
+        <h3 className="font-bold text-xs sm:text-sm text-slate-700 dark:text-slate-200 uppercase tracking-wide truncate pr-2">
           {title}
         </h3>
         <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${getBadgeClass()}`}>
@@ -55,7 +55,7 @@ export const KanbanColumn: React.FC<KanbanColumnProps> = ({
       </div>
 
       {/* Cards Container - Internal Scroll */}
-      <div className="flex-1 overflow-y-auto p-3 space-y-3 custom-scrollbar min-h-0">
+      <div className="flex-1 overflow-y-auto p-2 space-y-2 custom-scrollbar min-h-0">
         {cases.map(c => (
           <KanbanCard 
             key={c.id} 
