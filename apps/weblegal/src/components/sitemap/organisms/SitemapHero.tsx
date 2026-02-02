@@ -1,9 +1,8 @@
 
 import React from 'react';
 import { SectionHeader } from '@cbp/ui';
-import { CAREER_HERO } from '@/data/career-content';
 
-export const CareerHero: React.FC = () => {
+export const SitemapHero: React.FC = () => {
   return (
     <div className="bg-cbp-navy dark:bg-slate-900 pt-32 pb-14 text-center text-white relative overflow-hidden">
       {/* Background Patterns */}
@@ -13,8 +12,8 @@ export const CareerHero: React.FC = () => {
 
       <div className="relative z-10 max-w-4xl mx-auto px-4">
         <SectionHeader 
-          title={CAREER_HERO.title} 
-          subtitle={CAREER_HERO.subtitle}
+          title="Peta Situs" 
+          subtitle="Jelajahi seluruh halaman dan layanan yang tersedia di website CBP Corp."
           light
         />
       </div>
