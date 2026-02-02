@@ -9,8 +9,8 @@ export default function CareersPage() {
     <div className="bg-white dark:bg-slate-950 min-h-screen transition-colors duration-300 pb-24">
       <CareerHero />
       
-      {/* Changed from -mt-6 to mt-12 to remove overlap and create spacing */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 relative z-20">
+      {/* Changed from mt-12 to mt-24 to lower the content significantly */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-24 relative z-20">
         <NoOpeningsCard />
         <CultureGrid />
       </div>
