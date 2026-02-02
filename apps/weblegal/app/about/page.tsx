@@ -28,9 +28,6 @@ export default function About() {
       {/* 3. Organism Layer: Philosophy & Values (Static Content) */}
       <PhilosophySection />
 
-      {/* Jarak Proporsional Antar Sesi */}
-      <div className="py-12 bg-white dark:bg-slate-950"></div>
-
       {/* 4. Organism Layer: Team Grid (Dynamic Data) */}
       <TeamSection 
         expertStaff={expertStaff} 
