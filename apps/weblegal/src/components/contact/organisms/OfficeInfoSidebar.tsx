@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { MapPin, Phone, Mail } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock } from 'lucide-react';
 
 export const OfficeInfoSidebar: React.FC = () => {
   return (
@@ -50,6 +50,21 @@ export const OfficeInfoSidebar: React.FC = () => {
                 <div>
                   <h4 className="font-bold text-lg mb-1">Email</h4>
                   <a href="mailto:info@cbpcorp.id" className="text-slate-300 text-sm hover:text-white transition-colors block">info@cbpcorp.id</a>
+                </div>
+              </div>
+            </div>
+
+            <div className="group">
+              <div className="flex items-start gap-4">
+                <div className="bg-cbp-gold/10 p-3 rounded-xl group-hover:bg-cbp-gold group-hover:text-cbp-navy transition-colors duration-300">
+                  <Clock className="h-6 w-6 text-cbp-gold group-hover:text-cbp-navy" />
+                </div>
+                <div>
+                  <h4 className="font-bold text-lg mb-1">Jam Operasional</h4>
+                  <p className="text-slate-300 text-sm font-medium">
+                    Senin - Jumat<br/>
+                    09:00 - 17:00 WIB
+                  </p>
                 </div>
               </div>
             </div>
