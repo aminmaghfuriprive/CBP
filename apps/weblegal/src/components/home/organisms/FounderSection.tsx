@@ -13,7 +13,8 @@ export const FounderSection: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div className="relative order-1">
             <div className="absolute -inset-4 bg-cbp-navy/5 dark:bg-cbp-gold/10 rounded-xl transform rotate-3"></div>
-            <div className="relative rounded-lg overflow-hidden shadow-2xl aspect-[4/5] lg:aspect-auto h-full min-h-[500px]">
+            {/* Updated aspect ratio to [3/4] and fixed height on desktop for portrait look */}
+            <div className="relative rounded-lg overflow-hidden shadow-2xl aspect-[3/4] lg:aspect-auto lg:h-[650px]">
               <Image 
                 src={FOUNDER_PROFILE.image} 
                 alt={FOUNDER_PROFILE.name} 
