@@ -55,11 +55,11 @@ export const TEAM: Lawyer[] = [
     imageUrl: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=400'
   },
   {
-    id: 'supp_mkt_1',
-    name: 'Karina Putri',
-    role: 'Staff Marketing',
-    specialty: 'Digital Marketing & PR',
-    imageUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=400'
+    id: 'supp_field',
+    name: 'Imam Nurrohman',
+    role: 'Staff Lapangan',
+    specialty: 'General Affair & Operasional',
+    imageUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=400'
   },
   {
     id: 'supp_mkt_2',
@@ -69,11 +69,11 @@ export const TEAM: Lawyer[] = [
     imageUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400'
   },
   {
-    id: 'supp_field',
-    name: 'Imam Nurrohman',
-    role: 'Staff Lapangan',
-    specialty: 'General Affair & Operasional',
-    imageUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=400'
+    id: 'supp_mkt_1',
+    name: 'Karina Putri',
+    role: 'Staff Marketing',
+    specialty: 'Digital Marketing & PR',
+    imageUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=400'
   }
 ];
 

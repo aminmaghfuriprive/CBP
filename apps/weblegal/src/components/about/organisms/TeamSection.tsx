@@ -46,15 +46,17 @@ export const TeamSection: React.FC<TeamSectionProps> = ({ expertStaff, supportSt
                </h3>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-10 max-w-5xl mx-auto">
+            {/* Changed from Grid to Flex to allow centering of the last row */}
+            <div className="flex flex-wrap justify-center gap-10 max-w-5xl mx-auto">
                 {supportStaff.map((member) => (
-                  <SupportTeamCard 
-                    key={member.id}
-                    name={member.name}
-                    role={member.role}
-                    specialty={member.specialty}
-                    imageUrl={member.imageUrl}
-                  />
+                  <div key={member.id} className="w-full sm:w-72">
+                    <SupportTeamCard 
+                      name={member.name}
+                      role={member.role}
+                      specialty={member.specialty}
+                      imageUrl={member.imageUrl}
+                    />
+                  </div>
                 ))}
             </div>
           </div>
