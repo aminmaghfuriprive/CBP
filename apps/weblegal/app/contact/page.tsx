@@ -7,6 +7,7 @@ import { useContactForm } from '@/hooks/useContactForm';
 
 // Organisms & Molecules
 import { ContactHero } from '@/components/contact/organisms/ContactHero';
+import { FAQSection } from '@/components/contact/organisms/FAQSection';
 import { OfficeInfoSidebar } from '@/components/contact/organisms/OfficeInfoSidebar';
 import { ContactStepIndicator } from '@/components/contact/molecules/ContactStepIndicator';
 import { StepPersonalData } from '@/components/contact/molecules/form/StepPersonalData';
@@ -32,7 +33,10 @@ export default function ContactPage() {
     <div className="bg-white dark:bg-slate-950 transition-colors duration-300 min-h-screen">
       <ContactHero />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 -mt-12 relative z-20">
+      {/* Inserted FAQ Section here as requested */}
+      <FAQSection />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 relative z-20">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           
           <OfficeInfoSidebar />
