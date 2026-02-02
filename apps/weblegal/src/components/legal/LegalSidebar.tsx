@@ -1,15 +1,19 @@
 
+"use client";
+
 import React from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { LegalSection } from '@/data/legal-content';
 import { ChevronRight, FileText } from 'lucide-react';
 
 interface LegalSidebarProps {
   sections: LegalSection[];
-  activeSection: string;
-  onSelect: (id: string) => void;
 }
 
-export const LegalSidebar: React.FC<LegalSidebarProps> = ({ sections, activeSection, onSelect }) => {
+export const LegalSidebar: React.FC<LegalSidebarProps> = ({ sections }) => {
+  const pathname = usePathname();
+
   return (
     <div className="lg:sticky lg:top-32 space-y-6">
       <div className="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-6 border border-slate-100 dark:border-slate-800 shadow-sm">
@@ -18,11 +22,13 @@ export const LegalSidebar: React.FC<LegalSidebarProps> = ({ sections, activeSect
         </h4>
         <nav className="space-y-2">
           {sections.map((section) => {
-            const isActive = activeSection === section.id;
+            // Check if current path ends with the section id
+            const isActive = pathname?.endsWith(`/${section.id}`);
+            
             return (
-              <button
+              <Link
                 key={section.id}
-                onClick={() => onSelect(section.id)}
+                href={`/legal/${section.id}`}
                 className={`
                   w-full text-left flex items-center justify-between px-4 py-4 rounded-lg text-sm font-medium transition-all duration-200 group
                   ${isActive 
@@ -38,7 +44,7 @@ export const LegalSidebar: React.FC<LegalSidebarProps> = ({ sections, activeSect
                 {isActive && (
                   <ChevronRight className="h-4 w-4 text-cbp-gold animate-in fade-in slide-in-from-left-2" />
                 )}
-              </button>
+              </Link>
             );
           })}
         </nav>
