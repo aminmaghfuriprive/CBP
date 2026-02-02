@@ -1,10 +1,11 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Lawyer } from '@cbp/core';
 import { SectionHeader } from '@cbp/ui';
 import { TEAM_SECTION_TITLES } from '@/data/about-content';
 import { ExpertTeamCard } from '../molecules/ExpertTeamCard';
 import { SupportTeamCard } from '../molecules/SupportTeamCard';
+import { TeamMemberModal } from '../molecules/TeamMemberModal';
 
 interface TeamSectionProps {
   expertStaff: Lawyer[];
@@ -12,6 +13,8 @@ interface TeamSectionProps {
 }
 
 export const TeamSection: React.FC<TeamSectionProps> = ({ expertStaff, supportStaff }) => {
+  const [selectedMember, setSelectedMember] = useState<Lawyer | null>(null);
+
   return (
     <section className="py-24 bg-white dark:bg-slate-950">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -27,9 +30,10 @@ export const TeamSection: React.FC<TeamSectionProps> = ({ expertStaff, supportSt
               <ExpertTeamCard 
                 key={member.id}
                 name={member.name}
-                role={member.role} // "Staff Produksi & Litigasi"
-                specialty={member.specialty} // "Hukum Umum & Litigasi"
+                role={member.role} 
+                specialty={member.specialty}
                 imageUrl={member.imageUrl}
+                onClick={() => setSelectedMember(member)}
               />
             ))}
         </div>
@@ -55,6 +59,7 @@ export const TeamSection: React.FC<TeamSectionProps> = ({ expertStaff, supportSt
                       role={member.role}
                       specialty={member.specialty}
                       imageUrl={member.imageUrl}
+                      onClick={() => setSelectedMember(member)}
                     />
                   </div>
                 ))}
@@ -62,6 +67,13 @@ export const TeamSection: React.FC<TeamSectionProps> = ({ expertStaff, supportSt
           </div>
         )}
       </div>
+
+      {/* Profile Detail Modal */}
+      <TeamMemberModal 
+        member={selectedMember} 
+        isOpen={!!selectedMember} 
+        onClose={() => setSelectedMember(null)} 
+      />
     </section>
   );
 };

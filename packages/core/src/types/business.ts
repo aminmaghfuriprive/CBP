@@ -60,6 +60,10 @@ export interface Lawyer {
   role: string;
   specialty: string;
   imageUrl: string;
+  // New fields for Profile Modal
+  bio?: string;
+  education?: string[];
+  expertise?: string[];
 }
 
 export interface ClientData {
