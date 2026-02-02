@@ -14,11 +14,20 @@ export default function LegalContentPage({ params }: PageProps) {
   // Find content based on slug
   const section = LEGAL_CONTENT.find((s) => s.id === params.slug);
 
-  // Scroll to top when slug changes to ensure user sees start of content
+  // Scroll to content anchor when slug changes
   useEffect(() => {
-    // Memastikan scroll naik ke atas secara halus agar transisi terasa natural
-    // Kita scroll ke 0 agar Hero section terlihat lagi, memberikan konteks penuh
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const element = document.getElementById('legal-content-anchor');
+    if (element) {
+      // Offset 100px untuk kompensasi tinggi Navbar (Fixed Header) + sedikit breathing room
+      const headerOffset = 100; 
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.scrollY - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      });
+    }
   }, [params.slug]);
 
   if (!section) {

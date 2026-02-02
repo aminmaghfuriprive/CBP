@@ -9,7 +9,7 @@ interface LegalContentBlockProps {
 export const LegalContentBlock: React.FC<LegalContentBlockProps> = ({ section }) => {
   return (
     <section 
-      className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 p-8 md:p-10 shadow-sm animate-in fade-in slide-in-from-bottom-4 duration-500"
+      className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-8 md:p-12 shadow-2xl animate-in fade-in slide-in-from-bottom-4 duration-500"
     >
       <div className="flex flex-col gap-2 mb-8 border-b border-slate-100 dark:border-slate-800 pb-6">
         <span className="text-xs font-bold text-cbp-gold uppercase tracking-widest">
