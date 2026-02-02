@@ -13,6 +13,21 @@ export const CertificatesMarquee: React.FC = () => {
 
   if (!certificates || certificates.length === 0) return null;
 
+  // Navigation Logic
+  const handleNext = () => {
+    if (!selectedItem) return;
+    const currentIndex = certificates.findIndex(c => c.id === selectedItem.id);
+    const nextIndex = (currentIndex + 1) % certificates.length;
+    setSelectedItem(certificates[nextIndex]);
+  };
+
+  const handlePrev = () => {
+    if (!selectedItem) return;
+    const currentIndex = certificates.findIndex(c => c.id === selectedItem.id);
+    const prevIndex = (currentIndex - 1 + certificates.length) % certificates.length;
+    setSelectedItem(certificates[prevIndex]);
+  };
+
   return (
     <div className="py-20 bg-slate-50 dark:bg-slate-900 border-y border-slate-200 dark:border-slate-800 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 mb-12 text-center">
@@ -39,18 +54,10 @@ export const CertificatesMarquee: React.FC = () => {
                  onClick={setSelectedItem} 
                />
             ))}
-            {/* Loop 2: Duplicate for seamless effect */}
+            {/* Loop 2: Duplicate for seamless effect (Translate -50%) */}
             {certificates.map((cert) => (
                <CertificateCard 
                  key={`${cert.id}-dup`} 
-                 item={cert} 
-                 onClick={setSelectedItem} 
-               />
-            ))}
-            {/* Loop 3: Extra Duplicate for wide screens */}
-            {certificates.map((cert) => (
-               <CertificateCard 
-                 key={`${cert.id}-dup2`} 
                  item={cert} 
                  onClick={setSelectedItem} 
                />
@@ -61,6 +68,8 @@ export const CertificatesMarquee: React.FC = () => {
       <CertificateLightbox 
         item={selectedItem} 
         onClose={() => setSelectedItem(null)} 
+        onNext={handleNext}
+        onPrev={handlePrev}
       />
     </div>
   );
