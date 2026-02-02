@@ -62,6 +62,7 @@ export const TEAM: Lawyer[] = [
     specialty: 'Finance & Accounting',
     imageUrl: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=400',
     bio: 'Mengelola aspek finansial firma dengan transparansi tinggi, memastikan akuntabilitas dalam setiap transaksi klien.',
+    education: ['Sarjana Ekonomi (Akuntansi), Universitas Indonesia'],
     expertise: ['Financial Reporting', 'Taxation', 'Audit Compliance']
   },
   {
@@ -71,6 +72,7 @@ export const TEAM: Lawyer[] = [
     specialty: 'Technology & System',
     imageUrl: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=400',
     bio: 'Mengembangkan sistem manajemen perkara terintegrasi CBP Corp untuk efisiensi dan keamanan data klien.',
+    education: ['Sarjana Komputer, Universitas Bina Nusantara'],
     expertise: ['Fullstack Development', 'Cybersecurity', 'System Architecture']
   },
   {
@@ -80,6 +82,7 @@ export const TEAM: Lawyer[] = [
     specialty: 'General Affair & Operasional',
     imageUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=400',
     bio: 'Menjamin kelancaran operasional lapangan dan mobilitas tim dalam menangani urusan eksternal firma.',
+    education: ['Diploma Manajemen, Politeknik Negeri Jakarta'],
     expertise: ['Logistics', 'Field Operations', 'General Affairs']
   },
   {
@@ -89,6 +92,7 @@ export const TEAM: Lawyer[] = [
     specialty: 'Client Relations & Sales',
     imageUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400',
     bio: 'Menjembatani komunikasi antara klien dan tim hukum, memastikan setiap kebutuhan klien terlayani dengan prima.',
+    education: ['Sarjana Komunikasi, Universitas Padjadjaran'],
     expertise: ['Client Relationship', 'Strategic Partnerships', 'Sales']
   },
   {
@@ -98,6 +102,7 @@ export const TEAM: Lawyer[] = [
     specialty: 'Digital Marketing & PR',
     imageUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=400',
     bio: 'Mengelola citra publik firma dan edukasi hukum melalui kanal digital yang interaktif dan informatif.',
+    education: ['Sarjana Ilmu Komunikasi (PR), LSPR'],
     expertise: ['Digital Strategy', 'Content Management', 'Public Relations']
   }
 ];

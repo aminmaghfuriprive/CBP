@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Lawyer } from '@cbp/core';
-import { X, GraduationCap, Award, User, ArrowRight } from 'lucide-react';
+import { X, GraduationCap, Award, User } from 'lucide-react';
 import Image from 'next/image';
 
 interface TeamMemberModalProps {
@@ -116,13 +116,6 @@ export const TeamMemberModal: React.FC<TeamMemberModalProps> = ({ member, isOpen
                    </div>
                 </div>
               )}
-           </div>
-
-           {/* Footer Action */}
-           <div className="mt-10 pt-6 border-t border-slate-100 dark:border-slate-800">
-              <button className="flex items-center gap-2 text-cbp-gold font-bold text-sm hover:gap-3 transition-all group">
-                 Hubungi via WhatsApp <ArrowRight className="h-4 w-4" />
-              </button>
            </div>
         </div>
       </div>
