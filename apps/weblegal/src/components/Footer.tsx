@@ -85,10 +85,10 @@ export const Footer: React.FC = () => {
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500">
           <p>&copy; {new Date().getFullYear()} CBP Corp. All rights reserved.</p>
           <div className="flex gap-6">
-            <a href="#" className="hover:text-white transition-colors">Kebijakan Privasi</a>
-            <a href="#" className="hover:text-white transition-colors">Syarat & Ketentuan</a>
-            <a href="#" className="hover:text-white transition-colors">Cookie</a>
-            <a href="#" className="hover:text-white transition-colors">FAQ</a>
+            <Link href="/legal#privacy" className="hover:text-white transition-colors">Kebijakan Privasi</Link>
+            <Link href="/legal#terms" className="hover:text-white transition-colors">Syarat & Ketentuan</Link>
+            <Link href="/legal#cookies" className="hover:text-white transition-colors">Cookie</Link>
+            <Link href="/legal#faq" className="hover:text-white transition-colors">FAQ</Link>
           </div>
         </div>
       </div>
