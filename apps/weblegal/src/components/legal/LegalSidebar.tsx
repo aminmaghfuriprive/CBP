@@ -15,14 +15,15 @@ export const LegalSidebar: React.FC<LegalSidebarProps> = ({ sections }) => {
   const pathname = usePathname();
 
   return (
-    <div className="space-y-6 lg:sticky lg:top-24">
-      <div className="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800 shadow-xl">
-        <h4 className="font-bold text-sm text-slate-400 uppercase tracking-widest mb-6 px-2">
-          Daftar Dokumen
-        </h4>
-        <nav className="space-y-2">
+    <div className="space-y-6 lg:sticky lg:top-28">
+      <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+        <div className="p-4 bg-slate-50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-slate-800">
+           <h4 className="font-bold text-xs text-slate-500 uppercase tracking-widest">
+             Daftar Dokumen
+           </h4>
+        </div>
+        <nav className="p-2 space-y-1">
           {sections.map((section) => {
-            // Check if current path ends with the section id
             const isActive = pathname?.endsWith(`/${section.id}`);
             
             return (
@@ -30,10 +31,10 @@ export const LegalSidebar: React.FC<LegalSidebarProps> = ({ sections }) => {
                 key={section.id}
                 href={`/legal/${section.id}`}
                 className={`
-                  w-full text-left flex items-center justify-between px-4 py-4 rounded-lg text-sm font-medium transition-all duration-200 group
+                  w-full text-left flex items-center justify-between px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 group
                   ${isActive 
-                    ? 'bg-slate-50 dark:bg-slate-800 text-cbp-navy dark:text-cbp-gold shadow-sm border-l-4 border-l-cbp-gold' 
-                    : 'text-slate-600 dark:text-slate-400 hover:text-cbp-navy dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800 border-l-4 border-transparent'
+                    ? 'bg-blue-50 dark:bg-slate-800 text-cbp-navy dark:text-cbp-gold font-bold' 
+                    : 'text-slate-600 dark:text-slate-400 hover:text-cbp-navy dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800'
                   }
                 `}
               >
@@ -50,7 +51,7 @@ export const LegalSidebar: React.FC<LegalSidebarProps> = ({ sections }) => {
         </nav>
       </div>
       
-      <div className="p-6 bg-cbp-navy dark:bg-slate-800 rounded-xl text-white shadow-xl border border-white/10">
+      <div className="p-6 bg-cbp-navy dark:bg-slate-800 rounded-xl text-white shadow-md border border-slate-800">
         <h5 className="font-serif font-bold text-lg mb-2">Butuh Bantuan?</h5>
         <p className="text-xs text-slate-300 mb-4 leading-relaxed">
           Jika Anda memiliki pertanyaan spesifik mengenai kebijakan kami, silakan hubungi tim legal kami.
