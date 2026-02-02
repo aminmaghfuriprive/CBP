@@ -8,6 +8,7 @@ import { useContactForm } from '@/hooks/useContactForm';
 // Organisms & Molecules
 import { ContactHero } from '@/components/contact/organisms/ContactHero';
 import { FAQSection } from '@/components/contact/organisms/FAQSection';
+import { ContactMapSection } from '@/components/contact/organisms/ContactMapSection'; // New Import
 import { OfficeInfoSidebar } from '@/components/contact/organisms/OfficeInfoSidebar';
 import { ContactStepIndicator } from '@/components/contact/molecules/ContactStepIndicator';
 import { StepPersonalData } from '@/components/contact/molecules/form/StepPersonalData';
@@ -73,6 +74,9 @@ export default function ContactPage() {
           </div>
         </div>
       </div>
+
+      {/* Inserted Map Section at the bottom */}
+      <ContactMapSection />
     </div>
   );
 }
