@@ -7,6 +7,7 @@ import { AboutHeroSection } from '@/components/about/organisms/AboutHeroSection'
 import { PhilosophySection } from '@/components/about/organisms/PhilosophySection';
 import { TeamSection } from '@/components/about/organisms/TeamSection';
 import { AboutCTASection } from '@/components/about/organisms/AboutCTASection';
+import { CertificatesMarquee } from '@/components/about/organisms/CertificatesMarquee';
 
 export default function About() {
   // 1. Logic Layer: Mengambil data tim yang sudah terfilter
@@ -18,8 +19,11 @@ export default function About() {
       {/* 2. Organism Layer: Hero Section (Founder & Story) */}
       <AboutHeroSection founder={founder} />
 
-      {/* Spacer untuk memisahkan Hero dan Philosophy secara visual */}
-      <div className="h-10 md:h-20 bg-transparent"></div>
+      {/* NEW: Certificates Marquee (Lisensi & Sertifikasi) */}
+      <CertificatesMarquee />
+
+      {/* Spacer untuk memisahkan secara visual */}
+      <div className="h-10 md:h-16 bg-transparent"></div>
 
       {/* 3. Organism Layer: Philosophy & Values (Static Content) */}
       <PhilosophySection />

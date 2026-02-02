@@ -45,6 +45,15 @@ export interface PortfolioItem {
   isFeatured?: boolean;
 }
 
+export interface CertificateItem {
+  id: string;
+  title: string;
+  issuer: string;
+  year: string;
+  imageUrl: string;
+  displayOrder?: number;
+}
+
 export interface Lawyer {
   id: string;
   name: string;

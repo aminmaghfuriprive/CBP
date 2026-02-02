@@ -13,6 +13,8 @@ export * from './data/mock_calendar';
 export * from './data/mock_social';
 export * from './data/mock_templates';
 export * from './data/mock_ayrshare';
+export * from './data/mock_portfolio';
+export * from './data/mock_certificates';
 
 // Services
 export * from './services/geminiService';
@@ -49,6 +51,8 @@ export * from './hooks/useClientData';
 export * from './hooks/useInternalStats'; 
 export * from './hooks/useFieldLogic';
 export * from './hooks/useLeadLogic';
+export * from './hooks/usePortfolioLogic';
+export * from './hooks/useCertificateLogic';
 
 // Utils
 export * from './utils/formatters';

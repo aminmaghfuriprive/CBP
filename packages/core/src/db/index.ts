@@ -1,6 +1,6 @@
 
 import Dexie, { type Table } from 'dexie';
-import { CaseData, Booking, CalendarEvent, DocumentFile, Invoice, ServiceItem, Article, ClientData, User, Conversation, Message, AttendanceRecord, PayrollSlip, RoleConfig, SocialAccount, SocialPost, DocumentTemplate, AyrshareConfig, Notification, Lead, PortfolioItem } from '../types';
+import { CaseData, Booking, CalendarEvent, DocumentFile, Invoice, ServiceItem, Article, ClientData, User, Conversation, Message, AttendanceRecord, PayrollSlip, RoleConfig, SocialAccount, SocialPost, DocumentTemplate, AyrshareConfig, Notification, Lead, PortfolioItem, CertificateItem } from '../types';
 import { MOCK_CASES } from '../data/mock_cases';
 import { MOCK_BOOKINGS, EVENTS } from '../data/mock_calendar';
 import { DOCUMENTS, ARTICLES } from '../data/mock_content';
@@ -13,6 +13,7 @@ import { MOCK_ROLES } from '../data/mock_roles';
 import { MOCK_SOCIAL_ACCOUNTS, MOCK_SOCIAL_POSTS } from '../data/mock_social';
 import { MOCK_TEMPLATES } from '../data/mock_templates';
 import { MOCK_PORTFOLIO } from '../data/mock_portfolio';
+import { MOCK_CERTIFICATES } from '../data/mock_certificates';
 
 export class CBPDatabase extends Dexie {
   cases!: Table<CaseData, string>;
@@ -36,12 +37,13 @@ export class CBPDatabase extends Dexie {
   notifications!: Table<Notification, string>;
   leads!: Table<Lead, string>;
   portfolios!: Table<PortfolioItem, string>;
+  certificates!: Table<CertificateItem, string>;
 
   constructor() {
     super('CBPDatabase');
     
-    // Bump version to 25 to include portfolios
-    (this as any).version(25).stores({
+    // Bump version to 26 to include certificates
+    (this as any).version(26).stores({
       cases: 'id, status, lifecycle, clientName, division',
       bookings: 'id, status, date',
       events: 'id, date, type, client',
@@ -62,7 +64,8 @@ export class CBPDatabase extends Dexie {
       ayrshareConfig: 'id',
       notifications: 'id, read, recipientRole, timestamp',
       leads: 'id, status, source, interest',
-      portfolios: 'id, category, isFeatured'
+      portfolios: 'id, category, isFeatured',
+      certificates: 'id, year'
     });
 
     (this as any).on('populate', () => {
@@ -83,6 +86,7 @@ export class CBPDatabase extends Dexie {
       this.socialPosts.bulkAdd(MOCK_SOCIAL_POSTS);
       this.templates.bulkAdd(MOCK_TEMPLATES);
       this.portfolios.bulkAdd(MOCK_PORTFOLIO);
+      this.certificates.bulkAdd(MOCK_CERTIFICATES);
       
       this.leads.bulkAdd([
         { id: 'lead_1', name: 'Sari Roti (Cabang)', contact: '0812345678', interest: 'Perizinan PIRT', source: 'Website', status: 'New', createdAt: new Date().toISOString() },
