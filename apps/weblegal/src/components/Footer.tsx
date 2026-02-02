@@ -42,7 +42,6 @@ export const Footer: React.FC = () => {
             <ul className="space-y-3 text-sm text-slate-400">
               <li><Link href="/about" className="hover:text-cbp-gold transition-colors">Tentang Kami</Link></li>
               <li><Link href="/services" className="hover:text-cbp-gold transition-colors">Layanan Hukum</Link></li>
-              <li><Link href="/portfolio" className="hover:text-cbp-gold transition-colors">Studi Kasus</Link></li>
               <li><Link href="/insights" className="hover:text-cbp-gold transition-colors">Artikel & Berita</Link></li>
               <li><Link href="/contact" className="hover:text-cbp-gold transition-colors">Buat Janji Temu</Link></li>
             </ul>

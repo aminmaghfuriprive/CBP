@@ -23,19 +23,6 @@ export interface ServiceItem {
   sop?: ServiceStep[];
 }
 
-export interface PortfolioItem {
-  id: string;
-  title: string;
-  category: ServiceDivision;
-  clientIndustry: string;
-  year: string;
-  challenge: string;
-  solution: string;
-  result: string;
-  imageUrl: string;
-  isFeatured?: boolean;
-}
-
 export interface Article {
   id: string;
   title: string;
@@ -43,6 +30,19 @@ export interface Article {
   date: string;
   excerpt: string;
   imageUrl: string;
+}
+
+export interface PortfolioItem {
+  id: string;
+  title: string;
+  category: string;
+  clientIndustry: string;
+  year: string;
+  challenge: string;
+  solution: string;
+  result: string;
+  imageUrl: string;
+  isFeatured?: boolean;
 }
 
 export interface Lawyer {

@@ -13,7 +13,6 @@ export * from './data/mock_calendar';
 export * from './data/mock_social';
 export * from './data/mock_templates';
 export * from './data/mock_ayrshare';
-export * from './data/mock_portfolio';
 
 // Services
 export * from './services/geminiService';
@@ -46,11 +45,10 @@ export * from './hooks/useAttendanceLogic';
 export * from './hooks/usePayrollLogic';
 export * from './hooks/useRoleLogic';
 export * from './hooks/useAyrshareLogic';
-export * from './hooks/usePortfolioLogic'; 
 export * from './hooks/useClientData'; 
 export * from './hooks/useInternalStats'; 
 export * from './hooks/useFieldLogic';
-export * from './hooks/useLeadLogic'; // NEW
+export * from './hooks/useLeadLogic';
 
 // Utils
 export * from './utils/formatters';

@@ -1,6 +1,6 @@
 
 import Dexie, { type Table } from 'dexie';
-import { CaseData, Booking, CalendarEvent, DocumentFile, Invoice, ServiceItem, Article, ClientData, User, Conversation, Message, AttendanceRecord, PayrollSlip, RoleConfig, SocialAccount, SocialPost, DocumentTemplate, AyrshareConfig, PortfolioItem, Notification, Lead } from '../types';
+import { CaseData, Booking, CalendarEvent, DocumentFile, Invoice, ServiceItem, Article, ClientData, User, Conversation, Message, AttendanceRecord, PayrollSlip, RoleConfig, SocialAccount, SocialPost, DocumentTemplate, AyrshareConfig, Notification, Lead, PortfolioItem } from '../types';
 import { MOCK_CASES } from '../data/mock_cases';
 import { MOCK_BOOKINGS, EVENTS } from '../data/mock_calendar';
 import { DOCUMENTS, ARTICLES } from '../data/mock_content';
@@ -33,15 +33,15 @@ export class CBPDatabase extends Dexie {
   socialPosts!: Table<SocialPost, string>;
   templates!: Table<DocumentTemplate, string>;
   ayrshareConfig!: Table<AyrshareConfig, string>;
-  portfolios!: Table<PortfolioItem, string>;
   notifications!: Table<Notification, string>;
-  leads!: Table<Lead, string>; // New Table
+  leads!: Table<Lead, string>;
+  portfolios!: Table<PortfolioItem, string>;
 
   constructor() {
     super('CBPDatabase');
     
-    // Bump version to 23 to ensure leads table creation triggers for existing users
-    (this as any).version(23).stores({
+    // Bump version to 25 to include portfolios
+    (this as any).version(25).stores({
       cases: 'id, status, lifecycle, clientName, division',
       bookings: 'id, status, date',
       events: 'id, date, type, client',
@@ -60,9 +60,9 @@ export class CBPDatabase extends Dexie {
       socialPosts: 'id, date, status',
       templates: 'id, type, isActive',
       ayrshareConfig: 'id',
-      portfolios: 'id, category, clientIndustry',
       notifications: 'id, read, recipientRole, timestamp',
-      leads: 'id, status, source, interest' // New Schema
+      leads: 'id, status, source, interest',
+      portfolios: 'id, category, isFeatured'
     });
 
     (this as any).on('populate', () => {
@@ -84,7 +84,6 @@ export class CBPDatabase extends Dexie {
       this.templates.bulkAdd(MOCK_TEMPLATES);
       this.portfolios.bulkAdd(MOCK_PORTFOLIO);
       
-      // Mock Leads (Only populated on fresh DB creation)
       this.leads.bulkAdd([
         { id: 'lead_1', name: 'Sari Roti (Cabang)', contact: '0812345678', interest: 'Perizinan PIRT', source: 'Website', status: 'New', createdAt: new Date().toISOString() },
         { id: 'lead_2', name: 'Pak Bambang', contact: '0819876543', interest: 'Sengketa Lahan', source: 'Referral', status: 'Contacted', createdAt: new Date(Date.now() - 86400000).toISOString() },
