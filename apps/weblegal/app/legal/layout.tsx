@@ -9,7 +9,7 @@ export default function LegalLayout({ children }: { children: React.ReactNode })
     <div className="bg-slate-50 dark:bg-slate-950 min-h-screen transition-colors duration-300">
       
       {/* Hero Section (Compact & Clean) */}
-      <div className="bg-cbp-navy dark:bg-slate-900 pt-32 pb-16 text-center text-white relative overflow-hidden">
+      <div className="bg-cbp-navy dark:bg-slate-900 pt-32 pb-14 text-center text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
         {/* Subtle glow effects */}
         <div className="absolute top-0 right-0 w-96 h-96 bg-cbp-gold/5 rounded-full blur-[100px] pointer-events-none"></div>

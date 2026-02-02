@@ -18,8 +18,8 @@ export default function LegalContentPage({ params }: PageProps) {
   useEffect(() => {
     const element = document.getElementById('legal-content-anchor');
     if (element) {
-      // Offset 100px untuk kompensasi tinggi Navbar (Fixed Header) + sedikit breathing room
-      const headerOffset = 100; 
+      // Offset 85px (Approx Navbar Height) untuk memastikan Hero tertutup sempurna
+      const headerOffset = 85; 
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.scrollY - headerOffset;
 
