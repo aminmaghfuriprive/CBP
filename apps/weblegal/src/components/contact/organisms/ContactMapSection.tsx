@@ -9,16 +9,16 @@ export const ContactMapSection: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeader 
           title="Lokasi Kantor" 
-          subtitle="Kunjungi kantor pusat kami di kawasan bisnis strategis Sudirman Central Business District (SCBD)."
+          subtitle="Kunjungi kantor pusat kami untuk konsultasi langsung."
         />
         
         <div className="relative w-full h-[400px] md:h-[500px] rounded-3xl overflow-hidden shadow-2xl border border-slate-200 dark:border-slate-700 bg-slate-200 dark:bg-slate-800 group">
-          {/* Google Maps Iframe */}
+          {/* Google Maps Iframe Updated to Blora Address */}
           <iframe 
             width="100%" 
             height="100%" 
             id="gmap_canvas" 
-            src="https://maps.google.com/maps?q=Equity%20Tower%20Jakarta&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+            src="https://maps.google.com/maps?q=Jl.+Mr.+Iskandar,+Bangeran,+Kamolan,+Kec.+Blora,+Kabupaten+Blora,+Jawa+Tengah+58219&t=&z=15&ie=UTF8&iwloc=&output=embed" 
             frameBorder="0" 
             scrolling="no" 
             marginHeight={0} 
@@ -34,17 +34,17 @@ export const ContactMapSection: React.FC = () => {
                    <MapPin className="h-5 w-5" />
                 </div>
                 <h4 className="font-serif font-bold text-cbp-navy dark:text-white text-lg leading-none">
-                  Equity Tower
+                  Kantor Pusat
                 </h4>
              </div>
              <p className="text-slate-600 dark:text-slate-400 text-xs leading-relaxed font-medium">
-               Lantai 35, SCBD Lot 9<br/>
-               Jl. Jend. Sudirman Kav. 52-53<br/>
-               Jakarta Selatan 12190
+               Jl. Mr. Iskandar, Bangeran, Kamolan,<br/>
+               Kec. Blora, Kabupaten Blora,<br/>
+               Jawa Tengah 58219
              </p>
              <div className="mt-3 pt-3 border-t border-slate-200 dark:border-slate-700">
                 <a 
-                  href="https://maps.google.com/maps?q=Equity%20Tower%20Jakarta" 
+                  href="https://maps.google.com/maps?q=Jl.+Mr.+Iskandar,+Bangeran,+Kamolan,+Kec.+Blora,+Kabupaten+Blora,+Jawa+Tengah+58219" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="text-xs font-bold text-cbp-gold hover:underline flex items-center gap-1"

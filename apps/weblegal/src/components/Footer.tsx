@@ -8,7 +8,6 @@ import { Shield, Mail, Phone, MapPin, Instagram, Linkedin, Facebook } from 'luci
 
 export const Footer: React.FC = () => {
   const pathname = usePathname();
-  const sysLegalUrl = process.env.NEXT_PUBLIC_SYSLEGAL_URL || "http://localhost:3001/login";
 
   if (pathname && (pathname.startsWith('/portal') || pathname.startsWith('/auth'))) return null;
 
@@ -44,36 +43,36 @@ export const Footer: React.FC = () => {
               <li><Link href="/services" className="hover:text-cbp-gold transition-colors">Layanan Hukum</Link></li>
               <li><Link href="/insights" className="hover:text-cbp-gold transition-colors">Artikel & Berita</Link></li>
               <li><Link href="/contact" className="hover:text-cbp-gold transition-colors">Buat Janji Temu</Link></li>
+              <li><Link href="#" className="hover:text-cbp-gold transition-colors">Karir</Link></li>
             </ul>
           </div>
 
-          {/* Services */}
+          {/* Services (Updated Divisions) */}
           <div>
             <h4 className="font-bold text-lg mb-6 text-white font-serif">Area Praktik</h4>
             <ul className="space-y-3 text-sm text-slate-400">
-              <li><Link href="/services" className="hover:text-cbp-gold transition-colors">Hukum Korporasi</Link></li>
-              <li><Link href="/services" className="hover:text-cbp-gold transition-colors">Litigasi & Sengketa</Link></li>
-              <li><Link href="/services" className="hover:text-cbp-gold transition-colors">Perizinan (OSS)</Link></li>
-              <li><Link href="/services" className="hover:text-cbp-gold transition-colors">Hukum Keluarga</Link></li>
-              <li><Link href="/services" className="hover:text-cbp-gold transition-colors">Hak Kekayaan Intelektual</Link></li>
+              <li><Link href="/services" className="hover:text-cbp-gold transition-colors">Hukum Umum & Litigasi</Link></li>
+              <li><Link href="/services" className="hover:text-cbp-gold transition-colors">Perizinan & Bisnis</Link></li>
+              <li><Link href="/services" className="hover:text-cbp-gold transition-colors">Pertanahan & Agraria</Link></li>
+              <li><Link href="/services" className="hover:text-cbp-gold transition-colors">Legal Administratif & Korporasi</Link></li>
             </ul>
           </div>
 
-          {/* Contact */}
+          {/* Contact (Updated Address) */}
           <div>
             <h4 className="font-bold text-lg mb-6 text-white font-serif">Kantor</h4>
             <ul className="space-y-4 text-sm text-slate-400">
               <li className="flex gap-3">
                 <MapPin className="h-5 w-5 text-cbp-gold flex-shrink-0" />
                 <span>
-                  Equity Tower Lt. 35, SCBD Lot 9<br/>
-                  Jl. Jend. Sudirman Kav. 52-53<br/>
-                  Jakarta Selatan 12190
+                  Jl. Mr. Iskandar, Bangeran, Kamolan,<br/>
+                  Kec. Blora, Kabupaten Blora,<br/>
+                  Jawa Tengah 58219
                 </span>
               </li>
               <li className="flex gap-3 items-center">
                 <Phone className="h-4 w-4 text-cbp-gold flex-shrink-0" />
-                <span>+62 21 5555 8888</span>
+                <span>0296-5301710</span>
               </li>
               <li className="flex gap-3 items-center">
                 <Mail className="h-4 w-4 text-cbp-gold flex-shrink-0" />
@@ -88,9 +87,8 @@ export const Footer: React.FC = () => {
           <div className="flex gap-6">
             <a href="#" className="hover:text-white transition-colors">Kebijakan Privasi</a>
             <a href="#" className="hover:text-white transition-colors">Syarat & Ketentuan</a>
-            <a href={sysLegalUrl} className="hover:text-cbp-gold transition-colors font-bold flex items-center gap-1">
-              Login Klien & Staf
-            </a>
+            <a href="#" className="hover:text-white transition-colors">Cookie</a>
+            <a href="#" className="hover:text-white transition-colors">FAQ</a>
           </div>
         </div>
       </div>

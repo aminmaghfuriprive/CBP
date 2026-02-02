@@ -22,9 +22,9 @@ export const OfficeInfoSidebar: React.FC = () => {
                 <div>
                   <h4 className="font-bold text-lg mb-1">Alamat Utama</h4>
                   <p className="text-slate-300 leading-relaxed text-sm">
-                    Equity Tower Lt. 35<br/>
-                    SCBD Lot 9, Jl. Jend. Sudirman Kav. 52-53<br/>
-                    Jakarta Selatan 12190
+                    Jl. Mr. Iskandar, Bangeran, Kamolan,<br/>
+                    Kec. Blora, Kabupaten Blora,<br/>
+                    Jawa Tengah 58219
                   </p>
                 </div>
               </div>
@@ -37,7 +37,7 @@ export const OfficeInfoSidebar: React.FC = () => {
                 </div>
                 <div>
                   <h4 className="font-bold text-lg mb-1">Telepon</h4>
-                  <p className="text-slate-300 text-sm font-mono tracking-wide">+62 21 5555 8888</p>
+                  <p className="text-slate-300 text-sm font-mono tracking-wide">0296-5301710</p>
                 </div>
               </div>
             </div>
