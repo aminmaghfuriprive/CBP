@@ -1,21 +1,31 @@
 
 import React from 'react';
 import { ARTICLES } from '@cbp/core';
-import { Card } from '@cbp/ui';
+import { Card, SectionHeader } from '@cbp/ui';
 import { Calendar, User, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 
 export default function Insights() {
   return (
     <div className="bg-slate-50 dark:bg-slate-950 min-h-screen transition-colors duration-300">
-      <div className="bg-cbp-navy dark:bg-slate-900 pt-32 pb-24 text-center text-white">
-        <div className="max-w-4xl mx-auto px-4">
-          <h1 className="text-4xl md:text-5xl font-serif font-bold mb-6">Wawasan Hukum</h1>
-          <p className="text-slate-300 text-lg md:text-xl">Analisis mendalam dan berita terbaru seputar dunia hukum Indonesia.</p>
+      
+      {/* 1. Standardized Hero Section */}
+      <div className="bg-cbp-navy dark:bg-slate-900 pt-40 pb-20 text-center text-white relative overflow-hidden">
+        {/* Background Patterns */}
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
+        <div className="absolute top-0 right-0 w-96 h-96 bg-cbp-gold/5 rounded-full blur-[100px] pointer-events-none"></div>
+        <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/5 rounded-full blur-[80px] pointer-events-none"></div>
+
+        <div className="relative z-10 max-w-4xl mx-auto px-4">
+          <SectionHeader 
+            title="Wawasan Hukum" 
+            subtitle="Analisis mendalam dan berita terbaru seputar dunia hukum Indonesia."
+            light
+          />
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-20">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {ARTICLES.map((article) => (
             <Card key={article.id} className="h-full flex flex-col hover:-translate-y-1 hover:shadow-xl transition-all duration-300 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800" padding={false}>

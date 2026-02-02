@@ -1,16 +1,21 @@
 
 import React from 'react';
+import { SectionHeader } from '@cbp/ui';
 
 export const ContactHero: React.FC = () => {
   return (
-    <div className="bg-cbp-navy dark:bg-slate-900 pt-32 pb-24 text-center text-white relative overflow-hidden">
+    <div className="bg-cbp-navy dark:bg-slate-900 pt-40 pb-20 text-center text-white relative overflow-hidden">
+      {/* Background Patterns */}
       <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
-      <div className="absolute top-0 right-0 w-64 h-64 bg-cbp-gold/20 rounded-full blur-[100px] pointer-events-none"></div>
+      <div className="absolute top-0 right-0 w-96 h-96 bg-cbp-gold/5 rounded-full blur-[100px] pointer-events-none"></div>
+      <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/5 rounded-full blur-[80px] pointer-events-none"></div>
+      
       <div className="relative z-10 max-w-4xl mx-auto px-4">
-        <h1 className="text-4xl md:text-5xl font-serif font-bold mb-6">Hubungi & Reservasi</h1>
-        <p className="text-slate-300 text-lg md:text-xl max-w-2xl mx-auto">
-          Jadwalkan konsultasi hukum atau kunjungi kantor kami. Tim kami siap memberikan solusi terbaik untuk Anda.
-        </p>
+        <SectionHeader 
+          title="Hubungi & Reservasi"
+          subtitle="Jadwalkan konsultasi hukum atau kunjungi kantor kami. Tim kami siap memberikan solusi terbaik untuk Anda."
+          light
+        />
       </div>
     </div>
   );
