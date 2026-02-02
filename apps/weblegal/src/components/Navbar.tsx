@@ -72,7 +72,7 @@ export const Navbar: React.FC = () => {
               </Link>
             ) : (
               <Link href="/auth/login">
-                <Button size="sm" className="!bg-white !text-cbp-navy hover:!bg-slate-200 border-none font-bold shadow-none">
+                <Button size="sm" className="!bg-cbp-gold !text-cbp-navy hover:!bg-white border-none font-bold shadow-none">
                   Login Klien
                 </Button>
               </Link>
