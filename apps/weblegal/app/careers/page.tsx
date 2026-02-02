@@ -9,7 +9,8 @@ export default function CareersPage() {
     <div className="bg-white dark:bg-slate-950 min-h-screen transition-colors duration-300 pb-24">
       <CareerHero />
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-24 relative z-20">
+      {/* Adjusted negative margin from -mt-10 to -mt-6 to lower the content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6 relative z-20">
         <NoOpeningsCard />
         <CultureGrid />
       </div>
