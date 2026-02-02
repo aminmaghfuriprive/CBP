@@ -9,11 +9,12 @@ interface LegalContentBlockProps {
 export const LegalContentBlock: React.FC<LegalContentBlockProps> = ({ section }) => {
   return (
     <section 
-      id={section.id} 
-      className="scroll-mt-32 border-b border-slate-100 dark:border-slate-800 last:border-0 pb-16 mb-16 last:mb-0"
+      className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 p-8 md:p-10 shadow-sm animate-in fade-in slide-in-from-bottom-4 duration-500"
     >
-      <div className="flex items-center gap-4 mb-8">
-        <div className="h-8 w-1 bg-cbp-gold rounded-full"></div>
+      <div className="flex flex-col gap-2 mb-8 border-b border-slate-100 dark:border-slate-800 pb-6">
+        <span className="text-xs font-bold text-cbp-gold uppercase tracking-widest">
+          Legal Document
+        </span>
         <h2 className="text-3xl md:text-4xl font-serif font-bold text-cbp-navy dark:text-white">
           {section.title}
         </h2>
@@ -26,11 +27,17 @@ export const LegalContentBlock: React.FC<LegalContentBlockProps> = ({ section })
               {item.heading}
             </h3>
             <div 
-              className="text-slate-600 dark:text-slate-400 leading-relaxed text-base md:text-lg font-light prose dark:prose-invert max-w-none"
+              className="text-slate-600 dark:text-slate-400 leading-relaxed text-sm md:text-base font-light prose dark:prose-invert max-w-none"
               dangerouslySetInnerHTML={{ __html: item.body }}
             />
           </div>
         ))}
+      </div>
+      
+      <div className="mt-12 pt-6 border-t border-slate-100 dark:border-slate-800 text-right">
+         <p className="text-xs text-slate-400 italic">
+           Terakhir diperbarui: Oktober 2023
+         </p>
       </div>
     </section>
   );

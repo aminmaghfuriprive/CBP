@@ -1,23 +1,24 @@
 
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import { SectionHeader } from '@cbp/ui';
-import { LEGAL_CONTENT } from '@/data/legal-content';
-import { useActiveLegalSection } from '@/hooks/useActiveLegalSection';
+import { LEGAL_CONTENT, LegalSectionType } from '@/data/legal-content';
 import { LegalSidebar } from '@/components/legal/LegalSidebar';
 import { LegalContentBlock } from '@/components/legal/LegalContentBlock';
 
 export default function LegalPage() {
-  // 1. Logic Layer: Hook untuk mendeteksi section mana yang sedang dilihat user
-  const activeSection = useActiveLegalSection();
+  // 1. Logic Layer: State untuk tab aktif (Default: Privacy)
+  const [activeTab, setActiveTab] = useState<LegalSectionType>('privacy');
+
+  // Helper untuk mendapatkan konten berdasarkan tab yang dipilih
+  const activeContent = LEGAL_CONTENT.find(section => section.id === activeTab);
 
   return (
     <div className="bg-white dark:bg-slate-950 min-h-screen transition-colors duration-300">
       
-      {/* 2. Hero Section (Consistent Style) */}
+      {/* 2. Hero Section */}
       <div className="bg-cbp-navy dark:bg-slate-900 pt-40 pb-20 text-center text-white relative overflow-hidden">
-        {/* Background Patterns */}
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
         <div className="absolute top-0 right-0 w-96 h-96 bg-cbp-gold/5 rounded-full blur-[100px] pointer-events-none"></div>
         <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/5 rounded-full blur-[80px] pointer-events-none"></div>
@@ -31,28 +32,29 @@ export default function LegalPage() {
         </div>
       </div>
 
-      {/* 3. Main Layout Grid (Organism) */}
+      {/* 3. Main Layout Grid */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-20">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           
-          {/* Left Column: Content (2/3 Width) */}
-          <div className="lg:col-span-8 order-2 lg:order-1">
-            <div className="bg-white dark:bg-slate-950">
-              {LEGAL_CONTENT.map((section) => (
-                <LegalContentBlock 
-                  key={section.id} 
-                  section={section} 
-                />
-              ))}
-            </div>
-          </div>
-
-          {/* Right Column: Sticky Sidebar (1/3 Width) */}
-          <div className="lg:col-span-4 order-1 lg:order-2 h-full">
+          {/* Left Column: Sidebar Menu (1/3 Width) */}
+          <div className="lg:col-span-4 order-1">
             <LegalSidebar 
               sections={LEGAL_CONTENT} 
-              activeSection={activeSection} 
+              activeSection={activeTab}
+              onSelect={(id) => setActiveTab(id as LegalSectionType)}
             />
+          </div>
+
+          {/* Right Column: Dynamic Content (2/3 Width) */}
+          <div className="lg:col-span-8 order-2 min-h-[500px]">
+            {activeContent ? (
+              <LegalContentBlock 
+                key={activeContent.id} /* Key penting untuk trigger animasi ulang */
+                section={activeContent} 
+              />
+            ) : (
+              <div className="text-center text-slate-500 py-20">Konten tidak ditemukan.</div>
+            )}
           </div>
 
         </div>
