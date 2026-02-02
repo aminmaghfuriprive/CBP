@@ -17,7 +17,7 @@ export const LegalSidebar: React.FC<LegalSidebarProps> = ({ sections, activeSect
   };
 
   return (
-    <div className="sticky top-32">
+    <div className="lg:sticky lg:top-32 space-y-6">
       <div className="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-6 border border-slate-100 dark:border-slate-800">
         <h4 className="font-bold text-sm text-slate-400 uppercase tracking-widest mb-6">
           Daftar Isi
@@ -47,7 +47,7 @@ export const LegalSidebar: React.FC<LegalSidebarProps> = ({ sections, activeSect
         </nav>
       </div>
       
-      <div className="mt-6 p-6 bg-cbp-navy dark:bg-slate-800 rounded-xl text-white">
+      <div className="p-6 bg-cbp-navy dark:bg-slate-800 rounded-xl text-white">
         <h5 className="font-serif font-bold text-lg mb-2">Butuh Bantuan?</h5>
         <p className="text-xs text-slate-300 mb-4 leading-relaxed">
           Jika Anda memiliki pertanyaan spesifik mengenai kebijakan kami, silakan hubungi tim legal kami.
