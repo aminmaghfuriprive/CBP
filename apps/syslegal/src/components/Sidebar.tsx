@@ -100,8 +100,8 @@ export const Sidebar: React.FC = () => {
   return (
     <div 
       className={`
-        hidden md:flex flex-col bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 
-        h-screen fixed left-0 top-0 z-40 transition-all duration-300 ease-in-out
+        hidden md:flex flex-col bg-white dark:bg-slate-900 border-l border-slate-200 dark:border-slate-800 
+        h-screen fixed right-0 top-0 z-40 transition-all duration-300 ease-in-out
         ${isSidebarCollapsed ? 'w-20' : 'w-64'}
       `}
     >
@@ -173,7 +173,7 @@ export const Sidebar: React.FC = () => {
           onClick={toggleSidebar}
           className={`w-full flex items-center gap-3 px-3 py-2 text-xs font-bold text-slate-400 hover:text-cbp-navy dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors ${isSidebarCollapsed ? 'justify-center' : ''}`}
         >
-          {isSidebarCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
+          {isSidebarCollapsed ? <ChevronLeft className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
           {!isSidebarCollapsed && <span>Ciutkan Menu</span>}
         </button>
 

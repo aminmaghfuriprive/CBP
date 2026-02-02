@@ -1,7 +1,6 @@
-
 "use client";
 
-import React, { useEffect } from 'react';
+import React, { useEffect, PropsWithChildren } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@cbp/core';
 import { Sidebar } from '../../src/components/Sidebar';
@@ -10,7 +9,7 @@ import { LayoutProvider, useLayout } from '../../src/context/LayoutContext';
 import { Loader2 } from 'lucide-react';
 
 // Inner component to consume useLayout context
-const DashboardContent = ({ children }: { children: React.ReactNode }) => {
+const DashboardContent: React.FC<PropsWithChildren> = ({ children }) => {
   const { isSidebarCollapsed } = useLayout();
 
   return (
@@ -18,7 +17,7 @@ const DashboardContent = ({ children }: { children: React.ReactNode }) => {
       <Sidebar />
       <div 
         className={`flex-1 flex flex-col h-screen overflow-hidden transition-all duration-300 ease-in-out ${
-          isSidebarCollapsed ? 'md:ml-20' : 'md:ml-64'
+          isSidebarCollapsed ? 'md:mr-20' : 'md:mr-64'
         }`}
       >
         <AppHeader />
@@ -30,11 +29,7 @@ const DashboardContent = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default function DashboardLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function DashboardLayout({ children }: PropsWithChildren) {
   const { isAuthenticated, isLoading } = useAuth();
   const router = useRouter();
 
