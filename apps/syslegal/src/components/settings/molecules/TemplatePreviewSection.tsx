@@ -1,7 +1,6 @@
-
 import React from 'react';
 import { DocumentTemplate } from '@cbp/core';
-import { LetterheadPreview } from './LetterheadPreview';
+import { LetterheadPreview } from '../preview/LetterheadPreview';
 import { EnvelopePreview } from './EnvelopePreview';
 
 interface TemplatePreviewSectionProps {
