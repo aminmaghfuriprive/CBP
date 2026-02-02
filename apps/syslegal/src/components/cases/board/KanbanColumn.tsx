@@ -36,18 +36,10 @@ export const KanbanColumn: React.FC<KanbanColumnProps> = ({
   };
 
   return (
-    <div 
-      className={`
-        flex-shrink-0 lg:flex-shrink flex flex-col h-full rounded-xl border-t-4 shadow-sm snap-center
-        w-[85vw] sm:w-72 lg:w-auto 
-        bg-slate-100/80 dark:bg-slate-900/80 backdrop-blur-sm
-        min-w-0
-        ${getColorClass()}
-      `}
-    >
+    <div className={`flex-shrink-0 w-80 flex flex-col h-full rounded-xl bg-slate-100/50 dark:bg-slate-900/50 border-t-4 ${getColorClass()}`}>
       {/* Column Header */}
-      <div className="p-4 flex items-center justify-between flex-shrink-0 border-b border-white/50 dark:border-slate-800/50">
-        <h3 className="font-bold text-xs sm:text-sm text-slate-700 dark:text-slate-200 uppercase tracking-wide truncate pr-2">
+      <div className="p-4 flex items-center justify-between">
+        <h3 className="font-bold text-sm text-slate-700 dark:text-slate-200 uppercase tracking-wide">
           {title}
         </h3>
         <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${getBadgeClass()}`}>
@@ -55,8 +47,8 @@ export const KanbanColumn: React.FC<KanbanColumnProps> = ({
         </span>
       </div>
 
-      {/* Cards Container - Internal Scroll */}
-      <div className="flex-1 overflow-y-auto p-2 space-y-2 custom-scrollbar min-h-0">
+      {/* Cards Container - No Drag Drop Handlers anymore */}
+      <div className="flex-1 overflow-y-auto p-3 space-y-3 custom-scrollbar">
         {cases.map(c => (
           <KanbanCard 
             key={c.id} 
@@ -67,8 +59,8 @@ export const KanbanColumn: React.FC<KanbanColumnProps> = ({
           />
         ))}
         {cases.length === 0 && (
-          <div className="h-full min-h-[120px] border-2 border-dashed border-slate-200 dark:border-slate-800/50 rounded-xl flex flex-col items-center justify-center text-slate-400 text-xs italic bg-white/30 dark:bg-slate-800/30">
-            <span>Kosong</span>
+          <div className="h-32 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-xl flex items-center justify-center text-slate-400 text-xs italic">
+            Kosong
           </div>
         )}
       </div>
