@@ -34,19 +34,10 @@ export default function LegalPage() {
 
       {/* 3. Main Layout Grid */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-20">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
           
-          {/* Left Column: Sidebar Menu (1/3 Width) */}
-          <div className="lg:col-span-4 order-1">
-            <LegalSidebar 
-              sections={LEGAL_CONTENT} 
-              activeSection={activeTab}
-              onSelect={(id) => setActiveTab(id as LegalSectionType)}
-            />
-          </div>
-
-          {/* Right Column: Dynamic Content (2/3 Width) */}
-          <div className="lg:col-span-8 order-2 min-h-[500px]">
+          {/* Left Column: Dynamic Content (2/3 Width) - Desktop Order 1 (Left) */}
+          <div className="lg:col-span-8 order-2 lg:order-1 min-h-[600px]">
             {activeContent ? (
               <LegalContentBlock 
                 key={activeContent.id} /* Key penting untuk trigger animasi ulang */
@@ -55,6 +46,15 @@ export default function LegalPage() {
             ) : (
               <div className="text-center text-slate-500 py-20">Konten tidak ditemukan.</div>
             )}
+          </div>
+
+          {/* Right Column: Sidebar Menu (1/3 Width) - Desktop Order 2 (Right) */}
+          <div className="lg:col-span-4 order-1 lg:order-2 h-full">
+            <LegalSidebar 
+              sections={LEGAL_CONTENT} 
+              activeSection={activeTab}
+              onSelect={(id) => setActiveTab(id as LegalSectionType)}
+            />
           </div>
 
         </div>

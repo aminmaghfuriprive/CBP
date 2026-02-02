@@ -11,7 +11,7 @@ interface LegalSidebarProps {
 
 export const LegalSidebar: React.FC<LegalSidebarProps> = ({ sections, activeSection, onSelect }) => {
   return (
-    <div className="space-y-6 lg:sticky lg:top-32">
+    <div className="lg:sticky lg:top-32 space-y-6">
       <div className="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-6 border border-slate-100 dark:border-slate-800 shadow-sm">
         <h4 className="font-bold text-sm text-slate-400 uppercase tracking-widest mb-6 px-2">
           Daftar Dokumen
