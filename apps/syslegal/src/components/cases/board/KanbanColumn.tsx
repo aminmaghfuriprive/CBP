@@ -38,9 +38,10 @@ export const KanbanColumn: React.FC<KanbanColumnProps> = ({
   return (
     <div 
       className={`
-        flex-shrink-0 flex flex-col h-full rounded-xl border-t-4 shadow-sm snap-center
-        w-[85vw] sm:w-72 2xl:w-80 
+        flex-shrink-0 lg:flex-shrink flex flex-col h-full rounded-xl border-t-4 shadow-sm snap-center
+        w-[85vw] sm:w-72 lg:w-auto 
         bg-slate-100/80 dark:bg-slate-900/80 backdrop-blur-sm
+        min-w-0
         ${getColorClass()}
       `}
     >

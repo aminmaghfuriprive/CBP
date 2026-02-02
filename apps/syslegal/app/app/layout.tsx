@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useEffect } from 'react';
@@ -58,7 +57,9 @@ export default function DashboardLayout({
 
   return (
     <LayoutProvider>
-      <DashboardContent children={children} />
+      <DashboardContent>
+        {children}
+      </DashboardContent>
     </LayoutProvider>
   );
 }

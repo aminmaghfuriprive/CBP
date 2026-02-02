@@ -21,13 +21,12 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({ searchTerm, stageFilte
     router.push(`/app/cases/${id}`);
   };
 
-  // --- MODE 1: ALL STAGES (Horizontal Scroll - Optimized) ---
+  // --- MODE 1: ALL STAGES (Responsive: Scroll on Mobile, Grid on Desktop) ---
   if (stageFilter === 'ALL') {
     return (
-      // Outer container handles Horizontal Scroll
-      <div className="h-full w-full overflow-x-auto overflow-y-hidden custom-scrollbar snap-x snap-mandatory md:snap-none">
-        {/* Inner container creates the row */}
-        <div className="flex h-full gap-4 px-1 min-w-fit pb-4">
+      <div className="h-full w-full overflow-hidden">
+        <div className="h-full flex flex-row lg:grid lg:grid-cols-4 gap-4 px-1 pb-4 overflow-x-auto lg:overflow-visible custom-scrollbar snap-x snap-mandatory lg:snap-none">
+          
           <KanbanColumn 
             title="Pra-Produksi" 
             stage="PRE_PRODUCTION"
@@ -68,14 +67,14 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({ searchTerm, stageFilte
             priorityFn={getPriorityScore}
           />
           
-          {/* Spacer for right padding in scroll view */}
-          <div className="w-1 flex-shrink-0"></div>
+          {/* Spacer for right padding in mobile scroll view only */}
+          <div className="w-1 flex-shrink-0 lg:hidden"></div>
         </div>
       </div>
     );
   }
 
-  // --- MODE 2: SPECIFIC STAGE (Grid View - Optimized) ---
+  // --- MODE 2: SPECIFIC STAGE (Grid View) ---
   const activeData = columns[stageFilter];
   
   if (!activeData || activeData.length === 0) {
