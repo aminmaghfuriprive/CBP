@@ -1,6 +1,7 @@
+
 "use client";
 
-import React, { useEffect, PropsWithChildren } from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@cbp/core';
 import { Sidebar } from '../../src/components/Sidebar';
@@ -8,8 +9,8 @@ import { AppHeader } from '../../src/components/AppHeader';
 import { LayoutProvider, useLayout } from '../../src/context/LayoutContext';
 import { Loader2 } from 'lucide-react';
 
-// Inner component to consume useLayout context
-const DashboardContent: React.FC<PropsWithChildren> = ({ children }) => {
+// Inner component untuk mengkonsumsi context useLayout
+const DashboardContent = ({ children }: { children: React.ReactNode }) => {
   const { isSidebarCollapsed } = useLayout();
 
   return (
@@ -29,7 +30,11 @@ const DashboardContent: React.FC<PropsWithChildren> = ({ children }) => {
   );
 };
 
-export default function DashboardLayout({ children }: PropsWithChildren) {
+export default function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const { isAuthenticated, isLoading } = useAuth();
   const router = useRouter();
 
@@ -53,9 +58,7 @@ export default function DashboardLayout({ children }: PropsWithChildren) {
 
   return (
     <LayoutProvider>
-      <DashboardContent>
-        {children}
-      </DashboardContent>
+      <DashboardContent children={children} />
     </LayoutProvider>
   );
 }

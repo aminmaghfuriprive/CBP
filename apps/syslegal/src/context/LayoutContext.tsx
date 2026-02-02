@@ -13,7 +13,7 @@ const LayoutContext = createContext<LayoutContextType | undefined>(undefined);
 export const LayoutProvider = ({ children }: { children: React.ReactNode }) => {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
-  // Optional: Persist state to localStorage
+  // Optional: Persist state to localStorage agar user preference tersimpan
   useEffect(() => {
     const saved = localStorage.getItem('cbp_sidebar_collapsed');
     if (saved) {
