@@ -9,7 +9,7 @@ export default function CareersPage() {
     <div className="bg-white dark:bg-slate-950 min-h-screen transition-colors duration-300 pb-24">
       <CareerHero />
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 relative z-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-24 relative z-20">
         <NoOpeningsCard />
         <CultureGrid />
       </div>
