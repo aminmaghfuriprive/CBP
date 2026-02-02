@@ -1,56 +1,17 @@
 
 "use client";
 
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { ServiceItem, ServiceStep, useServiceLogic } from '@cbp/core';
+import React from 'react';
 import { Button, Card } from '@cbp/ui';
 import { ArrowLeft, FileText, Save, DollarSign, Globe } from 'lucide-react';
 import { ServiceSOPManager } from '@/components/services/ServiceSOPManager';
+import { useCreateServiceLogic } from '@/components/services/hooks/useCreateServiceLogic';
 
 export default function CreateServicePage() {
-  const router = useRouter();
-  const { addService } = useServiceLogic();
-
-  // Local State untuk Draft Layanan Baru
-  const [formData, setFormData] = useState<Partial<ServiceItem>>({
-    title: '',
-    description: '',
-    division: 'Legal Administratif & Korporasi', // Default Division
-    basePrice: 0,
-    isActive: true,
-    iconName: 'Scale'
-  });
-  
-  const [sopSteps, setSopSteps] = useState<ServiceStep[]>([]);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleChange = (field: keyof ServiceItem, value: any) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
-  };
-
-  const handleSave = async () => {
-    if (!formData.title) {
-        alert("Nama layanan wajib diisi");
-        return;
-    }
-    
-    setIsSubmitting(true);
-    
-    const newService: ServiceItem = {
-      id: `svc_${Date.now()}`,
-      title: formData.title || 'Layanan Baru',
-      description: formData.description || '',
-      division: formData.division as any,
-      basePrice: Number(formData.basePrice) || 0,
-      iconName: formData.iconName || 'Scale',
-      isActive: formData.isActive ?? true, // Fix: Ensure boolean value
-      sop: sopSteps
-    };
-
-    await addService(newService);
-    router.push('/app/services');
-  };
+  const { 
+    formData, sopSteps, setSopSteps, isSubmitting, 
+    handleChange, handleSave, router 
+  } = useCreateServiceLogic();
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto">
@@ -63,17 +24,13 @@ export default function CreateServicePage() {
            <h1 className="text-2xl font-serif font-bold text-cbp-navy dark:text-white">Tambah Layanan Baru</h1>
            <p className="text-slate-500 dark:text-slate-400">Lengkapi informasi layanan dan SOP.</p>
         </div>
-        <div>
-           <Button onClick={handleSave} disabled={isSubmitting} className="animate-in fade-in zoom-in duration-300">
-             <Save className="h-4 w-4 mr-2" /> {isSubmitting ? 'Menyimpan...' : 'Simpan Layanan'}
-           </Button>
-        </div>
+        <Button onClick={handleSave} disabled={isSubmitting} className="animate-in fade-in zoom-in duration-300">
+           <Save className="h-4 w-4 mr-2" /> {isSubmitting ? 'Menyimpan...' : 'Simpan Layanan'}
+        </Button>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Left Column: Details & SOP */}
         <div className="lg:col-span-2 space-y-8">
-           {/* Basic Info Editor */}
            <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800">
               <h3 className="text-lg font-bold text-cbp-navy dark:text-white mb-6 flex items-center gap-2">
                 <FileText className="h-5 w-5 text-cbp-gold" /> Informasi Dasar
@@ -102,7 +59,6 @@ export default function CreateServicePage() {
               </div>
            </Card>
 
-           {/* SOP Module (Controlled) */}
            <ServiceSOPManager 
              steps={sopSteps} 
              onStepsChange={setSopSteps} 
@@ -111,11 +67,9 @@ export default function CreateServicePage() {
            />
         </div>
 
-        {/* Right Column: Settings & Summary */}
         <div className="space-y-6">
            <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800">
               <h3 className="font-bold text-cbp-navy dark:text-white mb-4">Pengaturan</h3>
-              
               <div className="space-y-4">
                 <div>
                   <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-1.5">Divisi Penanggung Jawab</label>
@@ -130,7 +84,6 @@ export default function CreateServicePage() {
                     <option value="Pertanahan & Agraria">Pertanahan & Agraria</option>
                   </select>
                 </div>
-
                 <div>
                   <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-1.5">Harga Dasar (Mulai Dari)</label>
                   <div className="relative">
@@ -143,7 +96,6 @@ export default function CreateServicePage() {
                     />
                   </div>
                 </div>
-
                 <div className="flex items-center justify-between pt-2">
                    <span className="text-sm font-medium text-slate-700 dark:text-slate-300">Status Layanan</span>
                    <button 
@@ -155,7 +107,6 @@ export default function CreateServicePage() {
                 </div>
               </div>
            </Card>
-
            <div className="bg-cbp-navy dark:bg-slate-800 text-white p-6 rounded-xl relative overflow-hidden">
               <Globe className="absolute -right-4 -bottom-4 h-24 w-24 text-white/10" />
               <h4 className="font-bold text-lg mb-2 relative z-10">Tampilan Web</h4>
