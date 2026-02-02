@@ -11,7 +11,7 @@ import {
   PaymentDetailView,
   ProcessingView,
   SuccessView
-} from './visuals/molecules';
+} from './visuals'; // Updated import path from './visuals/molecules' to './visuals'
 
 export const PaymentGatewayModal: React.FC<PaymentGatewayModalProps> = (props) => {
   const { isOpen, onClose, invoice } = props;

@@ -1,7 +1,6 @@
 
-// --- VISUAL VIEWS EXPORT ---
-// File ini sekarang berfungsi sebagai Barrel File untuk komponen visual
-// yang telah dipecah menjadi bagian-bagian atomic (Step 1-3).
+// --- PAYMENT VISUALS BARREL FILE ---
+// Mengekspor semua View utama agar mudah diakses oleh Modal/Container
 
 export * from './views/PaymentHeader';
 export * from './views/MethodSelectionView';
