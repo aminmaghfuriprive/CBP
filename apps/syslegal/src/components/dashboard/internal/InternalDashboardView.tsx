@@ -31,9 +31,9 @@ export const InternalDashboardView: React.FC = () => {
   ];
 
   return (
-    <div className="space-y-6 pb-10 h-full flex flex-col">
-      {/* Header with View Toggle Action */}
-      <div className="flex-shrink-0">
+    <div className="flex flex-col h-full overflow-hidden">
+      {/* Header Area - Fixed Height */}
+      <div className="flex-shrink-0 pb-4">
         <PageHeader 
           title={`Dashboard ${roleLabel}`}
           subtitle="Pusat kendali operasional dan wawasan performa firma."
@@ -65,9 +65,9 @@ export const InternalDashboardView: React.FC = () => {
 
         {/* Workspace Toolbar (Only visible in Workspace Mode) */}
         {activeView === 'workspace' && (
-          <div className="flex flex-col md:flex-row justify-between items-end md:items-center border-b border-slate-200 dark:border-slate-800 mb-6 gap-4">
+          <div className="flex flex-col md:flex-row justify-between items-end md:items-center border-b border-slate-200 dark:border-slate-800 mb-2 gap-4">
             
-            {/* Stage Filters (Tabs Replacement) */}
+            {/* Stage Filters */}
             <div className="flex gap-2 overflow-x-auto no-scrollbar w-full md:w-auto pb-1">
               {stages.map((stage) => (
                 <button
@@ -102,27 +102,18 @@ export const InternalDashboardView: React.FC = () => {
         )}
       </div>
       
-      {/* Content Area */}
-      <div className="flex-1 min-h-0 animate-in fade-in slide-in-from-bottom-2 duration-300">
+      {/* Content Area - Takes Remaining Height */}
+      <div className="flex-1 min-h-0 relative">
         {activeView === 'workspace' ? (
-          <div className="h-full flex flex-col">
-             {/* Info Banner if needed, or remove for cleaner look */}
-             {stageFilter === 'ALL' && (
-               <div className="mb-4 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-900 rounded-lg text-xs text-blue-800 dark:text-blue-300 flex items-start gap-2">
-                  <span className="font-bold">Info:</span> 
-                  Menampilkan seluruh alur kerja. Geser ke kanan untuk melihat tahapan selanjutnya.
-               </div>
-             )}
-             
-             <div className="flex-1 min-h-0">
-                <KanbanBoard 
-                  searchTerm={searchQuery} 
-                  stageFilter={stageFilter} 
-                />
-             </div>
+          <div className="absolute inset-0 pb-2"> 
+             {/* Using absolute inset-0 forces the child to fit exactly into the flex-1 area */}
+             <KanbanBoard 
+               searchTerm={searchQuery} 
+               stageFilter={stageFilter} 
+             />
           </div>
         ) : (
-          <div className="space-y-8 overflow-y-auto pb-10">
+          <div className="h-full overflow-y-auto pb-10 space-y-8 pr-2 custom-scrollbar">
             <InternalStatsGrid 
               activeCases={stats.activeCases}
               overdueCount={stats.overdueCount}
