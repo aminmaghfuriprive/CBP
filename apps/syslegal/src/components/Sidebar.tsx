@@ -35,9 +35,9 @@ export const Sidebar: React.FC = () => {
     },
     // --- INTERNAL STAFF ---
     { 
-      label: 'Marketing',  // Renamed from Sosial & Komunikasi
-      path: '/app/social', // Path kept same to preserve structure
-      icon: Target, // Icon Changed
+      label: 'Marketing',
+      path: '/app/social',
+      icon: Target, 
       roles: ['ADMIN', 'PRODUCTION', 'IT', 'FINANCE', 'FIELD_OPS', 'MARKETING'] 
     },
     { 
@@ -118,11 +118,15 @@ export const Sidebar: React.FC = () => {
       <div className="flex-1 overflow-y-auto py-6 px-3 space-y-1 scrollbar-hide">
         <p className="px-4 text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-3">Menu Utama</p>
         {allowedItems.map((item) => {
-          const isExactMatch = pathname === item.path;
-          const isSubPath = pathname.startsWith(`${item.path}/`);
-          const isAlternativeMatch = item.matchPaths?.some(p => pathname.startsWith(p));
+          // FIX: Strict check for Dashboard (/app) vs Sub-routes
+          let isActive = false;
           
-          const isActive = isExactMatch || isSubPath || isAlternativeMatch;
+          if (item.path === '/app') {
+             isActive = pathname === '/app';
+          } else {
+             isActive = pathname.startsWith(item.path) || 
+                        (item.matchPaths?.some(p => pathname.startsWith(p)) ?? false);
+          }
 
           return (
             <Link
