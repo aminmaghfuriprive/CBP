@@ -9,8 +9,9 @@ import { ArticleCategoryBadge } from '@/components/insights/atoms/ArticleCategor
 import { ScrollProgress } from '@/components/insights/atoms/ScrollProgress';
 import { TableOfContents } from '@/components/insights/molecules/TableOfContents';
 import { CommentSection } from '@/components/insights/organisms/CommentSection';
+import { CategorySidebar } from '@/components/insights/molecules/CategorySidebar';
 import { Button } from '@cbp/ui';
-import { ArrowLeft, Facebook, Twitter, Linkedin, Share2, Clock, CalendarDays, UserCircle } from 'lucide-react';
+import { ArrowLeft, Facebook, Twitter, Linkedin, Share2, Clock, CalendarDays, UserCircle, BookOpen } from 'lucide-react';
 
 export default function ArticleDetailPage() {
   const params = useParams();
@@ -33,18 +34,17 @@ export default function ArticleDetailPage() {
   const wordCount = article.content ? article.content.split(/\s+/).length : 0;
   const readTime = Math.ceil(wordCount / 200);
 
-  // Navigasi ke halaman list dengan filter kategori
-  const handleCategoryClick = () => {
-    setSelectedCategory(article.category);
+  const handleCategoryClick = (category: string) => {
+    setSelectedCategory(category);
     router.push('/insights');
   };
 
   return (
-    <div className="bg-white dark:bg-slate-950 min-h-screen transition-colors duration-300 pb-32">
+    <div className="bg-slate-50 dark:bg-slate-950 min-h-screen transition-colors duration-300 pb-32">
       <ScrollProgress />
       
       {/* Hero Section */}
-      <div className="relative w-full h-[70vh] min-h-[500px]">
+      <div className="relative w-full h-[60vh] min-h-[400px]">
          <Image 
            src={article.imageUrl} 
            alt={article.title} 
@@ -64,16 +64,16 @@ export default function ArticleDetailPage() {
                 </button>
             </div>
 
-            <div className="mt-auto max-w-4xl mx-auto w-full px-6 md:px-8 pb-16 md:pb-24 text-center">
+            <div className="mt-auto max-w-5xl mx-auto w-full px-6 md:px-8 pb-16 md:pb-20 text-center">
                 <div className="animate-in fade-in slide-in-from-bottom-8 duration-700 space-y-6">
-                  <div className="flex justify-center" onClick={handleCategoryClick}>
+                  <div className="flex justify-center" onClick={() => handleCategoryClick(article.category)}>
                     <ArticleCategoryBadge 
                       category={article.category} 
                       className="bg-cbp-gold text-cbp-navy border-none shadow-lg shadow-cbp-gold/20 cursor-pointer hover:bg-white transition-colors" 
                     />
                   </div>
                   
-                  <h1 className="text-3xl md:text-5xl lg:text-6xl font-serif font-bold text-white leading-tight drop-shadow-sm">
+                  <h1 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-white leading-tight drop-shadow-sm max-w-4xl mx-auto">
                     {article.title}
                   </h1>
 
@@ -98,36 +98,44 @@ export default function ArticleDetailPage() {
          </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 -mt-10">
-         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10 -mt-10">
+         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             
-            {/* Left: Sticky Share */}
-            <div className="hidden lg:block lg:col-span-1">
-               <div className="sticky top-32 flex flex-col gap-4 items-center">
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400 rotate-180 writing-mode-vertical mb-2">Bagikan</span>
-                  <button className="p-3 rounded-full bg-white dark:bg-slate-800 text-slate-400 hover:text-[#1877F2] shadow-sm border border-slate-200 dark:border-slate-700 transition-all hover:scale-110"><Facebook className="h-5 w-5" /></button>
-                  <button className="p-3 rounded-full bg-white dark:bg-slate-800 text-slate-400 hover:text-[#1DA1F2] shadow-sm border border-slate-200 dark:border-slate-700 transition-all hover:scale-110"><Twitter className="h-5 w-5" /></button>
-                  <button className="p-3 rounded-full bg-white dark:bg-slate-800 text-slate-400 hover:text-[#0A66C2] shadow-sm border border-slate-200 dark:border-slate-700 transition-all hover:scale-110"><Linkedin className="h-5 w-5" /></button>
+            {/* LEFT SIDEBAR: Table of Contents & Share (3 Cols) */}
+            <div className="hidden lg:block lg:col-span-3">
+               <div className="sticky top-28 space-y-6">
+                  {/* Table of Contents moved here */}
+                  <TableOfContents />
+
+                  {/* Share Buttons integrated nicely */}
+                  <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                     <h4 className="font-bold text-xs text-slate-400 uppercase tracking-widest mb-4 text-center">Bagikan</h4>
+                     <div className="flex justify-center gap-3">
+                        <button className="p-2.5 rounded-full bg-slate-50 dark:bg-slate-800 text-slate-500 hover:text-[#1877F2] hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all"><Facebook className="h-5 w-5" /></button>
+                        <button className="p-2.5 rounded-full bg-slate-50 dark:bg-slate-800 text-slate-500 hover:text-[#1DA1F2] hover:bg-sky-50 dark:hover:bg-sky-900/20 transition-all"><Twitter className="h-5 w-5" /></button>
+                        <button className="p-2.5 rounded-full bg-slate-50 dark:bg-slate-800 text-slate-500 hover:text-[#0A66C2] hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all"><Linkedin className="h-5 w-5" /></button>
+                        <button className="p-2.5 rounded-full bg-slate-50 dark:bg-slate-800 text-slate-500 hover:text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20 transition-all"><Share2 className="h-5 w-5" /></button>
+                     </div>
+                  </div>
                </div>
             </div>
 
-            {/* Center: Content */}
-            <div className="lg:col-span-8 bg-white dark:bg-slate-900 rounded-t-3xl shadow-xl p-8 md:p-12 border border-slate-100 dark:border-slate-800">
+            {/* CENTER: Main Content (6 Cols) */}
+            <div className="lg:col-span-6 bg-white dark:bg-slate-900 rounded-t-3xl shadow-xl p-8 md:p-10 border border-slate-100 dark:border-slate-800">
                <article 
                   id="article-content"
                   className="
                   max-w-none prose dark:prose-invert 
-                  [&>h2]:text-2xl [&>h2]:font-serif [&>h2]:font-bold [&>h2]:text-cbp-navy [&>h2]:dark:text-white [&>h2]:mt-10 [&>h2]:mb-4 [&>h2]:leading-tight
-                  [&>h3]:text-xl [&>h3]:font-serif [&>h3]:font-bold [&>h3]:text-cbp-navy [&>h3]:dark:text-white [&>h3]:mt-8 [&>h3]:mb-3
-                  [&>p]:text-[15px] [&>p]:md:text-[16px] [&>p]:leading-relaxed [&>p]:text-slate-600 [&>p]:dark:text-slate-300 [&>p]:mb-5
-                  [&>ul]:list-disc [&>ul]:pl-5 [&>ul]:mb-6 [&>ul]:text-[15px] [&>ul]:md:text-[16px] [&>ul]:text-slate-600 [&>ul]:dark:text-slate-300
-                  [&>ol]:list-decimal [&>ol]:pl-5 [&>ol]:mb-6 [&>ol]:text-[15px] [&>ol]:md:text-[16px] [&>ol]:text-slate-600 [&>ol]:dark:text-slate-300
-                  [&>li]:mb-2 [&>li]:pl-1
-                  [&>blockquote]:border-l-4 [&>blockquote]:border-cbp-gold [&>blockquote]:pl-6 [&>blockquote]:italic [&>blockquote]:text-slate-700 [&>blockquote]:dark:text-slate-300 [&>blockquote]:my-8 [&>blockquote]:text-lg
-                  [&>strong]:font-bold [&>strong]:text-cbp-navy [&>strong]:dark:text-white
-                  first-letter:text-5xl first-letter:md:text-6xl first-letter:font-serif first-letter:font-bold first-letter:text-cbp-navy dark:first-letter:text-cbp-gold first-letter:mr-3 first-letter:float-left first-letter:leading-[0.8]
+                  prose-headings:font-serif prose-headings:font-bold prose-headings:text-cbp-navy dark:prose-headings:text-white
+                  prose-h2:text-2xl prose-h2:mt-8 prose-h2:mb-4
+                  prose-h3:text-xl prose-h3:mt-6 prose-h3:mb-3
+                  prose-p:text-[16px] prose-p:leading-relaxed prose-p:text-slate-600 dark:prose-p:text-slate-300 prose-p:mb-5
+                  prose-li:text-slate-600 dark:prose-li:text-slate-300
+                  prose-strong:text-cbp-navy dark:prose-strong:text-white
+                  prose-blockquote:border-l-4 prose-blockquote:border-cbp-gold prose-blockquote:pl-6 prose-blockquote:italic prose-blockquote:bg-slate-50 dark:prose-blockquote:bg-slate-800/30 prose-blockquote:py-2 prose-blockquote:rounded-r-lg
+                  first-letter:text-5xl first-letter:font-serif first-letter:font-bold first-letter:text-cbp-navy dark:first-letter:text-cbp-gold first-letter:mr-3 first-letter:float-left first-letter:leading-[0.8]
                ">
-                  <p className="lead text-lg md:text-xl text-slate-800 dark:text-slate-200 font-medium italic mb-8 border-b border-slate-100 dark:border-slate-800 pb-8 leading-relaxed font-serif">
+                  <p className="lead text-lg text-slate-800 dark:text-slate-200 font-medium italic mb-8 border-b border-slate-100 dark:border-slate-800 pb-8 leading-relaxed font-serif">
                     "{article.excerpt}"
                   </p>
                   
@@ -138,6 +146,7 @@ export default function ArticleDetailPage() {
                   )}
                </article>
 
+               {/* Mobile Share (Visible only on lg and below) */}
                <div className="lg:hidden mt-12 pt-8 border-t border-slate-200 dark:border-slate-800">
                   <h4 className="font-bold text-sm text-slate-500 uppercase tracking-widest mb-4 text-center">Bagikan Artikel</h4>
                   <div className="flex justify-center gap-4">
@@ -150,36 +159,38 @@ export default function ArticleDetailPage() {
                <CommentSection />
             </div>
 
-            {/* Right: Sidebar */}
-            <div className="lg:col-span-3 space-y-8 pt-0 lg:pt-12">
-               <div className="space-y-8">
-                 <TableOfContents />
+            {/* RIGHT SIDEBAR: Categories & Related (3 Cols) */}
+            <div className="lg:col-span-3 space-y-8 pt-0 lg:pt-0">
+               {/* Categories Card */}
+               <CategorySidebar 
+                 onSelect={handleCategoryClick} 
+                 selectedCategory={article.category} 
+               />
 
-                 <div className="bg-slate-50 dark:bg-slate-900/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-800">
-                    <h3 className="font-serif font-bold text-lg text-cbp-navy dark:text-white mb-6 flex items-center gap-2">
-                      <span className="w-1 h-6 bg-cbp-gold rounded-full"></span>
-                      Bacaan Terkait
-                    </h3>
-                    {relatedArticles.length > 0 ? (
-                      <div className="space-y-6">
-                        {relatedArticles.map(rel => (
-                          <div key={rel.id} className="group cursor-pointer flex flex-col gap-3" onClick={() => router.push(`/insights/${rel.id}`)}>
-                             <div className="relative h-28 w-full rounded-lg overflow-hidden">
-                                <Image src={rel.imageUrl} alt={rel.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
-                             </div>
-                             <div>
-                               <h4 className="font-bold text-sm text-slate-800 dark:text-slate-200 leading-snug group-hover:text-cbp-gold transition-colors line-clamp-2">
-                                 {rel.title}
-                               </h4>
-                               <p className="text-xs text-slate-500 mt-2 font-mono uppercase tracking-wide">{rel.date}</p>
-                             </div>
-                          </div>
-                        ))}
-                      </div>
-                    ) : (
-                      <p className="text-sm text-slate-500 italic">Tidak ada artikel terkait lainnya.</p>
-                    )}
-                 </div>
+               {/* Related Articles Card */}
+               <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm">
+                  <h3 className="font-serif font-bold text-cbp-navy dark:text-white mb-6 flex items-center gap-2 text-sm uppercase tracking-wider border-b border-slate-100 dark:border-slate-800 pb-3">
+                    <BookOpen className="h-4 w-4 text-cbp-gold" /> Bacaan Terkait
+                  </h3>
+                  {relatedArticles.length > 0 ? (
+                    <div className="space-y-6">
+                      {relatedArticles.map(rel => (
+                        <div key={rel.id} className="group cursor-pointer flex flex-col gap-3" onClick={() => router.push(`/insights/${rel.id}`)}>
+                           <div className="relative h-24 w-full rounded-lg overflow-hidden">
+                              <Image src={rel.imageUrl} alt={rel.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                           </div>
+                           <div>
+                             <h4 className="font-bold text-sm text-slate-800 dark:text-slate-200 leading-snug group-hover:text-cbp-gold transition-colors line-clamp-2">
+                               {rel.title}
+                             </h4>
+                             <p className="text-[10px] text-slate-500 mt-2 font-mono uppercase tracking-wide">{rel.date}</p>
+                           </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-sm text-slate-500 italic">Tidak ada artikel terkait lainnya.</p>
+                  )}
                </div>
             </div>
 
