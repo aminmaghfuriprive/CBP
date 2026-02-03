@@ -22,8 +22,9 @@ export const ArticleNavigation: React.FC<ArticleNavigationProps> = ({ prev, next
               <Image src={prev.imageUrl} alt={prev.title} fill className="object-cover group-hover:scale-110 transition-transform" />
            </div>
            <div className="flex flex-col justify-center">
-              <div className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1 flex items-center gap-1">
-                 <ArrowLeft className="h-3 w-3" /> Sebelumnya
+              {/* Changed color: text-cbp-gold by default, text-slate-400 on hover */}
+              <div className="text-xs text-cbp-gold group-hover:text-slate-400 font-bold uppercase tracking-wider mb-1 flex items-center gap-1 transition-colors">
+                 <ArrowLeft className="h-3 w-3" /> SEBELUMNYA
               </div>
               <h4 className="text-sm font-bold text-cbp-navy dark:text-white group-hover:text-cbp-gold transition-colors line-clamp-2">
                 {prev.title}
@@ -36,8 +37,9 @@ export const ArticleNavigation: React.FC<ArticleNavigationProps> = ({ prev, next
       {next ? (
         <Link href={`/insights/${next.id}`} className="group flex flex-row-reverse md:flex-row gap-4 p-4 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors text-right">
            <div className="flex flex-col justify-center flex-1">
-              <div className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1 flex items-center gap-1 justify-end">
-                 Selanjutnya <ArrowRight className="h-3 w-3" />
+              {/* Changed color: text-cbp-gold by default, text-slate-400 on hover */}
+              <div className="text-xs text-cbp-gold group-hover:text-slate-400 font-bold uppercase tracking-wider mb-1 flex items-center gap-1 justify-end transition-colors">
+                 SELANJUTNYA <ArrowRight className="h-3 w-3" />
               </div>
               <h4 className="text-sm font-bold text-cbp-navy dark:text-white group-hover:text-cbp-gold transition-colors line-clamp-2">
                 {next.title}

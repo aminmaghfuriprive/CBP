@@ -178,30 +178,22 @@ export default function ArticleDetailPage() {
             </div>
 
             {/* --- RIGHT SIDEBAR (STICKY GROUP) --- */}
-            {/* Components Stacked: Search, Categories, Newsletter */}
             <div className="hidden lg:block lg:col-span-3 sticky top-32 space-y-6">
                
-               {/* 0. Search Box */}
-               <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm">
-                  <h4 className="font-serif font-bold text-cbp-navy dark:text-white mb-4 flex items-center gap-2 text-xs uppercase tracking-widest border-b border-slate-100 dark:border-slate-800 pb-3">
-                    <Search className="h-3.5 w-3.5 text-cbp-gold" /> Pencarian
-                  </h4>
-                  <SearchInput 
-                    placeholder="Cari artikel lain..." 
-                    value={localSearch}
-                    onChange={(e) => setLocalSearch(e.target.value)}
-                    onKeyDown={handleSearchKey}
-                    className="w-full text-sm"
-                  />
-               </div>
+               {/* 0. Search Box (Direct Input without Card) */}
+               <SearchInput 
+                 placeholder="Cari artikel lain..." 
+                 value={localSearch}
+                 onChange={(e) => setLocalSearch(e.target.value)}
+                 onKeyDown={handleSearchKey}
+                 className="w-full text-sm shadow-sm"
+               />
 
                {/* 1. Categories Card */}
                <CategorySidebar 
                  onSelect={handleCategoryClick} 
                  selectedCategory={article.category} 
                />
-
-               {/* REMOVED: Related Articles Card */}
 
                {/* 2. Newsletter Subscription */}
                <NewsletterCard />
