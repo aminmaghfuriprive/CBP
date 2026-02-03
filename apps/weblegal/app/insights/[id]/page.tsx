@@ -10,6 +10,7 @@ import { ScrollProgress } from '@/components/insights/atoms/ScrollProgress';
 import { TableOfContents } from '@/components/insights/molecules/TableOfContents';
 import { CommentSection } from '@/components/insights/organisms/CommentSection';
 import { CategorySidebar } from '@/components/insights/molecules/CategorySidebar';
+import { NewsletterCard } from '@/components/insights/molecules/NewsletterCard';
 import { Button } from '@cbp/ui';
 import { ArrowLeft, Facebook, Twitter, Linkedin, Share2, Clock, CalendarDays, UserCircle, BookOpen } from 'lucide-react';
 
@@ -43,7 +44,7 @@ export default function ArticleDetailPage() {
     <div className="bg-slate-50 dark:bg-slate-950 min-h-screen transition-colors duration-300 pb-32">
       <ScrollProgress />
       
-      {/* --- HERO SECTION (Tetap ikut scroll page, karena UX standar web) --- */}
+      {/* --- HERO SECTION --- */}
       <div className="relative w-full h-[60vh] min-h-[400px]">
          <Image 
            src={article.imageUrl} 
@@ -102,7 +103,6 @@ export default function ArticleDetailPage() {
          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             
             {/* --- LEFT SIDEBAR (STICKY) --- */}
-            {/* Sticky pada top-32 agar tidak tertutup header */}
             <div className="hidden lg:block lg:col-span-3 sticky top-32">
                <div className="space-y-6">
                   {/* Share Component */}
@@ -147,7 +147,7 @@ export default function ArticleDetailPage() {
                   )}
                </article>
 
-               {/* Mobile Share (Visible only on lg and below) */}
+               {/* Mobile Share */}
                <div className="lg:hidden mt-12 pt-8 border-t border-slate-200 dark:border-slate-800">
                   <h4 className="font-bold text-sm text-slate-500 uppercase tracking-widest mb-4 text-center">Bagikan Artikel</h4>
                   <div className="flex justify-center gap-4">
@@ -161,10 +161,10 @@ export default function ArticleDetailPage() {
             </div>
 
             {/* --- RIGHT SIDEBAR (STICKY GROUP) --- */}
-            {/* Wrapper div ini dibuat Sticky, menampung Kategori & Related agar bergerak bersamaan */}
+            {/* 3 Components Stacked: Categories, Related, Newsletter */}
             <div className="hidden lg:block lg:col-span-3 sticky top-32 space-y-6">
                
-               {/* 1. Categories Card (Compact) */}
+               {/* 1. Categories Card */}
                <CategorySidebar 
                  onSelect={handleCategoryClick} 
                  selectedCategory={article.category} 
@@ -181,7 +181,6 @@ export default function ArticleDetailPage() {
                         <div key={rel.id} className="group cursor-pointer flex flex-col gap-2" onClick={() => router.push(`/insights/${rel.id}`)}>
                            <div className="relative h-28 w-full rounded-lg overflow-hidden">
                               <Image src={rel.imageUrl} alt={rel.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
-                              {/* Overlay Gradient on Image for text readability if needed, but cleaner without */}
                            </div>
                            <div>
                              <h4 className="font-bold text-xs text-slate-800 dark:text-slate-200 leading-snug group-hover:text-cbp-gold transition-colors line-clamp-2">
@@ -196,6 +195,9 @@ export default function ArticleDetailPage() {
                     <p className="text-xs text-slate-500 italic">Tidak ada artikel terkait lainnya.</p>
                   )}
                </div>
+
+               {/* 3. Newsletter Subscription (New) */}
+               <NewsletterCard />
             </div>
 
          </div>

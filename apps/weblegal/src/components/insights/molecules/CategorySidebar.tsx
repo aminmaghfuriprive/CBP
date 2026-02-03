@@ -9,12 +9,15 @@ interface CategorySidebarProps {
   selectedCategory?: string;
 }
 
-// Data kategori yang lebih variatif
+// Data kategori lengkap
 const CATEGORIES = [
-  "Hukum Pidana", "Perdata", "Keluarga", "Warisan",
-  "Bisnis & Korporasi", "HAKI", "Pajak", "Investasi",
-  "Agraria", "Lingkungan", "Teknologi", "Start-up",
-  "Ketenagakerjaan", "Imigrasi", "Arbitrase", "Pasar Modal"
+  "Hukum Umum", "Hukum Pidana", "Hukum Keluarga",
+  "Hukum Ketenagakerjaan", "Hukum Keuangan", "Hukum Pajak",
+  "Hukum Lingkungan", "Hukum Internasional", "Hukum Perdagangan",
+  "Perbankan & Fintech", "Litigasi", "Perijinan Usaha",
+  "Bisnis", "Pertanahan", "Properti",
+  "Legal Administratif", "Korporasi", "UMKM",
+  "Kekayaan Intelektual", "Teknologi"
 ];
 
 export const CategorySidebar: React.FC<CategorySidebarProps> = ({ onSelect, selectedCategory }) => {
