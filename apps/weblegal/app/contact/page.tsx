@@ -6,9 +6,8 @@ import { Card } from '@cbp/ui';
 import { useContactForm } from '@/hooks/useContactForm';
 
 // Organisms & Molecules
-import { ContactHero } from '@/components/contact/organisms/ContactHero';
 import { FAQSection } from '@/components/contact/organisms/FAQSection';
-import { ContactMapSection } from '@/components/contact/organisms/ContactMapSection'; // New Import
+import { ContactMapSection } from '@/components/contact/organisms/ContactMapSection';
 import { OfficeInfoSidebar } from '@/components/contact/organisms/OfficeInfoSidebar';
 import { ContactStepIndicator } from '@/components/contact/molecules/ContactStepIndicator';
 import { StepPersonalData } from '@/components/contact/molecules/form/StepPersonalData';
@@ -31,10 +30,8 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="bg-white dark:bg-slate-950 transition-colors duration-300 min-h-screen">
-      <ContactHero />
-
-      {/* Inserted FAQ Section here as requested */}
+    <div className="bg-white dark:bg-slate-950 transition-colors duration-300 min-h-screen pt-24 md:pt-32">
+      {/* FAQ Section Moved to Top (Hero Removed) */}
       <FAQSection />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 relative z-20">
