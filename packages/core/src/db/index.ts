@@ -44,8 +44,9 @@ export class CBPDatabase extends Dexie {
   constructor() {
     super('CBPDatabase');
     
-    // Bump version to 27 to include regulations
-    (this as any).version(27).stores({
+    // Schema Definition
+    // Version 28: Force update regulations mock data
+    (this as any).version(28).stores({
       cases: 'id, status, lifecycle, clientName, division',
       bookings: 'id, status, date',
       events: 'id, date, type, client',
@@ -69,6 +70,11 @@ export class CBPDatabase extends Dexie {
       portfolios: 'id, category, isFeatured',
       certificates: 'id, year',
       regulations: 'id, type, year, category, status'
+    }).upgrade(async (trans: any) => {
+       // Upgrade Logic: Reset Regulation Table dengan Data Baru
+       // Ini memastikan user yang sudah pernah buka app mendapatkan data terbaru
+       await trans.regulations.clear();
+       await trans.regulations.bulkAdd(MOCK_REGULATIONS);
     });
 
     (this as any).on('populate', () => {
