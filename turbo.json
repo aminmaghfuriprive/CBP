@@ -1,14 +1,17 @@
+
 {
   "$schema": "https://turbo.build/schema.json",
   "globalDependencies": [
     "**/.env",
     "API_KEY",
     "VITE_API_KEY",
-    "NEXT_PUBLIC_API_KEY"
+    "NEXT_PUBLIC_API_KEY",
+    "package.json"
   ],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
+      "inputs": ["src/**", "app/**", "public/**", "package.json", "tsconfig.json", "next.config.mjs"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
     },
     "lint": {},
