@@ -26,6 +26,7 @@ export const Navbar: React.FC = () => {
     { name: 'Beranda', path: '/' },
     { name: 'Tentang Kami', path: '/about' },
     { name: 'Layanan', path: '/services' },
+    { name: 'Pustaka', path: '/library' },
     { name: 'Wawasan', path: '/insights' },
     { name: 'Hubungi', path: '/contact' },
   ];
