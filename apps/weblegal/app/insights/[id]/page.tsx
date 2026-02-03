@@ -8,7 +8,7 @@ import { usePublicArticles } from '@/components/insights/hooks/usePublicArticles
 import { ArticleCategoryBadge } from '@/components/insights/atoms/ArticleCategoryBadge';
 import { ScrollProgress } from '@/components/insights/atoms/ScrollProgress';
 import { Button } from '@cbp/ui';
-import { ArrowLeft, Facebook, Twitter, Linkedin, Share2, Clock, CalendarDays, UserCircle } from 'lucide-react';
+import { ArrowLeft, Facebook, Twitter, Linkedin, Share2, Clock, CalendarDays, UserCircle, MessageSquare } from 'lucide-react';
 
 export default function ArticleDetailPage() {
   const params = useParams();
@@ -107,19 +107,28 @@ export default function ArticleDetailPage() {
 
             {/* Main Content (Center) */}
             <div className="lg:col-span-8 bg-white dark:bg-slate-900 rounded-t-3xl shadow-xl p-8 md:p-12 lg:p-16 border border-slate-100 dark:border-slate-800">
-               <article className="prose prose-lg dark:prose-invert max-w-none 
-                  prose-headings:font-serif prose-headings:font-bold prose-headings:text-cbp-navy dark:prose-headings:text-white 
-                  prose-p:text-slate-600 dark:prose-p:text-slate-300 prose-p:leading-loose
-                  prose-a:text-cbp-navy dark:prose-a:text-cbp-gold prose-a:font-bold prose-a:no-underline hover:prose-a:underline
-                  prose-blockquote:border-l-4 prose-blockquote:border-cbp-gold prose-blockquote:bg-slate-50 dark:prose-blockquote:bg-slate-800/50 prose-blockquote:py-4 prose-blockquote:px-6 prose-blockquote:rounded-r-lg prose-blockquote:italic prose-blockquote:text-slate-700 dark:prose-blockquote:text-slate-200
-                  prose-strong:text-cbp-navy dark:prose-strong:text-white
-                  prose-li:text-slate-600 dark:prose-li:text-slate-300
-                  first-letter:text-6xl first-letter:font-serif first-letter:font-bold first-letter:text-cbp-navy dark:first-letter:text-cbp-gold first-letter:mr-3 first-letter:float-left first-letter:leading-[0.8]
+               <article className="
+                  max-w-none 
+                  /* Base Prose Styles (Tailwind Typography Plugin) */
+                  prose prose-lg dark:prose-invert 
+                  
+                  /* Manual Overrides for Robustness (in case plugin fails) */
+                  [&>h2]:text-2xl [&>h2]:md:text-3xl [&>h2]:font-serif [&>h2]:font-bold [&>h2]:text-cbp-navy [&>h2]:dark:text-white [&>h2]:mt-10 [&>h2]:mb-6
+                  [&>h3]:text-xl [&>h3]:md:text-2xl [&>h3]:font-serif [&>h3]:font-bold [&>h3]:text-cbp-navy [&>h3]:dark:text-white [&>h3]:mt-8 [&>h3]:mb-4
+                  [&>p]:text-slate-600 [&>p]:dark:text-slate-300 [&>p]:leading-loose [&>p]:mb-6 [&>p]:text-base [&>p]:md:text-lg
+                  [&>ul]:list-disc [&>ul]:pl-5 [&>ul]:mb-6 [&>ul]:text-slate-600 [&>ul]:dark:text-slate-300
+                  [&>ol]:list-decimal [&>ol]:pl-5 [&>ol]:mb-6 [&>ol]:text-slate-600 [&>ol]:dark:text-slate-300
+                  [&>li]:mb-2 [&>li]:pl-1
+                  [&>blockquote]:border-l-4 [&>blockquote]:border-cbp-gold [&>blockquote]:pl-6 [&>blockquote]:italic [&>blockquote]:text-slate-700 [&>blockquote]:dark:text-slate-300 [&>blockquote]:my-8
+                  [&>strong]:font-bold [&>strong]:text-cbp-navy [&>strong]:dark:text-white
+                  
+                  /* Drop Cap Style */
+                  first-letter:text-5xl first-letter:md:text-6xl first-letter:font-serif first-letter:font-bold first-letter:text-cbp-navy dark:first-letter:text-cbp-gold first-letter:mr-3 first-letter:float-left first-letter:leading-[0.8]
                ">
                   
                   {/* Lead Excerpt */}
-                  <p className="lead text-xl md:text-2xl text-slate-700 dark:text-slate-200 font-medium italic mb-10 border-b border-slate-100 dark:border-slate-800 pb-10">
-                    {article.excerpt}
+                  <p className="lead text-xl md:text-2xl text-slate-800 dark:text-slate-200 font-medium italic mb-10 border-b border-slate-100 dark:border-slate-800 pb-10 leading-relaxed font-serif">
+                    "{article.excerpt}"
                   </p>
                   
                   {/* Dynamic HTML Content */}
@@ -168,6 +177,18 @@ export default function ArticleDetailPage() {
                   ) : (
                     <p className="text-sm text-slate-500 italic">Tidak ada artikel terkait lainnya.</p>
                   )}
+                  
+                  {/* Newsletter Widget */}
+                  <div className="mt-8 pt-8 border-t border-slate-200 dark:border-slate-800">
+                     <h4 className="font-bold text-sm text-cbp-navy dark:text-white mb-2">Langganan Newsletter</h4>
+                     <p className="text-xs text-slate-500 mb-4">Dapatkan update hukum terbaru setiap minggu.</p>
+                     <div className="flex gap-2">
+                        <input type="email" placeholder="Email Anda" className="w-full px-3 py-2 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg text-xs outline-none focus:ring-1 focus:ring-cbp-gold" />
+                        <button className="bg-cbp-navy text-white p-2 rounded-lg hover:bg-cbp-gold transition-colors">
+                           <MessageSquare className="h-4 w-4" />
+                        </button>
+                     </div>
+                  </div>
                </div>
             </div>
 
