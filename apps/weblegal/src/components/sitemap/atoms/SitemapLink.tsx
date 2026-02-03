@@ -12,7 +12,7 @@ export const SitemapLink: React.FC<SitemapLinkProps> = ({ label, href }) => {
   return (
     <Link 
       href={href} 
-      className="group flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-cbp-navy dark:hover:text-cbp-gold transition-colors py-1"
+      className="group flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-cbp-navy dark:hover:text-cbp-gold transition-colors py-1.5"
     >
       <ChevronRight className="h-3 w-3 text-slate-300 group-hover:text-cbp-gold transition-colors" />
       <span className="text-sm font-medium">{label}</span>

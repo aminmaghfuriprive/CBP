@@ -35,9 +35,10 @@ export const SITEMAP_CONTENT: SitemapCategoryData[] = [
     links: [
       { label: "Wawasan & Artikel", href: "/insights" },
       { label: "Portofolio & Studi Kasus", href: "/portfolio" },
-      { label: "Pertanyaan Umum (FAQ)", href: "/legal#faq" },
-      { label: "Kebijakan Privasi", href: "/legal#privacy" },
-      { label: "Syarat & Ketentuan", href: "/legal#terms" }
+      { label: "Pertanyaan Umum (FAQ)", href: "/legal/faq" },
+      { label: "Kebijakan Privasi", href: "/legal/privacy" },
+      { label: "Syarat & Ketentuan", href: "/legal/terms" },
+      { label: "Kebijakan Cookie", href: "/legal/cookies" }
     ]
   },
   {
@@ -46,7 +47,7 @@ export const SITEMAP_CONTENT: SitemapCategoryData[] = [
       { label: "Login Klien", href: "/auth/login" },
       { label: "Registrasi Klien Baru", href: "/auth/register" },
       { label: "Dashboard Portal", href: "/portal/dashboard" },
-      { label: "Login Staff (Internal)", href: process.env.NEXT_PUBLIC_SYSLEGAL_URL || '#' }
+      { label: "Login Staff (Internal)", href: process.env.NEXT_PUBLIC_SYSLEGAL_URL || '/syslegal' }
     ]
   }
 ];
