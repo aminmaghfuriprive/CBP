@@ -83,7 +83,12 @@ export const Footer: React.FC = () => {
         </div>
 
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500">
-          <p>&copy; {new Date().getFullYear()} CBP Corp. All rights reserved.</p>
+          <div className="text-center md:text-left">
+            <p>&copy; {new Date().getFullYear()} CBP Corp. All rights reserved.</p>
+            <p className="mt-1">
+              Developed & Maintenance by <a href="https://kasirsolo.my.id" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors font-bold">PT MESIN KASIR SOLO</a>
+            </p>
+          </div>
           <div className="flex gap-6 flex-wrap justify-center">
             <Link href="/legal/privacy" className="hover:text-white transition-colors">Kebijakan Privasi</Link>
             <Link href="/legal/terms" className="hover:text-white transition-colors">Syarat & Ketentuan</Link>
