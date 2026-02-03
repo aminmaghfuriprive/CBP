@@ -65,6 +65,10 @@ export const OfficeInfoSidebar: React.FC = () => {
                     Senin - Jumat<br/>
                     09:00 - 17:00 WIB
                   </p>
+                  <p className="text-slate-300 text-sm font-medium mt-2">
+                    Sabtu<br/>
+                    09:00 - 14:00 WIB
+                  </p>
                 </div>
               </div>
             </div>

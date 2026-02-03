@@ -13,16 +13,16 @@ export const ContactMapSection: React.FC = () => {
         />
         
         <div className="relative w-full h-[400px] md:h-[500px] rounded-3xl overflow-hidden shadow-2xl border border-slate-200 dark:border-slate-700 bg-slate-200 dark:bg-slate-800 group">
-          {/* Google Maps Iframe Updated to Blora Address */}
+          {/* Google Maps Iframe Updated to CBP Corp Location */}
           <iframe 
             width="100%" 
             height="100%" 
             id="gmap_canvas" 
-            src="https://maps.google.com/maps?q=Jl.+Mr.+Iskandar,+Bangeran,+Kamolan,+Kec.+Blora,+Kabupaten+Blora,+Jawa+Tengah+58219&t=&z=15&ie=UTF8&iwloc=&output=embed" 
-            frameBorder="0" 
-            scrolling="no" 
-            marginHeight={0} 
-            marginWidth={0}
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.1260213835276!2d111.40774267484603!3d-6.9944357685014!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7741383039d96d%3A0xb90b96e3e0377027!2sCBP%20Corp!5e0!3m2!1sid!2sid!4v1770091893165!5m2!1sid!2sid" 
+            style={{ border: 0 }}
+            allowFullScreen
+            loading="lazy" 
+            referrerPolicy="no-referrer-when-downgrade"
             title="CBP Corp Location"
             className="filter grayscale-[100%] contrast-[0.9] opacity-90 group-hover:grayscale-0 group-hover:contrast-100 group-hover:opacity-100 transition-all duration-700 ease-in-out"
           ></iframe>
@@ -44,7 +44,7 @@ export const ContactMapSection: React.FC = () => {
              </p>
              <div className="mt-3 pt-3 border-t border-slate-200 dark:border-slate-700">
                 <a 
-                  href="https://maps.google.com/maps?q=Jl.+Mr.+Iskandar,+Bangeran,+Kamolan,+Kec.+Blora,+Kabupaten+Blora,+Jawa+Tengah+58219" 
+                  href="https://maps.app.goo.gl/nadvznyH5XX48VgY7" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="text-xs font-bold text-cbp-gold hover:underline flex items-center gap-1"
