@@ -47,7 +47,7 @@ export const Footer: React.FC = () => {
             </ul>
           </div>
 
-          {/* Services (Updated Divisions) */}
+          {/* Services */}
           <div>
             <h4 className="font-bold text-lg mb-6 text-white font-serif">Area Praktik</h4>
             <ul className="space-y-3 text-sm text-slate-400">
@@ -58,7 +58,7 @@ export const Footer: React.FC = () => {
             </ul>
           </div>
 
-          {/* Contact (Updated Address) */}
+          {/* Contact */}
           <div>
             <h4 className="font-bold text-lg mb-6 text-white font-serif">Kantor</h4>
             <ul className="space-y-4 text-sm text-slate-400">
@@ -89,7 +89,7 @@ export const Footer: React.FC = () => {
             <Link href="/legal/terms" className="hover:text-white transition-colors">Syarat & Ketentuan</Link>
             <Link href="/legal/cookies" className="hover:text-white transition-colors">Cookie</Link>
             <Link href="/legal/faq" className="hover:text-white transition-colors">FAQ</Link>
-            <Link href="/sitemap" className="hover:text-white transition-colors">Sitemap</Link>
+            <Link href="/sitemap" className="hover:text-white transition-colors font-bold text-cbp-gold/80 hover:text-cbp-gold">Sitemap</Link>
           </div>
         </div>
       </div>
