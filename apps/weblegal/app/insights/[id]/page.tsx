@@ -11,13 +11,14 @@ import { TableOfContents } from '@/components/insights/molecules/TableOfContents
 import { CommentSection } from '@/components/insights/organisms/CommentSection';
 import { CategorySidebar } from '@/components/insights/molecules/CategorySidebar';
 import { NewsletterCard } from '@/components/insights/molecules/NewsletterCard';
+import { ArticleNavigation } from '@/components/insights/molecules/ArticleNavigation';
 import { Button, SearchInput } from '@cbp/ui';
-import { ArrowLeft, Facebook, Twitter, Linkedin, Share2, Clock, CalendarDays, UserCircle, BookOpen, Search } from 'lucide-react';
+import { ArrowLeft, Facebook, Twitter, Linkedin, Share2, Clock, CalendarDays, UserCircle, Search } from 'lucide-react';
 
 export default function ArticleDetailPage() {
   const params = useParams();
   const router = useRouter();
-  const { getArticleById, getRelatedArticles, setSelectedCategory } = usePublicArticles();
+  const { getArticleById, setSelectedCategory, getAdjacentArticles } = usePublicArticles();
   
   const [localSearch, setLocalSearch] = useState('');
 
@@ -33,7 +34,9 @@ export default function ArticleDetailPage() {
     );
   }
 
-  const relatedArticles = getRelatedArticles(article.id, article.category);
+  // Get Prev/Next Logic
+  const { prev, next } = getAdjacentArticles(article.id);
+
   const wordCount = article.content ? article.content.split(/\s+/).length : 0;
   const readTime = Math.ceil(wordCount / 200);
 
@@ -44,8 +47,6 @@ export default function ArticleDetailPage() {
 
   const handleSearchKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && localSearch.trim()) {
-      // Redirect ke halaman insights dengan query search (Simulasi filter logic di page insights akan menangkap ini jika diimplementasikan full, saat ini redirect basic)
-      // Untuk tujuan UI ini, kita redirect ke halaman utama insights dulu
       router.push('/insights');
     }
   };
@@ -66,7 +67,6 @@ export default function ArticleDetailPage() {
          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/60 to-slate-900/30"></div>
          
          <div className="absolute inset-0 flex flex-col">
-            {/* Tombol Kembali Dihapus dari sini sesuai permintaan */}
             <div className="p-6 md:p-8"></div> 
 
             <div className="mt-auto max-w-5xl mx-auto w-full px-6 md:px-8 pb-16 md:pb-20 text-center">
@@ -110,10 +110,10 @@ export default function ArticleDetailPage() {
             <div className="hidden lg:block lg:col-span-3 sticky top-32">
                <div className="space-y-6">
                   
-                  {/* Tombol Kembali (Dipindahkan ke sini) */}
+                  {/* Tombol Kembali (Updated Style: Gold Outline) */}
                   <button 
                     onClick={() => router.back()}
-                    className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-slate-600 dark:text-slate-300 font-bold text-sm hover:border-cbp-gold hover:text-cbp-navy dark:hover:text-cbp-gold hover:shadow-md transition-all group"
+                    className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-transparent border border-cbp-gold rounded-xl text-cbp-gold font-bold text-sm hover:bg-cbp-gold hover:text-cbp-navy hover:shadow-lg transition-all group"
                   >
                     <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
                     Kembali ke Daftar
@@ -172,13 +172,16 @@ export default function ArticleDetailPage() {
                </div>
 
                <CommentSection />
+               
+               {/* Footer Navigation (Prev/Next) */}
+               <ArticleNavigation prev={prev} next={next} />
             </div>
 
             {/* --- RIGHT SIDEBAR (STICKY GROUP) --- */}
-            {/* 3 Components Stacked: Search, Categories, Related, Newsletter */}
+            {/* Components Stacked: Search, Categories, Newsletter */}
             <div className="hidden lg:block lg:col-span-3 sticky top-32 space-y-6">
                
-               {/* 0. Search Box (New Feature) */}
+               {/* 0. Search Box */}
                <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm">
                   <h4 className="font-serif font-bold text-cbp-navy dark:text-white mb-4 flex items-center gap-2 text-xs uppercase tracking-widest border-b border-slate-100 dark:border-slate-800 pb-3">
                     <Search className="h-3.5 w-3.5 text-cbp-gold" /> Pencarian
@@ -198,33 +201,9 @@ export default function ArticleDetailPage() {
                  selectedCategory={article.category} 
                />
 
-               {/* 2. Related Articles Card */}
-               <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm">
-                  <h3 className="font-serif font-bold text-cbp-navy dark:text-white mb-4 flex items-center gap-2 text-xs uppercase tracking-widest border-b border-slate-100 dark:border-slate-800 pb-3">
-                    <BookOpen className="h-3.5 w-3.5 text-cbp-gold" /> Bacaan Terkait
-                  </h3>
-                  {relatedArticles.length > 0 ? (
-                    <div className="space-y-4">
-                      {relatedArticles.map(rel => (
-                        <div key={rel.id} className="group cursor-pointer flex flex-col gap-2" onClick={() => router.push(`/insights/${rel.id}`)}>
-                           <div className="relative h-28 w-full rounded-lg overflow-hidden">
-                              <Image src={rel.imageUrl} alt={rel.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
-                           </div>
-                           <div>
-                             <h4 className="font-bold text-xs text-slate-800 dark:text-slate-200 leading-snug group-hover:text-cbp-gold transition-colors line-clamp-2">
-                               {rel.title}
-                             </h4>
-                             <p className="text-[10px] text-slate-400 mt-1 font-mono uppercase tracking-wide">{rel.date}</p>
-                           </div>
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <p className="text-xs text-slate-500 italic">Tidak ada artikel terkait lainnya.</p>
-                  )}
-               </div>
+               {/* REMOVED: Related Articles Card */}
 
-               {/* 3. Newsletter Subscription */}
+               {/* 2. Newsletter Subscription */}
                <NewsletterCard />
             </div>
 

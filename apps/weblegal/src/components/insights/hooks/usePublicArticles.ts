@@ -25,11 +25,8 @@ export const usePublicArticles = () => {
     });
   }, [searchQuery, selectedCategory]);
 
-  // 3. Featured Article (First item of filtered or all)
   const featuredArticle = filteredArticles.length > 0 ? filteredArticles[0] : null;
   
-  // 4. List Articles (Exclude featured from list if needed, or just list all)
-  // Strategi: Jika sedang filter/search, tampilkan semua di grid. Jika default, pisahkan featured.
   const gridArticles = useMemo(() => {
     if (searchQuery || selectedCategory !== 'Semua') return filteredArticles;
     return filteredArticles.slice(1);
@@ -37,10 +34,15 @@ export const usePublicArticles = () => {
 
   const getArticleById = (id: string) => ARTICLES.find(a => a.id === id);
 
-  const getRelatedArticles = (currentId: string, category: string) => {
-    return ARTICLES
-      .filter(a => a.category === category && a.id !== currentId)
-      .slice(0, 3);
+  // New: Logic for Prev/Next Navigation
+  const getAdjacentArticles = (currentId: string) => {
+    const index = ARTICLES.findIndex(a => a.id === currentId);
+    if (index === -1) return { prev: null, next: null };
+
+    return {
+      prev: index > 0 ? ARTICLES[index - 1] : null,
+      next: index < ARTICLES.length - 1 ? ARTICLES[index + 1] : null
+    };
   };
 
   return {
@@ -52,6 +54,6 @@ export const usePublicArticles = () => {
     featuredArticle,
     gridArticles,
     getArticleById,
-    getRelatedArticles
+    getAdjacentArticles
   };
 };

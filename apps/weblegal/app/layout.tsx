@@ -6,6 +6,8 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Providers } from "./providers";
 import { NotificationToast } from "@cbp/ui";
+import { AIChatWidget } from "@/components/floating/AIChatWidget";
+import { ScrollToTopButton } from "@/components/floating/ScrollToTopButton";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -43,6 +45,11 @@ export default function RootLayout({
             {children}
           </main>
           <Footer />
+          
+          {/* Floating Global Widgets */}
+          <AIChatWidget />
+          <ScrollToTopButton />
+          
           <NotificationToast />
         </Providers>
       </body>
