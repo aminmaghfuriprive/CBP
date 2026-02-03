@@ -1,7 +1,7 @@
 
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { usePublicArticles } from '@/components/insights/hooks/usePublicArticles';
@@ -11,14 +11,16 @@ import { TableOfContents } from '@/components/insights/molecules/TableOfContents
 import { CommentSection } from '@/components/insights/organisms/CommentSection';
 import { CategorySidebar } from '@/components/insights/molecules/CategorySidebar';
 import { NewsletterCard } from '@/components/insights/molecules/NewsletterCard';
-import { Button } from '@cbp/ui';
-import { ArrowLeft, Facebook, Twitter, Linkedin, Share2, Clock, CalendarDays, UserCircle, BookOpen } from 'lucide-react';
+import { Button, SearchInput } from '@cbp/ui';
+import { ArrowLeft, Facebook, Twitter, Linkedin, Share2, Clock, CalendarDays, UserCircle, BookOpen, Search } from 'lucide-react';
 
 export default function ArticleDetailPage() {
   const params = useParams();
   const router = useRouter();
   const { getArticleById, getRelatedArticles, setSelectedCategory } = usePublicArticles();
   
+  const [localSearch, setLocalSearch] = useState('');
+
   const id = Array.isArray(params.id) ? params.id[0] : params.id;
   const article = getArticleById(id);
 
@@ -40,6 +42,14 @@ export default function ArticleDetailPage() {
     router.push('/insights');
   };
 
+  const handleSearchKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && localSearch.trim()) {
+      // Redirect ke halaman insights dengan query search (Simulasi filter logic di page insights akan menangkap ini jika diimplementasikan full, saat ini redirect basic)
+      // Untuk tujuan UI ini, kita redirect ke halaman utama insights dulu
+      router.push('/insights');
+    }
+  };
+
   return (
     <div className="bg-slate-50 dark:bg-slate-950 min-h-screen transition-colors duration-300 pb-32">
       <ScrollProgress />
@@ -56,14 +66,8 @@ export default function ArticleDetailPage() {
          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/60 to-slate-900/30"></div>
          
          <div className="absolute inset-0 flex flex-col">
-            <div className="p-6 md:p-8">
-                <button 
-                  onClick={() => router.back()} 
-                  className="inline-flex items-center gap-2 text-white/80 hover:text-white text-sm font-bold bg-white/10 hover:bg-white/20 px-4 py-2 rounded-full backdrop-blur-md transition-all border border-white/10"
-                >
-                  <ArrowLeft className="h-4 w-4" /> Kembali
-                </button>
-            </div>
+            {/* Tombol Kembali Dihapus dari sini sesuai permintaan */}
+            <div className="p-6 md:p-8"></div> 
 
             <div className="mt-auto max-w-5xl mx-auto w-full px-6 md:px-8 pb-16 md:pb-20 text-center">
                 <div className="animate-in fade-in slide-in-from-bottom-8 duration-700 space-y-6">
@@ -105,6 +109,16 @@ export default function ArticleDetailPage() {
             {/* --- LEFT SIDEBAR (STICKY) --- */}
             <div className="hidden lg:block lg:col-span-3 sticky top-32">
                <div className="space-y-6">
+                  
+                  {/* Tombol Kembali (Dipindahkan ke sini) */}
+                  <button 
+                    onClick={() => router.back()}
+                    className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-slate-600 dark:text-slate-300 font-bold text-sm hover:border-cbp-gold hover:text-cbp-navy dark:hover:text-cbp-gold hover:shadow-md transition-all group"
+                  >
+                    <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
+                    Kembali ke Daftar
+                  </button>
+
                   {/* Share Component */}
                   <div className="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
                      <h4 className="font-bold text-[10px] text-slate-400 uppercase tracking-widest mb-3 text-center">Bagikan</h4>
@@ -161,9 +175,23 @@ export default function ArticleDetailPage() {
             </div>
 
             {/* --- RIGHT SIDEBAR (STICKY GROUP) --- */}
-            {/* 3 Components Stacked: Categories, Related, Newsletter */}
+            {/* 3 Components Stacked: Search, Categories, Related, Newsletter */}
             <div className="hidden lg:block lg:col-span-3 sticky top-32 space-y-6">
                
+               {/* 0. Search Box (New Feature) */}
+               <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm">
+                  <h4 className="font-serif font-bold text-cbp-navy dark:text-white mb-4 flex items-center gap-2 text-xs uppercase tracking-widest border-b border-slate-100 dark:border-slate-800 pb-3">
+                    <Search className="h-3.5 w-3.5 text-cbp-gold" /> Pencarian
+                  </h4>
+                  <SearchInput 
+                    placeholder="Cari artikel lain..." 
+                    value={localSearch}
+                    onChange={(e) => setLocalSearch(e.target.value)}
+                    onKeyDown={handleSearchKey}
+                    className="w-full text-sm"
+                  />
+               </div>
+
                {/* 1. Categories Card */}
                <CategorySidebar 
                  onSelect={handleCategoryClick} 
@@ -196,7 +224,7 @@ export default function ArticleDetailPage() {
                   )}
                </div>
 
-               {/* 3. Newsletter Subscription (New) */}
+               {/* 3. Newsletter Subscription */}
                <NewsletterCard />
             </div>
 
