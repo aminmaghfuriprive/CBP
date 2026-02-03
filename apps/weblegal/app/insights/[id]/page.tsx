@@ -7,7 +7,6 @@ import Image from 'next/image';
 import { usePublicArticles } from '@/components/insights/hooks/usePublicArticles';
 import { ArticleCategoryBadge } from '@/components/insights/atoms/ArticleCategoryBadge';
 import { ArticleMeta } from '@/components/insights/atoms/ArticleMeta';
-import { ArticleGrid } from '@/components/insights/organisms/ArticleGrid';
 import { Button } from '@cbp/ui';
 import { ArrowLeft, Facebook, Twitter, Linkedin, Share2 } from 'lucide-react';
 
@@ -69,32 +68,18 @@ export default function ArticleDetailPage() {
             {/* Main Content */}
             <div className="lg:col-span-8">
                <div className="prose prose-lg dark:prose-invert max-w-none text-slate-700 dark:text-slate-300 leading-loose">
-                  <p className="font-serif text-xl md:text-2xl text-cbp-navy dark:text-cbp-gold italic font-medium leading-relaxed mb-8">
+                  {/* Excerpt as Lead Paragraph */}
+                  <p className="font-serif text-xl md:text-2xl text-cbp-navy dark:text-cbp-gold italic font-medium leading-relaxed mb-8 border-l-4 border-cbp-gold pl-6">
                     "{article.excerpt}"
                   </p>
                   
-                  {/* Simulated Content Body */}
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                  </p>
-                  <h3>Analisis Hukum Mendalam</h3>
-                  <p>
-                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                  </p>
-                  <ul>
-                    <li>Poin analisis hukum pertama yang krusial.</li>
-                    <li>Implikasi regulasi terhadap bisnis Anda.</li>
-                    <li>Strategi mitigasi risiko yang disarankan.</li>
-                  </ul>
-                  <p>
-                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
-                  </p>
-                  <blockquote>
-                    "Hukum adalah seni kebaikan dan keadilan. (Ars boni et aequi)"
-                  </blockquote>
-                  <p>
-                    Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
-                  </p>
+                  {/* Dynamic HTML Content */}
+                  {article.content ? (
+                    <div dangerouslySetInnerHTML={{ __html: article.content }} />
+                  ) : (
+                    // Fallback content if no HTML is provided
+                    <p>Konten lengkap artikel ini sedang dalam proses penyuntingan.</p>
+                  )}
                </div>
 
                {/* Share Buttons */}

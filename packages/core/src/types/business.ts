@@ -30,6 +30,7 @@ export interface Article {
   date: string;
   excerpt: string;
   imageUrl: string;
+  content?: string; // Added field for full HTML content
 }
 
 export interface PortfolioItem {
@@ -60,7 +61,6 @@ export interface Lawyer {
   role: string;
   specialty: string;
   imageUrl: string;
-  // New fields for Profile Modal
   bio?: string;
   education?: string[];
   expertise?: string[];
@@ -76,10 +76,10 @@ export interface ClientData {
 }
 
 export type CaseLifecycle = 
-  | 'PRE_PRODUCTION'  // Onboarding, Verifikasi, Conflict Check
-  | 'PRODUCTION'      // Drafting, Litigasi, Pendampingan
-  | 'POST_PRODUCTION' // Penagihan Akhir, Serah Terima
-  | 'ARCHIVED';       // Read-only, Tersimpan
+  | 'PRE_PRODUCTION'
+  | 'PRODUCTION'
+  | 'POST_PRODUCTION'
+  | 'ARCHIVED';
 
 export interface CaseData {
   id: string;
@@ -87,7 +87,7 @@ export interface CaseData {
   caseType: string;
   division: string;
   status: 'Aktif' | 'Menunggu' | 'Selesai';
-  lifecycle: CaseLifecycle; // Field baru untuk tracking 4 fase
+  lifecycle: CaseLifecycle;
   currentStage: string;
   lastUpdate: string;
   description: string;
