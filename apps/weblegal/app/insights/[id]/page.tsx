@@ -43,7 +43,7 @@ export default function ArticleDetailPage() {
     <div className="bg-slate-50 dark:bg-slate-950 min-h-screen transition-colors duration-300 pb-32">
       <ScrollProgress />
       
-      {/* Hero Section */}
+      {/* --- HERO SECTION (Tetap ikut scroll page, karena UX standar web) --- */}
       <div className="relative w-full h-[60vh] min-h-[400px]">
          <Image 
            src={article.imageUrl} 
@@ -99,40 +99,41 @@ export default function ArticleDetailPage() {
       </div>
 
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10 -mt-10">
-         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             
-            {/* LEFT SIDEBAR: Table of Contents & Share (3 Cols) */}
-            <div className="hidden lg:block lg:col-span-3">
-               <div className="sticky top-28 space-y-6">
-                  {/* Table of Contents moved here */}
-                  <TableOfContents />
-
-                  {/* Share Buttons integrated nicely */}
-                  <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
-                     <h4 className="font-bold text-xs text-slate-400 uppercase tracking-widest mb-4 text-center">Bagikan</h4>
-                     <div className="flex justify-center gap-3">
-                        <button className="p-2.5 rounded-full bg-slate-50 dark:bg-slate-800 text-slate-500 hover:text-[#1877F2] hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all"><Facebook className="h-5 w-5" /></button>
-                        <button className="p-2.5 rounded-full bg-slate-50 dark:bg-slate-800 text-slate-500 hover:text-[#1DA1F2] hover:bg-sky-50 dark:hover:bg-sky-900/20 transition-all"><Twitter className="h-5 w-5" /></button>
-                        <button className="p-2.5 rounded-full bg-slate-50 dark:bg-slate-800 text-slate-500 hover:text-[#0A66C2] hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all"><Linkedin className="h-5 w-5" /></button>
-                        <button className="p-2.5 rounded-full bg-slate-50 dark:bg-slate-800 text-slate-500 hover:text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20 transition-all"><Share2 className="h-5 w-5" /></button>
+            {/* --- LEFT SIDEBAR (STICKY) --- */}
+            {/* Sticky pada top-32 agar tidak tertutup header */}
+            <div className="hidden lg:block lg:col-span-3 sticky top-32">
+               <div className="space-y-6">
+                  {/* Share Component */}
+                  <div className="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                     <h4 className="font-bold text-[10px] text-slate-400 uppercase tracking-widest mb-3 text-center">Bagikan</h4>
+                     <div className="flex justify-center gap-2">
+                        <button className="p-2 rounded-lg bg-slate-50 dark:bg-slate-800 text-slate-500 hover:text-[#1877F2] hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all"><Facebook className="h-4 w-4" /></button>
+                        <button className="p-2 rounded-lg bg-slate-50 dark:bg-slate-800 text-slate-500 hover:text-[#1DA1F2] hover:bg-sky-50 dark:hover:bg-sky-900/20 transition-all"><Twitter className="h-4 w-4" /></button>
+                        <button className="p-2 rounded-lg bg-slate-50 dark:bg-slate-800 text-slate-500 hover:text-[#0A66C2] hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all"><Linkedin className="h-4 w-4" /></button>
+                        <button className="p-2 rounded-lg bg-slate-50 dark:bg-slate-800 text-slate-500 hover:text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20 transition-all"><Share2 className="h-4 w-4" /></button>
                      </div>
                   </div>
+
+                  {/* Table of Contents */}
+                  <TableOfContents />
                </div>
             </div>
 
-            {/* CENTER: Main Content (6 Cols) */}
-            <div className="lg:col-span-6 bg-white dark:bg-slate-900 rounded-t-3xl shadow-xl p-8 md:p-10 border border-slate-100 dark:border-slate-800">
+            {/* --- CENTER (SCROLLABLE CONTENT) --- */}
+            <div className="lg:col-span-6 bg-white dark:bg-slate-900 rounded-t-3xl shadow-xl p-8 md:p-10 border border-slate-100 dark:border-slate-800 min-h-screen">
                <article 
                   id="article-content"
                   className="
                   max-w-none prose dark:prose-invert 
                   prose-headings:font-serif prose-headings:font-bold prose-headings:text-cbp-navy dark:prose-headings:text-white
-                  prose-h2:text-2xl prose-h2:mt-8 prose-h2:mb-4
-                  prose-h3:text-xl prose-h3:mt-6 prose-h3:mb-3
-                  prose-p:text-[16px] prose-p:leading-relaxed prose-p:text-slate-600 dark:prose-p:text-slate-300 prose-p:mb-5
+                  prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4 prose-h2:scroll-mt-32
+                  prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3 prose-h3:scroll-mt-32
+                  prose-p:text-[16px] prose-p:leading-relaxed prose-p:text-slate-600 dark:prose-p:text-slate-300 prose-p:mb-6
                   prose-li:text-slate-600 dark:prose-li:text-slate-300
                   prose-strong:text-cbp-navy dark:prose-strong:text-white
-                  prose-blockquote:border-l-4 prose-blockquote:border-cbp-gold prose-blockquote:pl-6 prose-blockquote:italic prose-blockquote:bg-slate-50 dark:prose-blockquote:bg-slate-800/30 prose-blockquote:py-2 prose-blockquote:rounded-r-lg
+                  prose-blockquote:border-l-4 prose-blockquote:border-cbp-gold prose-blockquote:pl-6 prose-blockquote:italic prose-blockquote:bg-slate-50 dark:prose-blockquote:bg-slate-800/30 prose-blockquote:py-4 prose-blockquote:pr-4 prose-blockquote:rounded-r-xl
                   first-letter:text-5xl first-letter:font-serif first-letter:font-bold first-letter:text-cbp-navy dark:first-letter:text-cbp-gold first-letter:mr-3 first-letter:float-left first-letter:leading-[0.8]
                ">
                   <p className="lead text-lg text-slate-800 dark:text-slate-200 font-medium italic mb-8 border-b border-slate-100 dark:border-slate-800 pb-8 leading-relaxed font-serif">
@@ -159,37 +160,40 @@ export default function ArticleDetailPage() {
                <CommentSection />
             </div>
 
-            {/* RIGHT SIDEBAR: Categories & Related (3 Cols) */}
-            <div className="lg:col-span-3 space-y-8 pt-0 lg:pt-0">
-               {/* Categories Card */}
+            {/* --- RIGHT SIDEBAR (STICKY GROUP) --- */}
+            {/* Wrapper div ini dibuat Sticky, menampung Kategori & Related agar bergerak bersamaan */}
+            <div className="hidden lg:block lg:col-span-3 sticky top-32 space-y-6">
+               
+               {/* 1. Categories Card (Compact) */}
                <CategorySidebar 
                  onSelect={handleCategoryClick} 
                  selectedCategory={article.category} 
                />
 
-               {/* Related Articles Card */}
-               <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm">
-                  <h3 className="font-serif font-bold text-cbp-navy dark:text-white mb-6 flex items-center gap-2 text-sm uppercase tracking-wider border-b border-slate-100 dark:border-slate-800 pb-3">
-                    <BookOpen className="h-4 w-4 text-cbp-gold" /> Bacaan Terkait
+               {/* 2. Related Articles Card */}
+               <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm">
+                  <h3 className="font-serif font-bold text-cbp-navy dark:text-white mb-4 flex items-center gap-2 text-xs uppercase tracking-widest border-b border-slate-100 dark:border-slate-800 pb-3">
+                    <BookOpen className="h-3.5 w-3.5 text-cbp-gold" /> Bacaan Terkait
                   </h3>
                   {relatedArticles.length > 0 ? (
-                    <div className="space-y-6">
+                    <div className="space-y-4">
                       {relatedArticles.map(rel => (
-                        <div key={rel.id} className="group cursor-pointer flex flex-col gap-3" onClick={() => router.push(`/insights/${rel.id}`)}>
-                           <div className="relative h-24 w-full rounded-lg overflow-hidden">
+                        <div key={rel.id} className="group cursor-pointer flex flex-col gap-2" onClick={() => router.push(`/insights/${rel.id}`)}>
+                           <div className="relative h-28 w-full rounded-lg overflow-hidden">
                               <Image src={rel.imageUrl} alt={rel.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                              {/* Overlay Gradient on Image for text readability if needed, but cleaner without */}
                            </div>
                            <div>
-                             <h4 className="font-bold text-sm text-slate-800 dark:text-slate-200 leading-snug group-hover:text-cbp-gold transition-colors line-clamp-2">
+                             <h4 className="font-bold text-xs text-slate-800 dark:text-slate-200 leading-snug group-hover:text-cbp-gold transition-colors line-clamp-2">
                                {rel.title}
                              </h4>
-                             <p className="text-[10px] text-slate-500 mt-2 font-mono uppercase tracking-wide">{rel.date}</p>
+                             <p className="text-[10px] text-slate-400 mt-1 font-mono uppercase tracking-wide">{rel.date}</p>
                            </div>
                         </div>
                       ))}
                     </div>
                   ) : (
-                    <p className="text-sm text-slate-500 italic">Tidak ada artikel terkait lainnya.</p>
+                    <p className="text-xs text-slate-500 italic">Tidak ada artikel terkait lainnya.</p>
                   )}
                </div>
             </div>

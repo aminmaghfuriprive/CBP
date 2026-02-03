@@ -14,6 +14,7 @@ export const useTableOfContents = () => {
   const [activeId, setActiveId] = useState<string>('');
 
   useEffect(() => {
+    // Parsing Heading
     const timer = setTimeout(() => {
       const articleBody = document.getElementById('article-content');
       if (!articleBody) return;
@@ -22,7 +23,7 @@ export const useTableOfContents = () => {
       const items: TOCItem[] = [];
 
       elements.forEach((elem, index) => {
-        const id = `heading-${index}`;
+        const id = elem.id || `heading-${index}`;
         elem.id = id;
         items.push({
           id,
@@ -32,12 +33,16 @@ export const useTableOfContents = () => {
       });
 
       setHeadings(items);
+      // Set default active ke yang pertama
+      if (items.length > 0) setActiveId(items[0].id);
     }, 100);
 
     return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
+    if (headings.length === 0) return;
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -46,7 +51,14 @@ export const useTableOfContents = () => {
           }
         });
       },
-      { rootMargin: '-100px 0px -70% 0px' } // Area sorot di bagian atas layar
+      { 
+        // Logika Sorot:
+        // Area deteksi diperkecil menjadi celah sempit di bagian atas layar.
+        // -100px dari atas (kompensasi header sticky)
+        // -80% dari bawah (abaikan elemen yang masih jauh di bawah)
+        rootMargin: '-100px 0px -80% 0px',
+        threshold: 0
+      }
     );
 
     headings.forEach((h) => {
