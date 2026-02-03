@@ -26,9 +26,7 @@ export const metadata: Metadata = {
     url: '/',
     siteName: 'CBP Corp Law Firm',
   },
-  icons: {
-    icon: '/favicon.ico',
-  },
+  // icons prop removed to allow Next.js to auto-discover app/icon.tsx
 };
 
 export default function RootLayout({
