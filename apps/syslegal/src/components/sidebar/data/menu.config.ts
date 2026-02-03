@@ -9,7 +9,8 @@ import {
   UserCog, 
   Target, 
   FileText, 
-  CreditCard 
+  CreditCard,
+  Library
 } from 'lucide-react';
 import { MenuItem } from '../types';
 
@@ -40,6 +41,12 @@ export const MENU_ITEMS: MenuItem[] = [
     path: '/app/services',
     icon: Briefcase, 
     roles: ['ADMIN', 'FINANCE', 'PRODUCTION', 'MARKETING'] 
+  },
+  {
+    label: 'Pustaka Regulasi',
+    path: '/app/regulations',
+    icon: Library,
+    roles: ['ADMIN', 'PRODUCTION', 'MARKETING']
   },
   { 
     label: 'Keuangan', 

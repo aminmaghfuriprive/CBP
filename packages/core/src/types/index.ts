@@ -6,3 +6,4 @@ export * from './operations';
 export * from './communication';
 export * from './system';
 export * from './marketing';
+export * from './regulation';

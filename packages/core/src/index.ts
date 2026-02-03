@@ -15,9 +15,12 @@ export * from './data/mock_templates';
 export * from './data/mock_ayrshare';
 export * from './data/mock_portfolio';
 export * from './data/mock_certificates';
+export * from './data/mock_regulations';
+export * from './data/ai-prompts';
 
 // Services
 export * from './services/geminiService';
+export * from './lib/ai-client';
 
 // Contexts
 export * from './context/AuthContext';
@@ -53,6 +56,7 @@ export * from './hooks/useFieldLogic';
 export * from './hooks/useLeadLogic';
 export * from './hooks/usePortfolioLogic';
 export * from './hooks/useCertificateLogic';
+export * from './hooks/useRegulationLogic';
 
 // Utils
 export * from './utils/formatters';

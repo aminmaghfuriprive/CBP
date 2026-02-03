@@ -75,5 +75,12 @@ export const AI_CONFIGS = {
         }
       } as Schema
     }
+  },
+  summarizeRegulation: {
+    model: 'gemini-3-flash-preview',
+    prompt: (title: string) => `
+      Buatkan ringkasan singkat (1 paragraf, max 30 kata) tentang regulasi berikut: "${title}". 
+      Fokus pada inti materi muatan. Bahasa formal hukum.
+    `
   }
 };
