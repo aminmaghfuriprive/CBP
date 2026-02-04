@@ -16,7 +16,7 @@ export const TeamSection: React.FC<TeamSectionProps> = ({ expertStaff, supportSt
   const [selectedMember, setSelectedMember] = useState<Lawyer | null>(null);
 
   return (
-    <section className="py-24 bg-white dark:bg-slate-950">
+    <section className="py-16 md:py-24 bg-white dark:bg-slate-950">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* --- EXPERT STAFF (DIVISIONS) --- */}
@@ -25,16 +25,21 @@ export const TeamSection: React.FC<TeamSectionProps> = ({ expertStaff, supportSt
           subtitle={TEAM_SECTION_TITLES.mainSubtitle}
         />
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 mb-24">
+        {/* Use Flexbox for centering orphan items and easier control of widths */}
+        <div className="flex flex-wrap justify-center gap-4 md:gap-6 lg:gap-8 mb-20 md:mb-24">
             {expertStaff.map((member) => (
-              <ExpertTeamCard 
-                key={member.id}
-                name={member.name}
-                role={member.role} 
-                specialty={member.specialty}
-                imageUrl={member.imageUrl}
-                onClick={() => setSelectedMember(member)}
-              />
+              <div 
+                key={member.id} 
+                className="w-[calc(50%-0.5rem)] md:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.5rem)]"
+              >
+                <ExpertTeamCard 
+                  name={member.name}
+                  role={member.role} 
+                  specialty={member.specialty}
+                  imageUrl={member.imageUrl}
+                  onClick={() => setSelectedMember(member)}
+                />
+              </div>
             ))}
         </div>
 
@@ -44,16 +49,15 @@ export const TeamSection: React.FC<TeamSectionProps> = ({ expertStaff, supportSt
             {/* Visual Divider */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-1 bg-cbp-gold rounded-full mb-12"></div>
             
-            <div className="text-center mb-16 pt-12">
-               <h3 className="text-2xl font-serif font-bold text-cbp-navy dark:text-white tracking-wide uppercase">
+            <div className="text-center mb-10 md:mb-16 pt-12">
+               <h3 className="text-xl md:text-2xl font-serif font-bold text-cbp-navy dark:text-white tracking-wide uppercase">
                  {TEAM_SECTION_TITLES.supportTitle}
                </h3>
             </div>
 
-            {/* Changed from Grid to Flex to allow centering of the last row */}
-            <div className="flex flex-wrap justify-center gap-10 max-w-5xl mx-auto">
+            <div className="flex flex-wrap justify-center gap-y-8 gap-x-4 md:gap-10 max-w-5xl mx-auto">
                 {supportStaff.map((member) => (
-                  <div key={member.id} className="w-full sm:w-72">
+                  <div key={member.id} className="w-[calc(50%-0.5rem)] sm:w-72">
                     <SupportTeamCard 
                       name={member.name}
                       role={member.role}

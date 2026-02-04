@@ -15,7 +15,7 @@ interface ArticleCardProps {
 export const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
   return (
     <Link href={`/insights/${article.id}`} className="block h-full group">
-      <Card className="h-full flex flex-col overflow-hidden border-slate-200 dark:border-slate-800 hover:-translate-y-1 hover:shadow-xl transition-all duration-300" padding={false}>
+      <Card className="h-full flex flex-col overflow-hidden border border-slate-300 dark:border-slate-800 hover:-translate-y-1 hover:shadow-xl transition-all duration-300" padding={false}>
         {/* Image Container */}
         <div className="relative h-52 w-full overflow-hidden">
           <Image 

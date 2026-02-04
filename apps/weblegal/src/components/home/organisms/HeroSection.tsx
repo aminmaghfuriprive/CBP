@@ -17,9 +17,14 @@ export const HeroSection: React.FC = () => {
           priority
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-slate-900/80 mix-blend-multiply"></div>
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 to-transparent"></div>
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
+        {/* Layer 1: Base Tint (Navy for Light, Slate for Dark) */}
+        <div className="absolute inset-0 bg-cbp-navy/70 dark:bg-slate-900/90 mix-blend-multiply transition-colors duration-500"></div>
+        
+        {/* Layer 2: Horizontal Gradient (Left to Right) - Navy to Transparent */}
+        <div className="absolute inset-0 bg-gradient-to-r from-cbp-navy/95 via-cbp-navy/70 to-transparent dark:from-slate-950 dark:via-slate-950/90 dark:to-slate-950/20 transition-colors duration-500"></div>
+        
+        {/* Layer 3: Vertical Gradient (Bottom) - Smooth transition */}
+        <div className="absolute inset-0 bg-gradient-to-t from-cbp-navy via-transparent to-transparent dark:from-slate-950 transition-colors duration-500"></div>
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-20">
@@ -37,8 +42,8 @@ export const HeroSection: React.FC = () => {
               <span className="text-cbp-gold italic">{HERO_CONTENT.title.highlight}</span>
             </h1>
             
-            <div className="border-l-2 border-slate-700 pl-6 mb-10">
-              <p className="text-lg md:text-xl text-slate-300 leading-relaxed font-light" dangerouslySetInnerHTML={{__html: HERO_CONTENT.description}} />
+            <div className="border-l-2 border-slate-400 dark:border-slate-700 pl-6 mb-10">
+              <p className="text-lg md:text-xl text-slate-100 dark:text-slate-300 leading-relaxed font-light" dangerouslySetInnerHTML={{__html: HERO_CONTENT.description}} />
             </div>
             
             <div className="flex flex-col sm:flex-row gap-4">
@@ -48,7 +53,7 @@ export const HeroSection: React.FC = () => {
                 </Button>
               </Link>
               <Link href="/services">
-                <Button variant="outline" size="lg" className="!bg-transparent !border-slate-400 !text-slate-100 hover:!border-white hover:!text-white hover:!bg-white/10 px-8 py-4 h-auto text-base w-full sm:w-auto">
+                <Button variant="outline" size="lg" className="!bg-transparent !border-slate-300 dark:!border-slate-500 !text-white hover:!bg-white/10 px-8 py-4 h-auto text-base w-full sm:w-auto">
                   {HERO_CONTENT.buttons.secondary}
                 </Button>
               </Link>

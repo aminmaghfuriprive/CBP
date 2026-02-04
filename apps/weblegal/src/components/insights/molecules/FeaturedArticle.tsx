@@ -23,7 +23,8 @@ export const FeaturedArticle: React.FC<FeaturedArticleProps> = ({ article }) => 
           className="object-cover transition-transform duration-1000 group-hover:scale-105"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/60 to-transparent"></div>
+        {/* Lighting Fix: Navy/Blue gradient for better color pop in Light Mode */}
+        <div className="absolute inset-0 bg-gradient-to-t from-cbp-navy/95 via-cbp-navy/50 to-transparent dark:from-slate-950 dark:via-slate-900/60"></div>
       </div>
 
       <div className="relative z-10 p-8 md:p-12 lg:p-16 flex flex-col justify-end min-h-[500px] max-w-4xl">

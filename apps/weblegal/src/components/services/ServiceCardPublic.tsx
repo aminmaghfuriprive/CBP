@@ -16,7 +16,7 @@ export const ServiceCardPublic: React.FC<ServiceCardPublicProps> = ({ data, onCl
   return (
     <div 
       onClick={() => onClick(data)}
-      className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-8 hover:border-cbp-gold dark:hover:border-cbp-gold hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 group flex flex-col h-full cursor-pointer relative overflow-hidden"
+      className="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 rounded-2xl p-8 hover:border-cbp-gold dark:hover:border-cbp-gold shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 group flex flex-col h-full cursor-pointer relative overflow-hidden"
     >
       {/* Visual Accent: Gold Line on Hover */}
       <div className="absolute top-0 left-0 w-full h-1 bg-cbp-gold transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left z-10"></div>
@@ -29,7 +29,7 @@ export const ServiceCardPublic: React.FC<ServiceCardPublicProps> = ({ data, onCl
       )}
 
       {/* Atom: Service Icon */}
-      <div className="w-16 h-16 bg-slate-50 dark:bg-slate-800 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-cbp-navy dark:group-hover:bg-cbp-gold transition-colors duration-300 shadow-sm mt-2">
+      <div className="w-16 h-16 bg-slate-50 dark:bg-slate-800 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-cbp-navy dark:group-hover:bg-cbp-gold transition-colors duration-300 shadow-sm mt-2 border border-slate-200 dark:border-slate-700">
         <ServiceIcon 
           name={data.iconName} 
           className="h-8 w-8 text-cbp-navy dark:text-cbp-gold group-hover:text-white dark:group-hover:text-slate-900 transition-colors" 

@@ -64,7 +64,9 @@ export default function ArticleDetailPage() {
            className="object-cover"
            priority
          />
-         <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/60 to-slate-900/30"></div>
+         
+         {/* Lighting Fix: Replaced slate-950 overlay with Navy for Light Mode */}
+         <div className="absolute inset-0 bg-gradient-to-t from-cbp-navy via-cbp-navy/60 to-slate-900/30 dark:from-slate-950 dark:via-slate-900/70"></div>
          
          <div className="absolute inset-0 flex flex-col">
             <div className="p-6 md:p-8"></div> 
@@ -82,17 +84,17 @@ export default function ArticleDetailPage() {
                     {article.title}
                   </h1>
 
-                  <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-slate-300 font-medium">
+                  <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-slate-200 font-medium">
                      <div className="flex items-center gap-2">
                         <UserCircle className="h-5 w-5 text-cbp-gold" />
                         <span>Tim Riset Legal</span>
                      </div>
-                     <div className="w-1.5 h-1.5 rounded-full bg-slate-500"></div>
+                     <div className="w-1.5 h-1.5 rounded-full bg-slate-400"></div>
                      <div className="flex items-center gap-2">
                         <CalendarDays className="h-4 w-4" />
                         <span>{article.date}</span>
                      </div>
-                     <div className="w-1.5 h-1.5 rounded-full bg-slate-500"></div>
+                     <div className="w-1.5 h-1.5 rounded-full bg-slate-400"></div>
                      <div className="flex items-center gap-2">
                         <Clock className="h-4 w-4" />
                         <span>{readTime} menit baca</span>
@@ -110,10 +112,10 @@ export default function ArticleDetailPage() {
             <div className="hidden lg:block lg:col-span-3 sticky top-32">
                <div className="space-y-6">
                   
-                  {/* Tombol Kembali (Updated Style: Gold Outline) */}
+                  {/* Tombol Kembali */}
                   <button 
                     onClick={() => router.back()}
-                    className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-transparent border border-cbp-gold rounded-xl text-cbp-gold font-bold text-sm hover:bg-cbp-gold hover:text-cbp-navy hover:shadow-lg transition-all group"
+                    className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-slate-600 dark:text-slate-300 font-bold text-sm hover:text-cbp-navy dark:hover:text-white hover:border-cbp-navy dark:hover:border-white hover:shadow-lg transition-all group"
                   >
                     <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
                     Kembali ke Daftar
