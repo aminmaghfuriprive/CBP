@@ -23,21 +23,21 @@ export const NetworkSection: React.FC = () => {
           {NETWORK_CONTENT.organizations.map((org, idx) => (
             <div 
               key={idx}
-              className="group relative flex flex-col items-center justify-center p-8 bg-slate-50 dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 hover:border-cbp-gold dark:hover:border-cbp-gold hover:shadow-xl transition-all duration-500 cursor-default h-40"
+              className="group relative flex flex-col items-center justify-between p-6 bg-slate-50 dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 hover:border-cbp-gold dark:hover:border-cbp-gold hover:shadow-xl transition-all duration-500 cursor-default min-h-[180px]"
             >
               {/* Logo Container */}
-              <div className="relative w-full h-16 transition-all duration-500 transform group-hover:scale-110">
+              <div className="relative w-full h-16 mt-4 transition-all duration-500 transform group-hover:scale-110">
                 <Image 
                   src={org.logoUrl} 
                   alt={`${org.name} Logo`}
                   fill
-                  className="object-contain filter grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500 dark:invert dark:group-hover:invert-0"
+                  className="object-contain filter grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500 dark:invert dark:group-hover:invert-0"
                 />
               </div>
 
-              {/* Tooltip / Full Name on Hover */}
-              <div className="absolute bottom-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0">
-                <p className="text-[9px] font-bold text-cbp-navy dark:text-cbp-gold uppercase tracking-widest text-center leading-tight max-w-[150px]">
+              {/* Full Name - Always Visible now */}
+              <div className="mt-6 text-center w-full">
+                <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 group-hover:text-cbp-navy dark:group-hover:text-cbp-gold uppercase tracking-widest leading-tight transition-colors duration-300">
                   {org.fullName}
                 </p>
               </div>
