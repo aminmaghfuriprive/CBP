@@ -25,15 +25,17 @@ export const NetworkSection: React.FC = () => {
                 key={idx}
                 className="group flex flex-col items-center justify-center p-6 bg-white dark:bg-slate-800 rounded-xl border border-slate-100 dark:border-slate-700 hover:border-cbp-gold dark:hover:border-cbp-gold hover:shadow-lg transition-all duration-300 cursor-default"
               >
-                <div className="w-12 h-12 mb-4 rounded-full bg-slate-100 dark:bg-slate-900 flex items-center justify-center text-slate-400 group-hover:bg-cbp-navy group-hover:text-cbp-gold transition-colors duration-300">
+                <div className="w-12 h-12 mb-4 rounded-full bg-slate-100 dark:bg-slate-900 flex items-center justify-center text-slate-500 dark:text-slate-400 group-hover:bg-cbp-navy group-hover:text-cbp-gold transition-colors duration-300">
                    <IconComponent className="h-6 w-6" />
                 </div>
                 
-                <h3 className="text-2xl font-bold text-slate-300 dark:text-slate-600 group-hover:text-cbp-navy dark:group-hover:text-white transition-colors duration-300 font-serif">
+                {/* Updated H3 color for better visibility in inactive state */}
+                <h3 className="text-2xl font-bold text-slate-400 dark:text-slate-500 group-hover:text-cbp-navy dark:group-hover:text-white transition-colors duration-300 font-serif">
                   {org.name}
                 </h3>
                 
-                <p className="text-[10px] text-center text-slate-400 font-medium mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 uppercase tracking-wide">
+                {/* Updated description color and weight for better readability */}
+                <p className="text-[10px] text-center text-slate-500 dark:text-slate-400 font-bold mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 uppercase tracking-wide leading-tight">
                   {org.fullName}
                 </p>
               </div>
