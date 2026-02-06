@@ -32,6 +32,7 @@ export const NetworkSection: React.FC = () => {
                   alt={`${org.name} Logo`}
                   fill
                   className="object-contain filter grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500 dark:invert dark:group-hover:invert-0"
+                  unoptimized
                 />
               </div>
 
