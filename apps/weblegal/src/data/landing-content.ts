@@ -46,6 +46,18 @@ export const FOUNDER_PROFILE = {
   buttonText: "Lihat Profil Lengkap"
 };
 
+export const NETWORK_CONTENT = {
+  title: "Afiliasi Profesional",
+  subtitle: "Terhubung dengan jaringan organisasi hukum terkemuka untuk standar layanan tertinggi.",
+  organizations: [
+    { name: "PERADI", fullName: "Perhimpunan Advokat Indonesia", iconName: "Scale" },
+    { name: "INI", fullName: "Ikatan Notaris Indonesia", iconName: "Scroll" },
+    { name: "IPPAT", fullName: "Ikatan Pejabat Pembuat Akta Tanah", iconName: "Map" },
+    { name: "HKHPM", fullName: "Himpunan Konsultan Hukum Pasar Modal", iconName: "TrendingUp" },
+    { name: "AKPI", fullName: "Asosiasi Kurator & Pengurus Indonesia", iconName: "Briefcase" }
+  ]
+};
+
 export const SERVICES_SECTION_CONTENT = {
   title: "Divisi Layanan",
   subtitle: "Struktur spesialisasi kami yang dirancang untuk menangani kompleksitas hukum dari berbagai sektor.",
