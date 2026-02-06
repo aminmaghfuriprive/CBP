@@ -50,11 +50,31 @@ export const NETWORK_CONTENT = {
   title: "Afiliasi Profesional",
   subtitle: "Terhubung dengan jaringan organisasi hukum terkemuka untuk standar layanan tertinggi.",
   organizations: [
-    { name: "PERADI", fullName: "Perhimpunan Advokat Indonesia", iconName: "Scale" },
-    { name: "INI", fullName: "Ikatan Notaris Indonesia", iconName: "Scroll" },
-    { name: "IPPAT", fullName: "Ikatan Pejabat Pembuat Akta Tanah", iconName: "Map" },
-    { name: "HKHPM", fullName: "Himpunan Konsultan Hukum Pasar Modal", iconName: "TrendingUp" },
-    { name: "AKPI", fullName: "Asosiasi Kurator & Pengurus Indonesia", iconName: "Briefcase" }
+    { 
+      name: "PERADI", 
+      fullName: "Perhimpunan Advokat Indonesia", 
+      logoUrl: "https://placehold.co/400x200/transparent/0f172a?text=PERADI&font=serif" 
+    },
+    { 
+      name: "INI", 
+      fullName: "Ikatan Notaris Indonesia", 
+      logoUrl: "https://placehold.co/400x200/transparent/0f172a?text=INI&font=serif" 
+    },
+    { 
+      name: "IPPAT", 
+      fullName: "Ikatan Pejabat Pembuat Akta Tanah", 
+      logoUrl: "https://placehold.co/400x200/transparent/0f172a?text=IPPAT&font=serif" 
+    },
+    { 
+      name: "HKHPM", 
+      fullName: "Himpunan Konsultan Hukum Pasar Modal", 
+      logoUrl: "https://placehold.co/400x200/transparent/0f172a?text=HKHPM&font=serif" 
+    },
+    { 
+      name: "AKPI", 
+      fullName: "Asosiasi Kurator & Pengurus Indonesia", 
+      logoUrl: "https://placehold.co/400x200/transparent/0f172a?text=AKPI&font=serif" 
+    }
   ]
 };
 
