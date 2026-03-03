@@ -7,8 +7,12 @@ import { GoogleGenAI } from "@google/genai";
 export const getApiKey = (): string => {
   try {
     if (typeof process !== 'undefined' && process.env) {
-      if (process.env.NEXT_PUBLIC_API_KEY) return process.env.NEXT_PUBLIC_API_KEY;
+      // Prioritaskan Private Key (Server-side only)
+      if (process.env.GEMINI_API_KEY) return process.env.GEMINI_API_KEY;
       if (process.env.API_KEY) return process.env.API_KEY;
+      
+      // Fallback ke Public Key (Client-side, akan segera dipindahkan ke server)
+      if (process.env.NEXT_PUBLIC_API_KEY) return process.env.NEXT_PUBLIC_API_KEY;
     }
   } catch (e) {
     // Graceful fallback if process is undefined

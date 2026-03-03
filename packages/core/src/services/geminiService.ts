@@ -15,10 +15,33 @@ const cleanJsonOutput = (text: string): string => {
 const executeGenAI = async (
   modelName: string, 
   content: string, 
-  config: any = {}
+  config: any = {},
+  taskType: string = 'general'
 ): Promise<string | undefined> => {
+  // Jika dipanggil dari browser, lempar ke API Route internal (Server-side proxy)
+  if (typeof window !== 'undefined') {
+    try {
+      const response = await fetch('/api/ai', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ modelName, content, config, taskType })
+      });
+      
+      if (!response.ok) throw new Error('Proxy AI Error');
+      const data = await response.json();
+      return data.text;
+    } catch (error) {
+      console.error("Client-side AI Proxy Error:", error);
+      return undefined;
+    }
+  }
+
+  // Jika dipanggil dari server, eksekusi langsung menggunakan SDK
   const apiKey = getApiKey();
-  if (!apiKey) return undefined;
+  if (!apiKey) {
+    console.error("AI Service Error: API Key not found on server.");
+    return undefined;
+  }
   
   try {
     const ai = createAIClient();
@@ -29,7 +52,7 @@ const executeGenAI = async (
     });
     return response.text;
   } catch (error) {
-    console.error("AI Service Error:", error);
+    console.error("AI SDK Server Error:", error);
     return undefined;
   }
 };

@@ -4,6 +4,7 @@
   "globalDependencies": [
     "**/.env",
     "API_KEY",
+    "GEMINI_API_KEY",
     "VITE_API_KEY",
     "NEXT_PUBLIC_API_KEY",
     "package.json"
