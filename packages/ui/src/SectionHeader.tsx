@@ -17,16 +17,16 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
   const subColor = light ? 'text-slate-300' : 'text-slate-600 dark:text-slate-400';
   
   return (
-    <div className={`mb-16 ${align === 'center' ? 'text-center' : 'text-left'}`}>
-      <h2 className={`text-3xl md:text-5xl font-serif font-bold ${textColor} mb-6 tracking-tight`}>
+    <div className={`mb-10 ${align === 'center' ? 'text-center' : 'text-left'}`}>
+      <h2 className={`text-2xl md:text-3xl font-serif font-bold ${textColor} mb-3 tracking-tight`}>
         {title}
       </h2>
       {subtitle && (
-        <p className={`${subColor} text-lg max-w-2xl leading-relaxed ${align === 'center' ? 'mx-auto' : ''}`}>
+        <p className={`${subColor} text-sm max-w-2xl leading-relaxed ${align === 'center' ? 'mx-auto' : ''}`}>
           {subtitle}
         </p>
       )}
-      <div className={`h-1 w-20 bg-cbp-gold mt-6 ${align === 'center' ? 'mx-auto' : ''} rounded-full`}></div>
+      <div className={`h-0.5 w-16 bg-cbp-gold mt-3 ${align === 'center' ? 'mx-auto' : ''} rounded-full`}></div>
     </div>
   );
 };

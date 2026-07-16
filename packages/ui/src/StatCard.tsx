@@ -31,15 +31,15 @@ export const StatCard: React.FC<StatCardProps> = ({
   const iconColor = styles[variant];
 
   return (
-    <Card className="flex items-center p-6 border-l-4 border-l-transparent transition-all hover:translate-y-[-2px]" padding={false}>
-      <div className={`p-4 rounded-full mr-4 ml-6 shadow-sm ${iconColor}`}>
-        <Icon className="h-6 w-6" />
+    <Card className="flex items-center p-3 border-l-4 border-l-transparent transition-all hover:translate-y-[-2px]" padding={false}>
+      <div className={`p-2 rounded-full mr-2 ml-3 shadow-sm ${iconColor}`}>
+        <Icon className="h-4 w-4" />
       </div>
-      <div className="py-6 pr-6">
-        <p className="text-sm font-medium text-slate-500 dark:text-slate-400">{label}</p>
-        <p className="text-2xl font-bold text-slate-900 dark:text-white mt-1">{value}</p>
+      <div className="py-3 pr-3">
+        <p className="text-xs font-medium text-slate-500 dark:text-slate-400">{label}</p>
+        <p className="text-lg font-bold text-slate-900 dark:text-white mt-0.5">{value}</p>
         {subtext && (
-          <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">{subtext}</p>
+          <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">{subtext}</p>
         )}
       </div>
     </Card>
