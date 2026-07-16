@@ -27,33 +27,33 @@ export const HeroSection: React.FC = () => {
         <div className="absolute inset-0 bg-gradient-to-t from-cbp-navy via-transparent to-transparent dark:from-slate-950 transition-colors duration-500"></div>
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-20">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
           
           <div className="animate-in fade-in slide-in-from-bottom-10 duration-1000">
-            <div className="flex items-center gap-4 mb-8">
-              <div className="h-0.5 w-12 bg-cbp-gold"></div>
-              <span className="text-cbp-gold font-bold tracking-[0.2em] text-sm uppercase">{HERO_CONTENT.tag}</span>
+            <div className="flex items-center gap-2 mb-4">
+              <div className="h-0.5 w-8 bg-cbp-gold"></div>
+              <span className="text-cbp-gold font-bold tracking-[0.2em] text-xs uppercase">{HERO_CONTENT.tag}</span>
             </div>
             
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif font-bold text-white leading-[1.1] mb-8 tracking-tight">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-white leading-[1.1] mb-4 tracking-tight">
               {HERO_CONTENT.title.line1}<br />
               {HERO_CONTENT.title.line2} <br/>
               <span className="text-cbp-gold italic">{HERO_CONTENT.title.highlight}</span>
             </h1>
             
-            <div className="border-l-2 border-slate-400 dark:border-slate-700 pl-6 mb-10">
-              <p className="text-lg md:text-xl text-slate-100 dark:text-slate-300 leading-relaxed font-light" dangerouslySetInnerHTML={{__html: HERO_CONTENT.description}} />
+            <div className="border-l-2 border-slate-400 dark:border-slate-700 pl-4 mb-6">
+              <p className="text-base md:text-lg text-slate-100 dark:text-slate-300 leading-relaxed font-light" dangerouslySetInnerHTML={{__html: HERO_CONTENT.description}} />
             </div>
             
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-2">
               <Link href="/contact">
-                <Button size="lg" className="!bg-cbp-gold !text-cbp-navy hover:!bg-white hover:!text-cbp-navy !border-transparent transition-all duration-300 px-8 py-4 h-auto text-base w-full sm:w-auto shadow-lg shadow-cbp-gold/20 font-bold">
+                <Button size="lg" className="!bg-cbp-gold !text-cbp-navy hover:!bg-white hover:!text-cbp-navy !border-transparent transition-all duration-300 px-6 py-2 h-auto text-sm w-full sm:w-auto shadow-lg shadow-cbp-gold/20 font-bold">
                   {HERO_CONTENT.buttons.primary}
                 </Button>
               </Link>
               <Link href="/services">
-                <Button variant="outline" size="lg" className="!bg-transparent !border-slate-300 dark:!border-slate-500 !text-white hover:!bg-white/10 px-8 py-4 h-auto text-base w-full sm:w-auto">
+                <Button variant="outline" size="lg" className="!bg-transparent !border-slate-300 dark:!border-slate-500 !text-white hover:!bg-white/10 px-6 py-2 h-auto text-sm w-full sm:w-auto">
                   {HERO_CONTENT.buttons.secondary}
                 </Button>
               </Link>

@@ -84,39 +84,39 @@ export const NotificationToast: React.FC = () => {
 
   return (
     <div className={`
-      fixed bottom-6 right-6 z-[100] w-80 md:w-96 
+      fixed bottom-4 right-4 z-[100] w-72 md:w-80 
       transition-all duration-300 ease-in-out transform
       ${visible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}
     `}>
       <div className={`
-        relative rounded-lg shadow-2xl overflow-hidden
+        relative rounded-md shadow-lg overflow-hidden
         ${config.bg} ${config.border} border-t border-r border-b border-slate-200 dark:border-y dark:border-r dark:border-slate-800
       `}>
-        <div className="p-4 flex items-start gap-4">
+        <div className="p-3 flex items-start gap-3">
           <div className={`mt-0.5 ${config.iconColor}`}>
-            <Icon className="h-6 w-6" />
+            <Icon className="h-5 w-5" />
           </div>
           
           <div className="flex-1 min-w-0">
             <div className="flex justify-between items-start">
-              <h4 className="font-bold text-sm text-slate-900 dark:text-white truncate pr-2">
+              <h4 className="font-bold text-xs text-slate-900 dark:text-white truncate pr-2">
                 {data.title}
               </h4>
               <button 
                 onClick={handleDismiss}
-                className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 -mt-1 -mr-1"
+                className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 -mt-0.5 -mr-1"
               >
-                <X className="h-4 w-4" />
+                <X className="h-3.5 w-3.5" />
               </button>
             </div>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
+            <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 leading-tight">
               {data.message}
             </p>
           </div>
         </div>
 
         {/* Progress Bar */}
-        <div className="absolute bottom-0 left-0 h-1 bg-slate-100 dark:bg-slate-800 w-full">
+        <div className="absolute bottom-0 left-0 h-0.5 bg-slate-100 dark:bg-slate-800 w-full">
           <div 
             className={`h-full transition-all duration-100 ease-linear ${
               data.type === 'success' ? 'bg-green-500' :

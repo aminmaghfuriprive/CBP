@@ -17,7 +17,7 @@ export const Card: React.FC<CardProps> = ({ children, className = '', padding = 
       `}
       {...props}
     >
-      <div className={padding ? "p-6" : ""}>
+      <div className={padding ? "p-3" : ""}>
         {children}
       </div>
     </div>
@@ -25,8 +25,8 @@ export const Card: React.FC<CardProps> = ({ children, className = '', padding = 
 };
 
 export const CardHeader: React.FC<{ title: string, subtitle?: string }> = ({ title, subtitle }) => (
-  <div className="mb-5">
-    <h3 className="text-lg font-serif font-bold text-slate-900 dark:text-slate-100 tracking-tight">{title}</h3>
-    {subtitle && <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">{subtitle}</p>}
+  <div className="mb-2">
+    <h3 className="text-sm font-serif font-bold text-slate-900 dark:text-slate-100 tracking-tight">{title}</h3>
+    {subtitle && <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{subtitle}</p>}
   </div>
 );

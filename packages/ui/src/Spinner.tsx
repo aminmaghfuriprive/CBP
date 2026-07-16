@@ -14,10 +14,10 @@ export const Spinner: React.FC<SpinnerProps> = ({
   variant = 'primary'
 }) => {
   const sizes = {
-    sm: 'h-4 w-4',
-    md: 'h-6 w-6',
-    lg: 'h-8 w-8',
-    xl: 'h-12 w-12'
+    sm: 'h-3 w-3',
+    md: 'h-4 w-4',
+    lg: 'h-6 w-6',
+    xl: 'h-8 w-8'
   };
 
   const colors = {

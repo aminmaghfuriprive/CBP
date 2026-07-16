@@ -15,8 +15,8 @@ export const Sidebar: React.FC = () => {
       
       <SidebarHeader user={user} />
       
-      <div className="flex-1 overflow-y-auto py-6 px-3 space-y-1 scrollbar-hide">
-        <p className="px-4 text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-3">
+      <div className="flex-1 overflow-y-auto py-2 px-2 space-y-0.5 scrollbar-hide">
+        <p className="px-2 text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-2">
           Menu Utama
         </p>
         {navigationItems.map((item) => (

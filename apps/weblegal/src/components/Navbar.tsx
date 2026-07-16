@@ -38,15 +38,15 @@ export const Navbar: React.FC = () => {
   // At Top: Transparent
   // Scrolled: White (Light Mode) / Black (Dark Mode)
   const navContainerClass = scrolled 
-    ? 'bg-white/90 dark:bg-slate-950/90 backdrop-blur-md shadow-sm border-b border-slate-200 dark:border-slate-800 py-3' 
-    : 'bg-transparent py-5';
+    ? 'bg-white/90 dark:bg-slate-950/90 backdrop-blur-md shadow-sm border-b border-slate-200 dark:border-slate-800 py-2' 
+    : 'bg-transparent py-3';
 
   // 2. Text Colors
   // At Top: Always White (assuming Dark Hero sections)
   // Scrolled: Navy (Light Mode) / White (Dark Mode)
   const textBaseClass = scrolled
-    ? 'text-slate-600 hover:text-cbp-navy dark:text-slate-300 dark:hover:text-white'
-    : 'text-slate-200 hover:text-white';
+    ? 'text-slate-600 hover:text-cbp-navy dark:text-slate-300 dark:hover:text-white text-sm'
+    : 'text-slate-200 hover:text-white text-sm';
   
   const textActiveClass = scrolled
     ? 'text-cbp-navy dark:text-cbp-gold font-bold'
@@ -71,41 +71,41 @@ export const Navbar: React.FC = () => {
         <div className="flex justify-between items-center">
           
           {/* LOGO AREA */}
-          <Link href="/" className="flex items-center gap-2 group">
-            <Shield className={`h-8 w-8 transition-colors ${scrolled ? 'text-cbp-navy dark:text-cbp-gold' : 'text-white group-hover:text-cbp-gold'}`} />
+          <Link href="/" className="flex items-center gap-1.5 group">
+            <Shield className={`h-7 w-7 transition-colors ${scrolled ? 'text-cbp-navy dark:text-cbp-gold' : 'text-white group-hover:text-cbp-gold'}`} />
             <div>
-              <span className={`block font-serif font-bold text-xl leading-none tracking-tight transition-colors ${logoColorClass}`}>CBP Corp</span>
-              <span className={`block text-[10px] font-bold uppercase tracking-widest transition-colors ${logoSubColorClass}`}>Legal Firm</span>
+              <span className={`block font-serif font-bold text-lg leading-none tracking-tight transition-colors ${logoColorClass}`}>CBP Corp</span>
+              <span className={`block text-[9px] font-bold uppercase tracking-widest transition-colors ${logoSubColorClass}`}>Legal Firm</span>
             </div>
           </Link>
 
           {/* DESKTOP NAV */}
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden md:flex items-center gap-6">
             {navLinks.map((link) => (
               <Link 
                 key={link.path} href={link.path}
-                className={`text-sm font-medium transition-all duration-200 ${pathname === link.path ? textActiveClass : textBaseClass}`}
+                className={`font-medium transition-all duration-200 ${pathname === link.path ? textActiveClass : textBaseClass}`}
               >
                 {link.name}
               </Link>
             ))}
             
             {/* Divider */}
-            <div className={`h-6 w-px ${scrolled ? 'bg-slate-200 dark:bg-slate-700' : 'bg-white/20'}`}></div>
+            <div className={`h-5 w-px ${scrolled ? 'bg-slate-200 dark:bg-slate-700' : 'bg-white/20'}`}></div>
             
             {/* Theme Toggle & CTA */}
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3">
               <ThemeToggle className={`!border-transparent ${toggleBtnClass}`} />
               
               {isAuthenticated && user?.role === 'CLIENT' ? (
                 <Link href="/portal/dashboard">
                    <Button size="sm" className="!bg-cbp-gold !text-cbp-navy hover:!bg-white border-none font-bold shadow-none">
-                     <User className="h-4 w-4 mr-2" /> Portal
+                     <User className="h-3.5 w-3.5 mr-1.5" /> Portal
                    </Button>
                 </Link>
               ) : (
                 <Link href="/auth/login">
-                  <Button size="sm" className={`font-bold shadow-none border-none ${scrolled ? 'bg-cbp-navy text-white hover:bg-cbp-gold hover:text-cbp-navy dark:bg-cbp-gold dark:text-cbp-navy dark:hover:bg-white' : '!bg-cbp-gold !text-cbp-navy hover:!bg-white'}`}>
+                  <Button size="sm" className={`font-bold shadow-none border-none text-xs ${scrolled ? 'bg-cbp-navy text-white hover:bg-cbp-gold hover:text-cbp-navy dark:bg-cbp-gold dark:text-cbp-navy dark:hover:bg-white' : '!bg-cbp-gold !text-cbp-navy hover:!bg-white'}`}>
                     Login Klien
                   </Button>
                 </Link>
@@ -128,12 +128,12 @@ export const Navbar: React.FC = () => {
 
       {/* MOBILE MENU DROPDOWN */}
       {isOpen && (
-        <div className="md:hidden absolute top-full left-0 w-full bg-white dark:bg-slate-950 border-t border-b border-slate-200 dark:border-slate-800 shadow-xl py-6 px-4 flex flex-col gap-2 animate-in slide-in-from-top-2 duration-200">
+        <div className="md:hidden absolute top-full left-0 w-full bg-white dark:bg-slate-950 border-t border-b border-slate-200 dark:border-slate-800 shadow-xl py-3 px-4 flex flex-col gap-1 animate-in slide-in-from-top-2 duration-200">
           {navLinks.map((link) => (
             <Link 
               key={link.path} href={link.path} onClick={() => setIsOpen(false)}
               className={`
-                text-lg font-medium px-4 py-3 rounded-xl transition-colors
+                text-sm font-medium px-3 py-2 rounded-lg transition-colors
                 ${pathname === link.path 
                   ? 'bg-cbp-navy/5 text-cbp-navy dark:bg-white/10 dark:text-cbp-gold font-bold' 
                   : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-900'}
@@ -142,9 +142,9 @@ export const Navbar: React.FC = () => {
               {link.name}
             </Link>
           ))}
-          <div className="h-px bg-slate-100 dark:bg-slate-800 my-2"></div>
+          <div className="h-px bg-slate-100 dark:bg-slate-800 my-1.5"></div>
           <Link href="/auth/login" onClick={() => setIsOpen(false)}>
-            <Button className="w-full justify-center !bg-cbp-navy !text-white dark:!bg-cbp-gold dark:!text-cbp-navy font-bold py-3">
+            <Button className="w-full justify-center !bg-cbp-navy !text-white dark:!bg-cbp-gold dark:!text-cbp-navy font-bold py-2 text-sm">
               Login Portal Klien
             </Button>
           </Link>

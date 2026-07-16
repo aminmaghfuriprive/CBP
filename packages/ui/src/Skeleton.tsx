@@ -19,7 +19,7 @@ export const Skeleton: React.FC<SkeletonProps> = ({
   const getVariantClasses = () => {
     switch (variant) {
       case 'circular': return 'rounded-full';
-      case 'rounded': return 'rounded-md';
+      case 'rounded': return 'rounded-sm';
       default: return 'rounded-none';
     }
   };
