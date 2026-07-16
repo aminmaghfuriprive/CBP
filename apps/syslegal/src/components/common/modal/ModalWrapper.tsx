@@ -42,7 +42,7 @@ export const ModalWrapper: React.FC<ModalWrapperProps> = ({
       {/* Container */}
       <div className={`
         relative w-full ${maxWidth} bg-white dark:bg-slate-900 
-        rounded-xl shadow-2xl overflow-hidden 
+        rounded-lg shadow-lg overflow-hidden 
         border border-slate-200 dark:border-slate-800 
         flex flex-col max-h-[90vh]
         animate-in zoom-in-95 duration-200
