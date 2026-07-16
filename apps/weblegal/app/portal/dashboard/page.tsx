@@ -18,7 +18,7 @@ export default function ClientDashboard() {
     <div className="space-y-8 animate-in fade-in duration-500">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-serif font-bold text-cbp-navy dark:text-white">Selamat Datang, {user?.name.split(' ')[0]}</h1>
+          <h1 className="text-3xl font-serif font-bold text-cbp-navy dark:text-white">Selamat Datang, {(user?.name || '').split(' ')[0]}</h1>
           <p className="text-slate-500 dark:text-slate-400">Berikut adalah ringkasan aktivitas hukum Anda.</p>
         </div>
         <Link href="/portal/new-request">

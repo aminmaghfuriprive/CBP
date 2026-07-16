@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Portal Guard Mock</title>
+    <script>
+      // Simple client-side guard simulation for E2E smoke test
+      (function(){
+        try {
+          const user = localStorage.getItem('cbp_user');
+          if (!user) {
+            // record redirect target instead of navigating so tests run reliably
+            window.__redirect_target__ = 'https://example.com/auth/login';
+          }
+        } catch (e) {
+          // ignore
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <h1>Portal Page (Mock)</h1>
+  </body>
+</html>
