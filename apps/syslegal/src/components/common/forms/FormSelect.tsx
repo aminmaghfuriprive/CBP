@@ -19,21 +19,21 @@ export const FormSelect: React.FC<FormSelectProps> = ({
 }) => {
   return (
     <div className={className}>
-      <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-1.5">
+      <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-0.5">
         {label} {props.required && <span className="text-red-500">*</span>}
       </label>
       <div className="relative">
         {Icon && (
-          <Icon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none z-10" />
+          <Icon className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400 pointer-events-none z-10" />
         )}
         <select
           className={`
-            w-full py-2.5 border rounded-lg outline-none transition-all appearance-none cursor-pointer
+            w-full py-1.5 border rounded-md outline-none transition-all appearance-none cursor-pointer text-xs
             bg-white dark:bg-slate-800 text-slate-900 dark:text-white
-            ${Icon ? 'pl-9 pr-10' : 'pl-4 pr-10'}
+            ${Icon ? 'pl-7 pr-8' : 'pl-3 pr-8'}
             ${error 
-              ? 'border-red-500 focus:ring-2 focus:ring-red-500/20' 
-              : 'border-slate-300 dark:border-slate-700 focus:ring-2 focus:ring-cbp-navy dark:focus:ring-cbp-gold'
+              ? 'border-red-500 focus:ring-1 focus:ring-red-500/20' 
+              : 'border-slate-300 dark:border-slate-700 focus:ring-1 focus:ring-cbp-navy dark:focus:ring-cbp-gold'
             }
             disabled:opacity-60 disabled:cursor-not-allowed
           `}
@@ -45,9 +45,9 @@ export const FormSelect: React.FC<FormSelectProps> = ({
             return <option key={index} value={value}>{text}</option>;
           })}
         </select>
-        <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none" />
+        <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400 pointer-events-none" />
       </div>
-      {error && <p className="text-xs text-red-500 mt-1">{error}</p>}
+      {error && <p className="text-[9px] text-red-500 mt-0.5">{error}</p>}
     </div>
   );
 };
